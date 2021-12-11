@@ -12,7 +12,7 @@ module.exports = {
 		.addIntegerOption(option =>
 			option.setName('max')
 				.setDescription('The maximum number')
-				.setRequired(false)
+				.setRequired(true)
 		),
 		
 	async execute(interaction) {
