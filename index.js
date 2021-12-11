@@ -5,6 +5,8 @@ const { token } = require('./config/config.json')
 MICKBOT_BLUE = '#3498DB'
 MICKBOT_RED = '#DB3434'
 MICKBOT_ORANGE = '#DB6E34'
+MICKBOT_GREEN = '#34DB6E'
+MICKBOT_YELLOW = '#DBDB34'
 
 client.commands = new Collection()
 
