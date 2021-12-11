@@ -13,8 +13,6 @@ module.exports = {
 		),
 		
 	async execute(interaction) {
-		let { makeEmbed } = require('../config/functions.js')
-
 		const { MessageEmbed } = require('discord.js')
 		const embed = new MessageEmbed()
 
