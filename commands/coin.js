@@ -44,7 +44,7 @@ module.exports = {
 				}
 			}
 
-			interaction.channel.send({ embeds: [makeEmbed((randomNum === 0 ? '**Heads!**' : '**Tails!**') + guessOutcome, coinOutcomeEmbedColor)] })
+			interaction.channel.send({ embeds: [ makeEmbed((randomNum === 0 ? '**Heads!**' : '**Tails!**') + guessOutcome, coinOutcomeEmbedColor) ] })
 		}, 1900)
 	},
 }
