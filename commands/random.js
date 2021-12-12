@@ -17,13 +17,13 @@ module.exports = {
 		
 	async execute(interaction) {
 		const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js')
-		const row = new MessageActionRow()
+		/*const row = new MessageActionRow()
 			.addComponents(
 				new MessageButton()
 					.setCustomId('primary')
 					.setLabel('Re-Roll?')
 					.setStyle('PRIMARY'),
-			)
+			)*/
 
 		let min, max
 
@@ -32,11 +32,8 @@ module.exports = {
 		if (interaction.options.data.length > 1) 
 			max = interaction.options.data[1].value
 
-		console.log(min)
-		console.log(max)
-
 		const randomNum = Math.floor(Math.random() * (max - min + 1)) + min
 
-		await interaction.reply({ embeds: [ makeEmbed(randomNum.toString(), MICKBOT_BLUE) ], components: [row] });
+		await interaction.reply({ embeds: [ makeEmbed(randomNum.toString(), MICKBOT_BLUE) ]/*, components: [row]*/ });
 	},
 }
