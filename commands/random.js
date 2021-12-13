@@ -34,6 +34,6 @@ module.exports = {
 
 		const randomNum = Math.floor(Math.random() * (max - min + 1)) + min
 
-		await interaction.reply({ embeds: [ makeEmbed(randomNum.toString(), MICKBOT_BLUE) ]/*, components: [row]*/ });
+		await interaction.reply({ embeds: [ makeEmbed(randomNum.toString(), MICKBOT_BLUE) ]/*, components: [row]*/ })
 	},
 }
