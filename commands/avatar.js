@@ -14,17 +14,22 @@ module.exports = {
 		const { MessageEmbed } = require('discord.js')
 		const embed = new MessageEmbed()
 
-		let mentionedUser
-		let embedAvatarURL = interaction.user.avatarURL({ format: 'png', dynamic: true, size: 1024 })
-		let embedUsername = interaction.member.nickname ? interaction.member.nickname : interaction.user.username
+		// "mentionedUser" is whoever's avatar to grab
+		// If no mentioned user in the options, it's who sent the command
+		let mentionedUser = interaction.user
 
+		let mentionedUserAccentColor = await mentionedUser.fetch({ force: true })
+		mentionedUserAccentColor = mentionedUserAccentColor.accentColor.toString(16)
+
+		// Check if user gave an optional mentioned user
 		if (interaction.options.data.length > 0) {
-			mentionedUser = interaction.options.data[0]
-
-			embedAvatarURL = mentionedUser.user.avatarURL({ format: 'png', dynamic: true, size: 1024 })
-
-			embedUsername = mentionedUser.member.nickname ? mentionedUser.member.nickname : mentionedUser.user.username
+			mentionedUser = interaction.options.data[0].user
 		}
+
+		// Grab avatar URL. Prefer .png, but could return .gif
+		let embedAvatarURL = mentionedUser.avatarURL({ format: 'png', dynamic: true, size: 1024 })
+		// Set embed Title to mentionUser's nickname, if they have one
+		let embedUsername = interaction.member.nickname ? interaction.member.nickname : mentionedUser.username
 
 		embed.setImage(embedAvatarURL)
 		embed.setTitle(embedUsername)
