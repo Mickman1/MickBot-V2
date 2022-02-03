@@ -20,7 +20,7 @@ module.exports = {
 
 		// Check if user gave an optional mentioned user
 		if (interaction.options.data.length > 0) {
-			mentionedUser = interaction.options.data[0].user
+			mentionedUser = interaction.options.getUser('user')
 		}
 
 		// Grab avatar URL. Prefer .png, but could return .gif
