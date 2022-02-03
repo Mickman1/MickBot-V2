@@ -2,8 +2,8 @@ const { SlashCommandBuilder } = require('@discordjs/builders')
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('minecraft')
-		.setDescription('Sends image of specified Minecraft skin')
+		.setName('minecraft-skin')
+		.setDescription('Sends image of a specified Minecraft skin')
 		.addStringOption(option =>
 			option.setName('username')
 				.setDescription('Minecraft Java Edition username of skin')
@@ -24,11 +24,11 @@ module.exports = {
 		const { MessageEmbed } = require('discord.js')
 		const embed = new MessageEmbed()
 
-		let username = interaction.options.data[0].value
+		let username = interaction.options.getString('username')
 		let avatarType = 'body'
 		// Check if user gave an optional avatar-type
 		if (interaction.options.data.length > 1) {
-			avatarType = interaction.options.data[1].value
+			avatarType = interaction.options.getString('avatar-type')
 		}
 
 		embed.setImage(`https://mc-heads.net/${avatarType}/${username}/400`)
