@@ -18,9 +18,6 @@ module.exports = {
 		// If no mentioned user in the options, it's who sent the command
 		let mentionedUser = interaction.user
 
-		let mentionedUserAccentColor = await mentionedUser.fetch({ force: true })
-		mentionedUserAccentColor = mentionedUserAccentColor.accentColor.toString(16)
-
 		// Check if user gave an optional mentioned user
 		if (interaction.options.data.length > 0) {
 			mentionedUser = interaction.options.data[0].user
@@ -31,10 +28,14 @@ module.exports = {
 		// Set embed Title to mentionUser's nickname, if they have one
 		let embedUsername = interaction.member.nickname ? interaction.member.nickname : mentionedUser.username
 
+		// User colorthief to get dominant color of avatar for embed color
+		const ColorThief = require('colorthief')
+		let avatarColor = await ColorThief.getColor(embedAvatarURL)
+
 		embed.setImage(embedAvatarURL)
 		embed.setTitle(embedUsername)
-		embed.setColor(MICKBOT_BLUE)
+		embed.setColor(avatarColor)
 
-		await interaction.reply({ embeds: [ embed ] })
+		interaction.reply({ embeds: [ embed ] })
 	},
 }
