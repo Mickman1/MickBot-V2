@@ -16,8 +16,8 @@ module.exports = {
 		),
 		
 	async execute(interaction) {
-		const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js')
-		/*const row = new MessageActionRow()
+		/*const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js')
+		const row = new MessageActionRow()
 			.addComponents(
 				new MessageButton()
 					.setCustomId('primary')
@@ -32,7 +32,9 @@ module.exports = {
 		if (interaction.options.data.length > 1) 
 			max = interaction.options.data[1].value
 
-		const randomNum = Math.floor(Math.random() * (max - min + 1)) + min
+		let randomNum = Math.floor(Math.random() * (max - min + 1)) + min
+		// Convert to string and add commas to final number with regex
+		randomNum = randomNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
 		await interaction.reply({ embeds: [ makeEmbed(randomNum.toString(), MICKBOT_BLUE) ]/*, components: [row]*/ })
 	},
