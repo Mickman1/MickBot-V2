@@ -25,12 +25,9 @@ module.exports = {
 					.setStyle('PRIMARY'),
 			)*/
 
-		let min, max
-
-		min = interaction.options.data[0].value
-
-		if (interaction.options.data.length > 1) 
-			max = interaction.options.data[1].value
+		// Get min and max values from interaction options
+		let min = interaction.options.getInteger('min')
+		let max = interaction.options.getInteger('max')
 
 		let randomNum = Math.floor(Math.random() * (max - min + 1)) + min
 		// Convert to string and add commas to final number with regex
