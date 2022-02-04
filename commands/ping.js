@@ -6,6 +6,29 @@ module.exports = {
 		.setDescription('Replies with Pong!'),
 		
 	async execute(interaction) {
-		await interaction.reply('Pong!')
+		console.log(interaction)
+
+		const { MessageEmbed } = require('discord.js')
+		const embed = new MessageEmbed()
+		
+		let ping = interaction.client.ws.ping.toString()
+		let totalServers = interaction.client.guilds.cache.size.toString()
+
+		timeOnline = Math.floor(process.uptime() / 60)
+		var timeOnlineMinutes = ' minutes'
+		var timeOnlineHours = ' hours'
+
+		if (timeOnline === 1)
+			timeOnlineMinutes = ' minute'
+		if (timeOnline === 60)
+			timeOnlineHours = ' hour'
+
+		embed.setTitle('MickBot Stats')
+		embed.setColor(MICKBOT_BLUE)
+		embed.addField('⏱ Ping', '`' + ping + ' ms`', true)
+		embed.addField('🕑 Uptime', '`' + (timeOnline < 60 ? (timeOnline + timeOnlineMinutes) : ((Number.isInteger(timeOnline / 60) ? (timeOnline / 60) : (timeOnline / 60).toFixed(2)) + timeOnlineHours)) + '`', true)
+		embed.addField('🖥️ Server Count', '`' + totalServers + ' servers`', true)
+
+		await interaction.reply({ embeds: [ embed ] })
 	},
 }
