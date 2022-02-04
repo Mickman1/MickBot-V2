@@ -1,6 +1,6 @@
 const fs = require('fs')
 const { Client, Collection, Intents } = require('discord.js')
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] })
+const client = new Client({ intents: [ Intents.FLAGS.GUILDS ] })
 const { token } = require('./config/config.json')
 
 // Global MickBot colors
