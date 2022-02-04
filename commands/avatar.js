@@ -25,6 +25,11 @@ module.exports = {
 
 		// Grab avatar URL. Prefer .png, but could return .gif
 		let embedAvatarURL = mentionedUser.avatarURL({ format: 'png', dynamic: true, size: 1024 })
+
+		if (mentionedUser.avatar === null) {
+			embedAvatarURL = mentionedUser.defaultAvatarURL
+		}
+		
 		// Set embed Title to mentionUser's nickname, if they have one
 		let embedUsername = interaction.member.nickname ? interaction.member.nickname : mentionedUser.username
 
