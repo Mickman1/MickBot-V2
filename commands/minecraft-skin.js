@@ -31,7 +31,7 @@ module.exports = {
 			avatarType = interaction.options.getString('avatar-type')
 		}
 
-		embed.setImage(`https://mc-heads.net/${avatarType}/${username}/400`)
+		embed.setImage(`https://mc-heads.net/${avatarType}/${username}/400.png`)
 		embed.setAuthor('Set as your skin?', 'https://media.discordapp.net/attachments/596928630009888781/786054261787983913/grass.png', `https://mc-heads.net/change/${username}`)
 		embed.setTitle(username)
 		embed.setColor(MICKBOT_BLUE)
