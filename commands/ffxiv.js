@@ -5,15 +5,15 @@ const servers = ['Adamantoise','Aegis','Alexander','Anima','Asura','Atomos','Bah
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ffxiv')
-		.setDescription('Search for Final Fantasy XIV player profile')
+		.setDescription('Search for Final Fantasy XIV character profile')
 		.addStringOption(option =>
 			option.setName('name')
-				.setDescription('Player name to search for')
+				.setDescription('Character name to search for (Spaces allowed)')
 				.setRequired(true)
 		)
 		.addStringOption(option =>
 			option.setName('server')
-				.setDescription('Server to search for player in')
+				.setDescription('Character\'s home server (North America only)')
 				.setRequired(true)
 				.addChoices([
 					['Adamantoise', 'adamantoise'],
@@ -47,20 +47,45 @@ module.exports = {
 		const { MessageEmbed } = require('discord.js')
 		const embed = new MessageEmbed()
 
+		// Load XVIAPI token for avoiding rate limit
+		const { xivapiToken } = require('../config/xivapiToken.json')
 		const XIVAPI = require('@xivapi/js')
-		const xiv = new XIVAPI()
+		const xiv = new XIVAPI({
+			private_key: xivapiToken,
+			language: 'en',
+			snake_case: true
+		})
 		
 		let name = interaction.options.getString('name')
 		let server = interaction.options.getString('server')
 
+		// Defer the reply until data comes back, then send embed
 		await interaction.deferReply()
 
+		// Search for character using given name and server
 		let character = await xiv.character.search(name, { server: server })
-		character = character.Results[0]
+
+		// Check if FFXIV API couldn't find a character
+		if (character.results.length === 0) {
+			//embed.setAuthor({ name: 'No character found!' })
+			embed.setDescription('No character found!')
+			embed.setColor(MICKBOT_RED)
+			return await interaction.editReply({ embeds: [ embed ] });
+		}
+
+		character = character.results[0]
+		let characterID = character.id
+
 		console.log(character)
 
-		embed.setAuthor({ name: character.Name, iconURL: character.Avatar })
-		embed.setFooter({ text: character.Server })
+		let characterData = await xiv.character.get(characterID)
+
+		console.log(characterData)
+
+		embed.setAuthor({ name: character.name, iconURL: character.avatar })
+		embed.setFooter({ text: character.server })
+		embed.setImage(characterData.character.portrait)
+		embed.setColor('#3c6acb')
 
 		await interaction.editReply({ embeds: [ embed ] })
 	},
