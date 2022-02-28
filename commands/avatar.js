@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders')
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('avatar')
-		.setDescription('Sends your avatar, or the avatar of a mentioned user')
+		.setDescription('Grab your avatar, or the avatar of a mentioned user')
 		.addUserOption(option =>
 			option.setName('user')
 				.setDescription('Who\'s avatar to send')

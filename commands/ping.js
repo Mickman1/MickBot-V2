@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders')
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
-		.setDescription('Replies with Pong!'),
+		.setDescription('Get MickBot\'s Ping, Uptime, and other information'),
 		
 	async execute(interaction) {
 		console.log(interaction)
@@ -25,7 +25,7 @@ module.exports = {
 
 		embed.setTitle('MickBot Stats')
 		embed.setColor(MICKBOT_BLUE)
-		embed.addField('⏱ Ping', '`' + ping + ' ms`', true)
+		embed.addField('⏱ Ping', `\`${ping} ms\``, true)
 		embed.addField('🕑 Uptime', '`' + (timeOnline < 60 ? (timeOnline + timeOnlineMinutes) : ((Number.isInteger(timeOnline / 60) ? (timeOnline / 60) : (timeOnline / 60).toFixed(2)) + timeOnlineHours)) + '`', true)
 		embed.addField('🖥️ Server Count', '`' + totalServers + ' servers`', true)
 
