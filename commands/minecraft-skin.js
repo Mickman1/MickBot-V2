@@ -3,10 +3,10 @@ const { SlashCommandBuilder } = require('@discordjs/builders')
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('minecraft-skin')
-		.setDescription('Sends image of a specified Minecraft skin')
+		.setDescription('Grab a specific Minecraft skin')
 		.addStringOption(option =>
 			option.setName('username')
-				.setDescription('Minecraft Java Edition username of skin')
+				.setDescription('Minecraft Java Edition skin username')
 				.setRequired(true)
 		)
 		.addStringOption(option =>
@@ -32,7 +32,7 @@ module.exports = {
 		}
 
 		embed.setImage(`https://mc-heads.net/${avatarType}/${username}/400.png`)
-		embed.setAuthor('Set as your skin?', 'https://media.discordapp.net/attachments/596928630009888781/786054261787983913/grass.png', `https://mc-heads.net/change/${username}`)
+		embed.setAuthor({ name: 'Set as your skin?', iconURL: 'https://media.discordapp.net/attachments/596928630009888781/786054261787983913/grass.png', url: `https://mc-heads.net/change/${username}` })
 		embed.setTitle(username)
 		embed.setColor(MICKBOT_BLUE)
 
