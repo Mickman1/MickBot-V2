@@ -24,8 +24,8 @@ module.exports = {
 		embed.setTitle('MickBot Stats')
 		embed.setColor(MICKBOT_BLUE)
 		embed.addField('⏱ Ping', `\`${ping} ms\``, true)
-		embed.addField('🕑 Uptime', '`' + (timeOnline < 60 ? (timeOnline + timeOnlineMinutes) : ((Number.isInteger(timeOnline / 60) ? (timeOnline / 60) : (timeOnline / 60).toFixed(2)) + timeOnlineHours)) + '`', true)
-		embed.addField('🖥️ Server Count', '`' + totalServers + ' servers`', true)
+		embed.addField('🕑 Uptime', `\`${(timeOnline < 60 ? (timeOnline + timeOnlineMinutes) : ((Number.isInteger(timeOnline / 60) ? (timeOnline / 60) : (timeOnline / 60).toFixed(2)) + timeOnlineHours))}\``, true)
+		embed.addField('🖥️ Server Count', `\`${totalServers} servers\``, true)
 
 		await interaction.reply({ embeds: [ embed ] })
 	},
