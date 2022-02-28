@@ -6,8 +6,6 @@ module.exports = {
 		.setDescription('Get MickBot\'s Ping, Uptime, and other information'),
 		
 	async execute(interaction) {
-		console.log(interaction)
-
 		const { MessageEmbed } = require('discord.js')
 		const embed = new MessageEmbed()
 		
