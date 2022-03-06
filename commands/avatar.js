@@ -1,5 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
+const { MessageEmbed } = require('discord.js')
+const ColorThief = require('colorthief')
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('avatar')
@@ -11,7 +14,6 @@ module.exports = {
 		),
 		
 	async execute(interaction) {
-		const { MessageEmbed } = require('discord.js')
 		const embed = new MessageEmbed()
 
 		// "mentionedUser" is whoever's avatar to grab
@@ -33,8 +35,7 @@ module.exports = {
 		// Set embed Title to mentionUser's nickname, if they have one
 		let embedUsername = interaction.member.nickname ? interaction.member.nickname : mentionedUser.username
 
-		// User colorthief to get dominant color of avatar for embed color
-		const ColorThief = require('colorthief')
+		// Use colorthief to get dominant color of avatar for embed color
 		let avatarColor = await ColorThief.getColor(embedAvatarURL)
 
 		embed.setImage(embedAvatarURL)

@@ -1,5 +1,10 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
+const { MessageEmbed } = require('discord.js')
+const XIVAPI = require('@xivapi/js')
+// Load XVIAPI token for avoiding rate limit
+const { xivapiToken } = require('../config/xivapiToken.json')
+
 const servers = ['Adamantoise','Aegis','Alexander','Anima','Asura','Atomos','Bahamut','BaiJinHuanXiang','BaiYinXiang','Balmung','Behemoth','Belias','Bismarck','Brynhildr','Cactuar','Carbuncle','Cerberus','ChaoFengTing','ChenXiWangZuo','Chocobo','Coeurl','Diabolos','Durandal','Excalibur','Exodus','Faerie','Famfrit','Fenrir','FuXiaoZhiJian','Garuda','Gilgamesh','Goblin','Gungnir','Hades','HaiMaoChaWu','HongYuHai','HuanYingQunDao','HuPoYuan' ,'Hyperion','Ifrit','Ixion','Jenova','JingYuZhuangYuan','Kujata','Lamia','LaNuoXiYa','Leviathan','Lich','Longchaoshendian','Louisoix','LvRenZhanQiao','Malboro','Mandragora','Masamune','Mateus','MengYaChi','MengYuBaoJing','Midgardsormr','MoDuNa','Moogle','Odin','Omega','Pandaemonium','Phoenix','Ragnarok','Ramuh','Ravana','Ridill','RouFengHaiWan','Sargatanas','Sephirot','ShenQuanHen','ShenYiZhiDi','Shinryu','Shiva','Siren','Sophia','Spriggan','Tiamat','Titan','Tonberry','Twintania','Typhon','Ultima','Ultros','Unicorn','Valefor','WoXianXiRan','YanXia','Yojimbo','YuZhouHeYin','Zalera','Zeromus','ZiShuiZhanQiao','Zodiark','Zurvan']
 
 module.exports = {
@@ -44,12 +49,7 @@ module.exports = {
 		),
 		
 	async execute(interaction) {
-		const { MessageEmbed } = require('discord.js')
 		const embed = new MessageEmbed()
-
-		// Load XVIAPI token for avoiding rate limit
-		const { xivapiToken } = require('../config/xivapiToken.json')
-		const XIVAPI = require('@xivapi/js')
 		const xiv = new XIVAPI({
 			private_key: xivapiToken,
 			language: 'en',
@@ -67,7 +67,7 @@ module.exports = {
 
 		// Check if FFXIV API couldn't find a character
 		if (character.results.length === 0) {
-			//embed.setAuthor({ name: 'No character found!' })
+			//embed.setAuthor({ name: 'No character found!', iconURL: 'https://static.wikia.nocookie.net/finalfantasy/images/a/a3/FFXIV_Quest_Icon.png/revision/latest/scale-to-width-down/174?cb=20210415061951' })
 			embed.setDescription('No character found!')
 			embed.setColor(MICKBOT_RED)
 			return await interaction.editReply({ embeds: [ embed ] });

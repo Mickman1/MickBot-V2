@@ -1,5 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
+const { MessageEmbed } = require('discord.js')
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('minecraft-skin')
@@ -21,7 +23,6 @@ module.exports = {
 		),
 		
 	async execute(interaction) {
-		const { MessageEmbed } = require('discord.js')
 		const embed = new MessageEmbed()
 
 		let username = interaction.options.getString('username')

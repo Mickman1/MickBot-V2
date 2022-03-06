@@ -1,12 +1,13 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
+const { MessageEmbed } = require('discord.js')
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Get MickBot\'s Ping, Uptime, and other information'),
 		
 	async execute(interaction) {
-		const { MessageEmbed } = require('discord.js')
 		const embed = new MessageEmbed()
 		
 		let ping = interaction.client.ws.ping.toString()

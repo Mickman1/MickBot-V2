@@ -1,5 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
+const { MessageEmbed } = require('discord.js')
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('roll')
@@ -16,7 +18,6 @@ module.exports = {
 		),
 		
 	async execute(interaction) {
-		const { MessageEmbed } = require('discord.js')
 		const embed = new MessageEmbed()
 
 		let dice = interaction.options.getInteger('dice')
