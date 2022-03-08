@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
-const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus } = require('@discordjs/voice')
+const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
 const ytdl = require('discord-ytdl-core')
 const YouTube = require('youtube-sr').default
 
@@ -14,33 +14,68 @@ module.exports = {
 		),
 		
 	async execute(interaction) {
-		// Make both Connection and Search promises, once both are fulfilled (bot is in VC & video result came back), then play
-		Promise.all([makeConnectionPromise(interaction), makeSearchPromise(interaction)]).then(async (values) => {
-			const connection = values[0]
-			const url = values[1]
+		await interaction.deferReply()
 
-			const stream = ytdl(url, {
-				filter: 'audioonly',
-				quality: 'highestaudio',
-				opusEncoded: true,
-				highWaterMark: 1 << 28,
-				//encoderArgs: ['-af', 'dynaudnorm=f=200'],
+		const guildId = interaction.guildId
+		const queues = interaction.client.queues
+		let queue = queues.get(guildId)
+
+		if (queue === undefined) {
+			queues.set(guildId, {
+				head: 0,
+				//isPlaying: false,
+				loopMode: 'disabled',
+				connection: null,
+				player: null,
+				songs: [],
 			})
 
-			const player = createAudioPlayer()
+			queue = queues.get(guildId)
 
-			const resource = createAudioResource(stream, {
-				inputType: 'opus',
-				bitrate: 128,
-				highWaterMark: 128
+			// Make both Connection and Search promises, once both are fulfilled (bot is in VC & video result came back), then play
+			Promise.all([makeConnectionPromise(interaction), makeSearchPromise(interaction)]).then(async (values) => {
+				const connection = values[0]
+				queue.connection = connection
+				const url = values[1]
+				queue.songs.push(url)
+
+				play(queue, interaction)
 			})
-
-			connection.subscribe(player)
-			player.play(resource)
-
-			await interaction.reply('Playing')
-		})
+		}
 	}
+}
+
+async function play(queue, interaction) {
+	console.log(queue)
+	const connection = queue.connection
+
+	const stream = ytdl(queue.songs[queue.head], {
+		filter: 'audioonly',
+		quality: 'highestaudio',
+		opusEncoded: true,
+		highWaterMark: 1 << 28,
+		//encoderArgs: ['-af', 'dynaudnorm=f=200'],
+	})
+
+	const player = createAudioPlayer()
+
+	const resource = createAudioResource(stream, {
+		inputType: 'opus',
+		bitrate: 128,
+		highWaterMark: 128
+	})
+
+	connection.subscribe(player)
+	player.play(resource)
+
+	await interaction.editReply('Playing')
+
+	player.once(AudioPlayerStatus.Idle, () => {
+		console.log('The audio player has entered IDLE state!')
+		queue.head += 1
+
+		play(queue, interaction)
+	})
 }
 
 // Promise to join voice channel, and resolve as soon as the 'Ready' state fires
