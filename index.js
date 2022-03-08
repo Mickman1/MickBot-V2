@@ -3,6 +3,8 @@ const { Client, Collection, Intents } = require('discord.js')
 const client = new Client({ intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES ] })
 const { token } = require('./config/config.json')
 
+client.queues = new Map()
+
 // Global MickBot colors
 MICKBOT_BLUE = '#3498DB'
 MICKBOT_RED = '#DB3434'
@@ -33,11 +35,13 @@ client.on('ready', () => {
 })
 
 client.on('interactionCreate', async interaction => {
-	if (!interaction.isCommand()) return;
+	if (!interaction.isCommand())
+		return;
 
 	const command = client.commands.get(interaction.commandName)
 
-	if (!command) return;
+	if (!command)
+		return;
 
 	try {
 		await command.execute(interaction)
