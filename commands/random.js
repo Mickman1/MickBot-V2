@@ -26,8 +26,8 @@ module.exports = {
 			)*/
 
 		// Get min and max values from interaction options
-		let min = interaction.options.getInteger('min')
-		let max = interaction.options.getInteger('max')
+		const min = interaction.options.getInteger('min')
+		const max = interaction.options.getInteger('max')
 
 		let randomNum = Math.floor(Math.random() * (max - min + 1)) + min
 		// Convert to string and add commas to final number with regex

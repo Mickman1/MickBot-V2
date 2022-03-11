@@ -25,7 +25,7 @@ module.exports = {
 	async execute(interaction) {
 		const embed = new MessageEmbed()
 
-		let username = interaction.options.getString('username')
+		const username = interaction.options.getString('username')
 		let avatarType = 'body'
 		// Check if user gave an optional avatar-type
 		if (interaction.options.data.length > 1) {

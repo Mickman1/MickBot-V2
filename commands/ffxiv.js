@@ -5,7 +5,7 @@ const XIVAPI = require('@xivapi/js')
 // Load XVIAPI token for avoiding rate limit
 const { xivapiToken } = require('../config/xivapiToken.json')
 
-const servers = ['Adamantoise','Aegis','Alexander','Anima','Asura','Atomos','Bahamut','BaiJinHuanXiang','BaiYinXiang','Balmung','Behemoth','Belias','Bismarck','Brynhildr','Cactuar','Carbuncle','Cerberus','ChaoFengTing','ChenXiWangZuo','Chocobo','Coeurl','Diabolos','Durandal','Excalibur','Exodus','Faerie','Famfrit','Fenrir','FuXiaoZhiJian','Garuda','Gilgamesh','Goblin','Gungnir','Hades','HaiMaoChaWu','HongYuHai','HuanYingQunDao','HuPoYuan' ,'Hyperion','Ifrit','Ixion','Jenova','JingYuZhuangYuan','Kujata','Lamia','LaNuoXiYa','Leviathan','Lich','Longchaoshendian','Louisoix','LvRenZhanQiao','Malboro','Mandragora','Masamune','Mateus','MengYaChi','MengYuBaoJing','Midgardsormr','MoDuNa','Moogle','Odin','Omega','Pandaemonium','Phoenix','Ragnarok','Ramuh','Ravana','Ridill','RouFengHaiWan','Sargatanas','Sephirot','ShenQuanHen','ShenYiZhiDi','Shinryu','Shiva','Siren','Sophia','Spriggan','Tiamat','Titan','Tonberry','Twintania','Typhon','Ultima','Ultros','Unicorn','Valefor','WoXianXiRan','YanXia','Yojimbo','YuZhouHeYin','Zalera','Zeromus','ZiShuiZhanQiao','Zodiark','Zurvan']
+//const servers = ['Adamantoise','Aegis','Alexander','Anima','Asura','Atomos','Bahamut','BaiJinHuanXiang','BaiYinXiang','Balmung','Behemoth','Belias','Bismarck','Brynhildr','Cactuar','Carbuncle','Cerberus','ChaoFengTing','ChenXiWangZuo','Chocobo','Coeurl','Diabolos','Durandal','Excalibur','Exodus','Faerie','Famfrit','Fenrir','FuXiaoZhiJian','Garuda','Gilgamesh','Goblin','Gungnir','Hades','HaiMaoChaWu','HongYuHai','HuanYingQunDao','HuPoYuan' ,'Hyperion','Ifrit','Ixion','Jenova','JingYuZhuangYuan','Kujata','Lamia','LaNuoXiYa','Leviathan','Lich','Longchaoshendian','Louisoix','LvRenZhanQiao','Malboro','Mandragora','Masamune','Mateus','MengYaChi','MengYuBaoJing','Midgardsormr','MoDuNa','Moogle','Odin','Omega','Pandaemonium','Phoenix','Ragnarok','Ramuh','Ravana','Ridill','RouFengHaiWan','Sargatanas','Sephirot','ShenQuanHen','ShenYiZhiDi','Shinryu','Shiva','Siren','Sophia','Spriggan','Tiamat','Titan','Tonberry','Twintania','Typhon','Ultima','Ultros','Unicorn','Valefor','WoXianXiRan','YanXia','Yojimbo','YuZhouHeYin','Zalera','Zeromus','ZiShuiZhanQiao','Zodiark','Zurvan']
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -56,14 +56,14 @@ module.exports = {
 			snake_case: true
 		})
 		
-		let name = interaction.options.getString('name')
-		let server = interaction.options.getString('server')
+		const name = interaction.options.getString('name')
+		const server = interaction.options.getString('server')
 
 		// Defer the reply until data comes back, then send embed
 		await interaction.deferReply()
 
 		// Search for character using given name and server
-		let character = await xiv.character.search(name, { server: server })
+		let character = await xiv.character.search(name, { server })
 
 		// Check if FFXIV API couldn't find a character
 		if (character.results.length === 0) {
@@ -74,11 +74,11 @@ module.exports = {
 		}
 
 		character = character.results[0]
-		let characterID = character.id
+		const characterID = character.id
 
 		console.log(character)
 
-		let characterData = await xiv.character.get(characterID)
+		const characterData = await xiv.character.get(characterID)
 
 		console.log(characterData)
 

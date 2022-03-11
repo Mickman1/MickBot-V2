@@ -10,8 +10,8 @@ module.exports = {
 	async execute(interaction) {
 		const embed = new MessageEmbed()
 		
-		let ping = interaction.client.ws.ping.toString()
-		let totalServers = interaction.client.guilds.cache.size.toString()
+		const ping = interaction.client.ws.ping.toString()
+		const totalServers = interaction.client.guilds.cache.size.toString()
 
 		timeOnline = Math.floor(process.uptime() / 60)
 		var timeOnlineMinutes = ' minutes'

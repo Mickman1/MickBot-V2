@@ -13,7 +13,7 @@ module.exports = {
 	async execute(interaction) {
 		//var AWS = require('aws-sdk')
 
-		let channel = interaction.member.channel
+		const { channel } = interaction.member
 		const { joinVoiceChannel } = require('@discordjs/voice')
 
 		const connection = joinVoiceChannel({

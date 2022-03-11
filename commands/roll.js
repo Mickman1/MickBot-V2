@@ -21,16 +21,16 @@ module.exports = {
 		const embed = new MessageEmbed()
 
 		let dice = interaction.options.getInteger('dice')
-		let sides = interaction.options.getInteger('sides')
+		const sides = interaction.options.getInteger('sides')
 
 		if (dice > 1000) {
 			dice = 1000
 		}
 		// Roll the dice
 		let total = 0
-		let rolls = []
+		const rolls = []
 		for (let i = 0; i < dice; i++) {
-			let roll = Math.floor(Math.random() * sides) + 1
+			const roll = Math.floor(Math.random() * sides) + 1
 			total += roll
 			rolls.push(roll)
 		}

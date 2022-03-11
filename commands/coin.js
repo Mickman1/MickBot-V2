@@ -17,12 +17,12 @@ module.exports = {
 	async execute(interaction) {
 		const embed = new MessageEmbed()
 
-		let coinGIF = [
+		const coinGIF = [
 			'https://cdn.discordapp.com/attachments/596928630009888781/650328670724161547/CoinFlipHeadsFinal.gif',
 			'https://cdn.discordapp.com/attachments/596928630009888781/779502238590566440/CoinFlipTailsFinal.gif'
 		]
 
-		let randomNum = Math.floor(Math.random() * 2)
+		const randomNum = Math.floor(Math.random() * 2)
 
 		embed.setImage(coinGIF[randomNum])
 		embed.setColor(MICKBOT_BLUE)
