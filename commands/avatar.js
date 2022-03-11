@@ -28,15 +28,16 @@ module.exports = {
 		// Grab avatar URL. Prefer .png, but could return .gif
 		let embedAvatarURL = mentionedUser.avatarURL({ format: 'png', dynamic: true, size: 1024 })
 
+		// If mentionedUser doesn't have an avatar set, use their default Discord avatar
 		if (mentionedUser.avatar === null) {
 			embedAvatarURL = mentionedUser.defaultAvatarURL
 		}
 		
-		// Set embed Title to mentionUser's nickname, if they have one
-		let embedUsername = interaction.member.nickname ? interaction.member.nickname : mentionedUser.username
+		// Set embed Title to mentionUser's username
+		const embedUsername = mentionedUser.username
 
 		// Use colorthief to get dominant color of avatar for embed color
-		let avatarColor = await ColorThief.getColor(embedAvatarURL)
+		const avatarColor = await ColorThief.getColor(embedAvatarURL)
 
 		embed.setImage(embedAvatarURL)
 		embed.setTitle(embedUsername)
