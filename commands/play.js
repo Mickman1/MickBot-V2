@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
+
 const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
 const ytdl = require('discord-ytdl-core')
 const YouTube = require('youtube-sr').default
@@ -16,11 +17,61 @@ module.exports = {
 	async execute(interaction) {
 		await interaction.deferReply()
 
-		const guildId = interaction.guildId
-		const queues = interaction.client.queues
+		const { guildId } = interaction
+		const { queues } = interaction.client
 		let queue = queues.get(guildId)
 
-		if (queue === undefined) {
+		/*const searchTerms = ''
+		const url = ''
+
+		switch (queue?.player?.state.status) {
+			case 'playing': case 'buffering':
+				searchTerms = interaction.options.get('input').value
+			
+				url = await youtubeSearch(searchTerms)
+				queue.songs.push(url)
+
+				// If player state changed from 'playing' to 'idle' during the search, shift the head and play()
+				if (queue?.player?.state.status === 'idle') {
+					queue.head += 1
+					play(queue, interaction)
+				}
+				break
+			case 'idle':
+				searchTerms = interaction.options.get('input').value
+				
+				url = await youtubeSearch(searchTerms)
+				queue.songs.push(url)
+
+				queue.head += 1
+				play(queue, interaction)
+				break
+		}*/
+
+		// If queue already started, it's either in a 'playing' state ('playing', 'buffering', 'paused', 'autoPaused') OR in 'idle' state
+		// No matter the state, the searchTerms need to be converted to a url and put in queue.songs[]
+		// If the state changed to 'idle' AND the queue's at the end by the time the youtubeSearch() function finishes, immediately start playing the requested song
+		if (queue !== undefined) {
+			const searchTerms = interaction.options.get('input').value
+		
+			const url = await youtubeSearch(searchTerms)
+			queue.songs.push(url)
+
+			/*console.log(`Head: ${queue.head}`)
+			console.log(`Length: ${queue.songs.length}`)*/
+			if (queue?.player?.state.status === 'idle' && queue.head + 2 === queue.songs.length) {
+				queue.head += 1
+				play(queue, interaction)
+				return;
+			}
+
+			await interaction.editReply('Added to queue!')
+			return;
+		}
+
+		// If no queue started (no queue object, not in vc), then start from scratch
+		// Make both promises to connect to VC and search for first video
+		else {
 			queues.set(guildId, {
 				head: 0,
 				//isPlaying: false,
@@ -39,6 +90,7 @@ module.exports = {
 				const url = values[1]
 				queue.songs.push(url)
 
+				//await interaction.editReply('Playing')
 				play(queue, interaction)
 			})
 		}
@@ -46,8 +98,10 @@ module.exports = {
 }
 
 async function play(queue, interaction) {
-	console.log(queue)
-	const connection = queue.connection
+	//console.log(queue)
+	console.log(`Head: ${queue.head}`)
+	console.log(`Length: ${queue.songs.length}`)
+	const { connection } = queue
 
 	const stream = ytdl(queue.songs[queue.head], {
 		filter: 'audioonly',
@@ -58,6 +112,7 @@ async function play(queue, interaction) {
 	})
 
 	const player = createAudioPlayer()
+	queue.player = player
 
 	const resource = createAudioResource(stream, {
 		inputType: 'opus',
@@ -72,9 +127,12 @@ async function play(queue, interaction) {
 
 	player.once(AudioPlayerStatus.Idle, () => {
 		console.log('The audio player has entered IDLE state!')
-		queue.head += 1
 
-		play(queue, interaction)
+		if (queue.head + 1 < queue.songs.length) {
+			queue.head += 1
+	
+			play(queue, interaction)
+		}
 	})
 }
 
@@ -95,19 +153,30 @@ function makeConnectionPromise(interaction) {
 
 // Promise to search YouTube using input from slash command options, and resolve when youtubeSearch() returns a video object
 function makeSearchPromise(interaction) {
-	return new Promise(async (resolve) => {
+	return new Promise((resolve) => {
 		const searchTerms = interaction.options.get('input').value
 
-		const url = await youtubeSearch(searchTerms)
+		const url = youtubeSearch(searchTerms)
 
 		resolve(url)
 	});
 }
 
 async function youtubeSearch(searchTerms) {
+	// Check if the input (searchTerms) is already a valid YouTube URL, and just return that to skip the search
+	if (isYoutubeURL(searchTerms)) {
+		return searchTerms;
+	}
+
 	return await YouTube.searchOne(searchTerms)
 		.then(results => {
 			return results.url;
 		})
 		.catch(console.error)
+}
+
+function isYoutubeURL(input) {
+	const urlRegex = /^(?:(?:https?:)?\/\/)?(?:www\.)?(?:m\.)?(?:youtu(?:be)?\.com\/(?:v\/|embed\/|watch(?:\/|\?v=))|youtu\.be\/)((?:\w|-){11})(?:\S+)?$/
+
+	return !!String(input).match(urlRegex);
 }
