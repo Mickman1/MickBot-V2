@@ -25,5 +25,8 @@
     "tweetnacl": "^1.0.3",
     "youtube-sr": "^4.1.15",
     "ytdl-core": "^4.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.10.0"
   }
 }
