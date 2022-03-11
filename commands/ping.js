@@ -28,6 +28,6 @@ module.exports = {
 		embed.addField('🕑 Uptime', `\`${(timeOnline < 60 ? (timeOnline + timeOnlineMinutes) : ((Number.isInteger(timeOnline / 60) ? (timeOnline / 60) : (timeOnline / 60).toFixed(2)) + timeOnlineHours))}\``, true)
 		embed.addField('🖥️ Server Count', `\`${totalServers} servers\``, true)
 
-		await interaction.reply({ embeds: [ embed ] })
+		await interaction.reply({ embeds: [embed] })
 	},
 }

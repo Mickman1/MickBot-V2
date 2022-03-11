@@ -71,20 +71,20 @@ module.exports = {
 
 		// If no queue started (no queue object, not in vc), then start from scratch
 		// Make both promises to connect to VC and search for first video
-		else {
-			queues.set(guildId, {
-				head: 0,
-				//isPlaying: false,
-				loopMode: 'disabled',
-				connection: null,
-				player: null,
-				songs: [],
-			})
+		queues.set(guildId, {
+			head: 0,
+			//isPlaying: false,
+			loopMode: 'disabled',
+			connection: null,
+			player: null,
+			songs: [],
+		})
 
-			queue = queues.get(guildId)
+		queue = queues.get(guildId)
 
-			// Make both Connection and Search promises, once both are fulfilled (bot is in VC & video result came back), then play
-			Promise.all([makeConnectionPromise(interaction), makeSearchPromise(interaction)]).then(async (values) => {
+		// Make both Connection and Search promises, once both are fulfilled (bot is in VC & video result came back), then play
+		Promise.all([makeConnectionPromise(interaction), makeSearchPromise(interaction)])
+			.then(async values => {
 				const connection = values[0]
 				queue.connection = connection
 				const url = values[1]
@@ -93,8 +93,7 @@ module.exports = {
 				//await interaction.editReply('Playing')
 				play(queue, interaction)
 			})
-		}
-	}
+	},
 }
 
 async function play(queue, interaction) {
@@ -117,7 +116,7 @@ async function play(queue, interaction) {
 	const resource = createAudioResource(stream, {
 		inputType: 'opus',
 		bitrate: 128,
-		highWaterMark: 128
+		highWaterMark: 128,
 	})
 
 	connection.subscribe(player)
@@ -138,7 +137,7 @@ async function play(queue, interaction) {
 
 // Promise to join voice channel, and resolve as soon as the 'Ready' state fires
 function makeConnectionPromise(interaction) {
-	return new Promise((resolve) => {
+	return new Promise(resolve => {
 		const connection = joinVoiceChannel({
 			channelId: interaction.member.voice.channelId,
 			guildId: interaction.guildId,
@@ -153,7 +152,7 @@ function makeConnectionPromise(interaction) {
 
 // Promise to search YouTube using input from slash command options, and resolve when youtubeSearch() returns a video object
 function makeSearchPromise(interaction) {
-	return new Promise((resolve) => {
+	return new Promise(resolve => {
 		const searchTerms = interaction.options.get('input').value
 
 		const url = youtubeSearch(searchTerms)
@@ -169,9 +168,7 @@ async function youtubeSearch(searchTerms) {
 	}
 
 	return await YouTube.searchOne(searchTerms)
-		.then(results => {
-			return results.url;
-		})
+		.then(results => results.url)
 		.catch(console.error)
 }
 

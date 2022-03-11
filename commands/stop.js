@@ -16,5 +16,5 @@ module.exports = {
 		queues.delete(guildId)
 
 		await interaction.reply('Stopped!')
-	}
+	},
 }

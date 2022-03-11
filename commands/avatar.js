@@ -43,6 +43,6 @@ module.exports = {
 		embed.setTitle(embedUsername)
 		embed.setColor(avatarColor)
 
-		interaction.reply({ embeds: [ embed ] })
+		interaction.reply({ embeds: [embed] })
 	},
 }

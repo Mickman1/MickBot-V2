@@ -1,6 +1,6 @@
 const fs = require('fs')
 const { Client, Collection, Intents } = require('discord.js')
-const client = new Client({ intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES ] })
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES] })
 const { token } = require('./config/config.json')
 
 client.queues = new Map()

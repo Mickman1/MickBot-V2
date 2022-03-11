@@ -42,6 +42,6 @@ module.exports = {
 		embed.setColor(MICKBOT_BLUE)
 
 
-		await interaction.reply({ embeds: [ embed ] })
+		await interaction.reply({ embeds: [embed] })
 	},
 }

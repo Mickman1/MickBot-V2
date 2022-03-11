@@ -30,7 +30,6 @@
 					{ "before": true }
 				],
 				"no-undef": 0,
-				"no-unneeded-ternary": 1,
 				"prefer-const": 1,
 				"object-shorthand": 1,
 				"quote-props": [
@@ -59,11 +58,113 @@
 						"named": "never",
 						"asyncArrow": "always"
 				}],
-				"no-param-reassign": 1
-				/*,
-        "semi": [
-            "error",
-            "always"
-        ]*/
+				"no-param-reassign": 1,
+				"prefer-arrow-callback": 1,
+				"arrow-spacing": [
+					"error",
+					{
+						"before": true,
+						"after": true
+					}
+				],
+				"arrow-parens": [
+					"error",
+					"as-needed"
+				],
+				"arrow-body-style": [
+					"error",
+					"as-needed"
+				],
+				"no-confusing-arrow": [
+					"error",
+					{
+						"allowParens": true
+					}
+				],
+				"no-useless-constructor": 1,
+				"no-dupe-class-members": 1,
+				"no-duplicate-imports": 1,
+				"dot-notation": 1,
+				"prefer-exponentiation-operator": 1,
+				"one-var": [
+					"error",
+					"never"
+				],
+				"no-multi-assign": 1,
+				"no-plusplus": [
+					"error",
+					{
+					"allowForLoopAfterthoughts": true
+					}
+				],
+				"operator-linebreak": [
+					"error",
+					"none"
+				],
+				"eqeqeq": [
+					"error",
+					"always"
+				],
+				"no-case-declarations": 1,
+				"no-nested-ternary": 1,
+				"no-unneeded-ternary": 1,
+				"no-mixed-operators": 1,
+				"brace-style": [
+					"error",
+					"stroustrup"
+				],
+				"no-else-return": 1,
+				"space-infix-ops": 1,
+				"eol-last": 1,
+				"padded-blocks": [
+					"error",
+					"never"
+				],
+				"space-in-parens": [
+					"error",
+					"never"
+				],
+				"array-bracket-spacing": [
+					"error",
+					"never"
+				],
+				"object-curly-spacing": [
+					"error",
+					"always"
+				],
+				"max-len": [
+					"error",
+					{
+						"code": 120,
+						"ignoreComments": true,
+						"ignoreStrings": true,
+						"ignoreTemplateLiterals": true,
+						"ignoreRegExpLiterals": true
+					}
+				],
+				"comma-style": [
+					"error",
+					"last"
+				],
+				"comma-dangle": [
+					"error",
+					{
+						"objects": "always-multiline",
+						"arrays": "always-multiline"
+					}
+				],
+				"id-length": [
+					"error",
+					{
+						"min": 2,
+						"properties": "always",
+						"exceptions": [
+							"i",
+							"j",
+							"k",
+							"l"
+						]
+					}
+				]
     }
 }

@@ -19,7 +19,7 @@ module.exports = {
 
 		const coinGIF = [
 			'https://cdn.discordapp.com/attachments/596928630009888781/650328670724161547/CoinFlipHeadsFinal.gif',
-			'https://cdn.discordapp.com/attachments/596928630009888781/779502238590566440/CoinFlipTailsFinal.gif'
+			'https://cdn.discordapp.com/attachments/596928630009888781/779502238590566440/CoinFlipTailsFinal.gif',
 		]
 
 		const randomNum = Math.floor(Math.random() * 2)
@@ -46,7 +46,7 @@ module.exports = {
 
 		// Wait until coin animation finishes before sending embed
 		setTimeout(() => {
-			interaction.channel.send({ embeds: [ makeEmbed((randomNum === 0 ? '**Heads!**' : '**Tails!**') + guessOutcome, coinOutcomeEmbedColor) ] })
+			interaction.channel.send({ embeds: [makeEmbed((randomNum === 0 ? '**Heads!**' : '**Tails!**') + guessOutcome, coinOutcomeEmbedColor)] })
 		}, 1900)
 	},
 }

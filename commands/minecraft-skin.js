@@ -33,10 +33,14 @@ module.exports = {
 		}
 
 		embed.setImage(`https://mc-heads.net/${avatarType}/${username}/400.png`)
-		embed.setAuthor({ name: 'Set as your skin?', iconURL: 'https://media.discordapp.net/attachments/596928630009888781/786054261787983913/grass.png', url: `https://mc-heads.net/change/${username}` })
+		embed.setAuthor({
+			name: 'Set as your skin?',
+			iconURL: 'https://media.discordapp.net/attachments/596928630009888781/786054261787983913/grass.png',
+			url: `https://mc-heads.net/change/${username}`,
+		})
 		embed.setTitle(username)
 		embed.setColor(MICKBOT_BLUE)
 
-		await interaction.reply({ embeds: [ embed ] })
+		await interaction.reply({ embeds: [embed] })
 	},
 }

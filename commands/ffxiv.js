@@ -53,7 +53,7 @@ module.exports = {
 		const xiv = new XIVAPI({
 			private_key: xivapiToken,
 			language: 'en',
-			snake_case: true
+			snake_case: true,
 		})
 		
 		const name = interaction.options.getString('name')
@@ -70,7 +70,7 @@ module.exports = {
 			//embed.setAuthor({ name: 'No character found!', iconURL: 'https://static.wikia.nocookie.net/finalfantasy/images/a/a3/FFXIV_Quest_Icon.png/revision/latest/scale-to-width-down/174?cb=20210415061951' })
 			embed.setDescription('No character found!')
 			embed.setColor(MICKBOT_RED)
-			return await interaction.editReply({ embeds: [ embed ] });
+			return await interaction.editReply({ embeds: [embed] });
 		}
 
 		character = character.results[0]
@@ -87,6 +87,6 @@ module.exports = {
 		embed.setImage(characterData.character.portrait)
 		embed.setColor('#3c6acb')
 
-		await interaction.editReply({ embeds: [ embed ] })
+		await interaction.editReply({ embeds: [embed] })
 	},
 }

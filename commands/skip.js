@@ -15,5 +15,5 @@ module.exports = {
 		//queue.player.emit(AudioPlayerStatus.Idle)
 
 		await interaction.reply('Skipping!')
-	}
+	},
 }

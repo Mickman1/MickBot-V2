@@ -33,6 +33,9 @@ module.exports = {
 		// Convert to string and add commas to final number with regex
 		randomNum = randomNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
-		await interaction.reply({ embeds: [ makeEmbed(randomNum.toString(), MICKBOT_BLUE) ]/*, components: [row]*/ })
+		await interaction.reply({
+			embeds: [makeEmbed(randomNum.toString(), MICKBOT_BLUE)],
+			components: [row],
+		})
 	},
 }
