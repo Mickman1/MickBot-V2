@@ -21,44 +21,15 @@ module.exports = {
 		const { queues } = interaction.client
 		let queue = queues.get(guildId)
 
-		/*const searchTerms = ''
-		const url = ''
-
-		switch (queue?.player?.state.status) {
-			case 'playing': case 'buffering':
-				searchTerms = interaction.options.get('input').value
-			
-				url = await youtubeSearch(searchTerms)
-				queue.songs.push(url)
-
-				// If player state changed from 'playing' to 'idle' during the search, shift the head and play()
-				if (queue?.player?.state.status === 'idle') {
-					queue.head += 1
-					play(queue, interaction)
-				}
-				break
-			case 'idle':
-				searchTerms = interaction.options.get('input').value
-				
-				url = await youtubeSearch(searchTerms)
-				queue.songs.push(url)
-
-				queue.head += 1
-				play(queue, interaction)
-				break
-		}*/
-
 		// If queue already started, it's either in a 'playing' state ('playing', 'buffering', 'paused', 'autoPaused') OR in 'idle' state
 		// No matter the state, the searchTerms need to be converted to a url and put in queue.songs[]
-		// If the state changed to 'idle' AND the queue's at the end by the time the youtubeSearch() function finishes, immediately start playing the requested song
 		if (queue !== undefined) {
 			const searchTerms = interaction.options.get('input').value
 		
 			const url = await youtubeSearch(searchTerms)
 			queue.songs.push(url)
 
-			/*console.log(`Head: ${queue.head}`)
-			console.log(`Length: ${queue.songs.length}`)*/
+			// If the state changed to 'idle' AND the queue's at the end by the time the youtubeSearch() function finishes, immediately start playing the requested song
 			if (queue?.player?.state.status === 'idle' && queue.head + 2 === queue.songs.length) {
 				queue.head += 1
 				play(queue, interaction)
@@ -73,7 +44,6 @@ module.exports = {
 		// Make both promises to connect to VC and search for first video
 		queues.set(guildId, {
 			head: 0,
-			//isPlaying: false,
 			loopMode: 'disabled',
 			connection: null,
 			player: null,
@@ -89,17 +59,12 @@ module.exports = {
 				queue.connection = connection
 				const url = values[1]
 				queue.songs.push(url)
-
-				//await interaction.editReply('Playing')
 				play(queue, interaction)
 			})
 	},
 }
 
 async function play(queue, interaction) {
-	//console.log(queue)
-	console.log(`Head: ${queue.head}`)
-	console.log(`Length: ${queue.songs.length}`)
 	const { connection } = queue
 
 	const stream = ytdl(queue.songs[queue.head], {
@@ -144,8 +109,20 @@ function makeConnectionPromise(interaction) {
 			adapterCreator: interaction.member.guild.voiceAdapterCreator,
 		})
 
-		connection.on(VoiceConnectionStatus.Ready, () => {
+		connection.once(VoiceConnectionStatus.Ready, () => {
 			resolve(connection)
+		})
+
+		connection.once(VoiceConnectionStatus.Disconnected, () => {
+			console.log('Disconnected')
+
+			const { guildId } = interaction
+			const { queues } = interaction.client
+			const queue = queues.get(guildId)
+
+			queue.player?.stop()
+			//queue.connection.destroy()
+			queues.delete(guildId)
 		})
 	});
 }
