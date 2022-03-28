@@ -21,7 +21,16 @@ module.exports = {
 		// If user supplied a new volume value
 		if (interaction.options.data.length > 0) {
 			// Format volume between 0 and 1 (ex: 100 -> 1, 47 -> 0.47)
-			const newVolume = interaction.options.getInteger('volume') / 100
+			let newVolume = interaction.options.getInteger('volume') / 100
+
+			// Set upper and lower limits for max and min volume
+			if (newVolume > 1) {
+				newVolume = 1
+			}
+
+			if (newVolume < 0) {
+				newVolume = 0
+			}
 
 			// Set resource / prism-media volume, and update the queue object's volume to set the temporary default
 			queue.resource.volume.setVolume(newVolume)
