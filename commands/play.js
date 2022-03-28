@@ -15,6 +15,7 @@ module.exports = {
 		),
 		
 	async execute(interaction) {
+		// Defer reply to let MickBot join voice channel, search video, etc.
 		await interaction.deferReply()
 
 		const { guildId } = interaction
@@ -47,6 +48,8 @@ module.exports = {
 			loopMode: 'disabled',
 			connection: null,
 			player: null,
+			resource: null,
+			volume: 0.5,
 			songs: [],
 		})
 
@@ -82,7 +85,10 @@ async function play(queue, interaction) {
 		inputType: 'opus',
 		bitrate: 128,
 		highWaterMark: 128,
+		inlineVolume: true,
 	})
+	queue.resource = resource
+	resource.volume.setVolume(queue.volume)
 
 	connection.subscribe(player)
 	player.play(resource)
