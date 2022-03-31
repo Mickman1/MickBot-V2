@@ -11,22 +11,29 @@ module.exports = {
 		const { queues } = interaction.client
 		const queue = queues.get(guildId)
 
-		// Default headMoveAmount is 2, so the queue head moves back twice,
-		// to compensate for player.stop() iterating it once
-		let headMoveAmount = 2
-
-		// Check if /back was used at the beginning of the queue,
-		// Only move head back once, so the current song starts over
-		if (queue.head - 2 === -2) {
-			headMoveAmount = 1
+		// If queue is at the end, /back should replay song at current queue head
+		if (queue.player.state.status === 'idle') {
+			await interaction.deferReply()
+			const play = require('./play.js')
+			play.play(queue, interaction)
+			return;
 		}
 
-		else if (queue.head - 2 < -2) {
+		// Default headMovement is 2, so the queue head moves back twice, to compensate for player.stop() iterating it once
+		let headMovement = 2
+
+		// Check if /back was used at the beginning of the queue, and only move head back once, so the current song starts over
+		if (queue.head === 0) {
+			headMovement = 1
+		}
+
+		// If somehow a user does /back too much, just return and don't change queue head
+		else if (queue.head < 0) {
 			console.log('Moving back too much!')
 			return;
 		}
-		
-		queue.head -= headMoveAmount
+
+		queue.head -= headMovement
 		queue.player.stop()
 
 		await interaction.reply('Going back!')
