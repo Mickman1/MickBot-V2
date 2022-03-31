@@ -98,10 +98,24 @@ const functions = module.exports = {
 		player.once(AudioPlayerStatus.Idle, () => {
 			console.log('The audio player has entered IDLE state!')
 
+			if (queue.loopMode === 'single') {
+				functions.play(queue, interaction)
+				return;
+			}
+
+			// If not at the end of queue
 			if (queue.head + 1 < queue.songs.length) {
 				queue.head += 1
 		
 				functions.play(queue, interaction)
+				return;
+			}
+
+			if (queue.loopMode === 'queue') {
+				queue.head = 0
+
+				functions.play(queue, interaction)
+				return;
 			}
 		})
 	},
