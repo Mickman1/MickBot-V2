@@ -37,10 +37,10 @@ module.exports = {
 			queue.volume = newVolume
 
 			const formattedVolume = `${newVolume * 100}%`
-			return await interaction.reply(`Volume changed to \`${formattedVolume}\`!`);
+			return await interaction.reply(`Volume changed to \`${formattedVolume}\``);
 		}
 
 		const formattedVolume = `${currentVolume * 100}%`
-		await interaction.reply(`Volume is \`${formattedVolume}\`!`)
+		await interaction.reply(`Volume is \`${formattedVolume}\``)
 	},
 }
