@@ -90,7 +90,7 @@
 					"error",
 					"never"
 				],
-				"no-multi-assign": 1,
+				/*"no-multi-assign": 1,*/
 				"no-plusplus": [
 					"error",
 					{
