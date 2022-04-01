@@ -42,15 +42,15 @@ const functions = module.exports = {
 		}
 
 		// If no queue started (no queue object, not in vc), then start from scratch
-		// Make both promises to connect to VC and search for first video
+		// Make promises to connect to VC and search for first video
 		queues.set(guildId, {
 			head: 0,
+			songs: [],
+			volume: 0.5,
 			loopMode: 'disabled',
-			connection: null,
 			player: null,
 			resource: null,
-			volume: 0.5,
-			songs: [],
+			connection: null,
 		})
 
 		queue = queues.get(guildId)
@@ -69,7 +69,6 @@ const functions = module.exports = {
 	async play(queue, interaction) {
 		const { connection } = queue
 
-		console.log(queue.songs[queue.head])
 		const stream = ytdl(queue.songs[queue.head], {
 			filter: 'audioonly',
 			quality: 'highestaudio',
