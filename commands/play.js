@@ -7,7 +7,7 @@ const YouTube = require('youtube-sr').default
 const functions = module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('play')
-		.setDescription('Play music using search terms or a URL!')
+		.setDescription('Play music using search terms or a URL')
 		.addStringOption(option =>
 			option.setName('input')
 				.setDescription('Search terms / Link')
