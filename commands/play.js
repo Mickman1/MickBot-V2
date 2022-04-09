@@ -102,7 +102,7 @@ const functions = module.exports = {
 				return;
 			}
 
-			// If not at the end of queue
+			// If not at the end of the queue
 			if (queue.head + 1 < queue.songs.length) {
 				queue.head += 1
 		
