@@ -3,6 +3,8 @@ const { SlashCommandBuilder } = require('@discordjs/builders')
 const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
 const ytdl = require('discord-ytdl-core')
 const YouTube = require('youtube-sr').default
+const fetch = require('node-fetch')
+const { getData } = require('spotify-url-info')(fetch)
 
 const functions = module.exports = {
 	data: new SlashCommandBuilder()
@@ -25,9 +27,9 @@ const functions = module.exports = {
 		// If queue already started, it's either in a 'playing' state ('playing', 'buffering', 'paused', 'autoPaused') OR in 'idle' state
 		// No matter the state, the searchTerms need to be converted to a url and put in queue.songs[]
 		if (queue !== undefined) {
-			const searchTerms = interaction.options.get('input').value
+			const input = interaction.options.get('input').value
 		
-			const url = await youtubeSearch(searchTerms)
+			const url = await getUrlFromInput(input)
 			queue.songs.push(url)
 
 			// If the state changed to 'idle' AND the queue's at the end by the time the youtubeSearch() function finishes, immediately start playing the requested song
@@ -150,20 +152,40 @@ function makeConnectionPromise(interaction) {
 // Promise to search YouTube using input from slash command options, and resolve when youtubeSearch() returns a video object
 function makeSearchPromise(interaction) {
 	return new Promise(resolve => {
-		const searchTerms = interaction.options.get('input').value
+		const input = interaction.options.get('input').value
 
-		const url = youtubeSearch(searchTerms)
+		const url = getUrlFromInput(input)
 
 		resolve(url)
 	});
 }
 
-async function youtubeSearch(searchTerms) {
-	// Check if the input (searchTerms) is already a valid YouTube URL, and just return that to skip the search
-	if (isYoutubeURL(searchTerms)) {
-		return searchTerms;
+async function getUrlFromInput(input) {
+	// Check if the input is already a valid YouTube URL, and just return that to skip the search
+	if (isYoutubeURL(input)) {
+		return input;
+	}
+	
+	if (isSpotifyURL(input)) {
+		const spotifyData = await getData(input)
+
+		// Search YouTube for the ISRC of the Spotify track
+		// If there's no ISRC value, search YouTube for the track title instead
+		let youtubeSearchTerms = spotifyData.name
+
+		if (spotifyData.external_ids.isrc !== null) {
+			youtubeSearchTerms = spotifyData.external_ids.isrc
+		}
+
+		const youtubeUrl = await youtubeSearch(youtubeSearchTerms)
+		return youtubeUrl;
 	}
 
+	const url = await youtubeSearch(input)
+	return url;
+}
+
+async function youtubeSearch(searchTerms) {
 	return await YouTube.searchOne(searchTerms)
 		.then(results => results.url)
 		.catch(console.error)
@@ -171,6 +193,12 @@ async function youtubeSearch(searchTerms) {
 
 function isYoutubeURL(input) {
 	const urlRegex = /^(?:(?:https?:)?\/\/)?(?:www\.)?(?:m\.)?(?:youtu(?:be)?\.com\/(?:v\/|embed\/|watch(?:\/|\?v=))|youtu\.be\/)((?:\w|-){11})(?:\S+)?$/
+
+	return !!String(input).match(urlRegex);
+}
+
+function isSpotifyURL(input) {
+	const urlRegex = /(https?:\/\/(.+?\.)?spotify\.com(\/[A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=]*)?)/
 
 	return !!String(input).match(urlRegex);
 }
