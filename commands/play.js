@@ -97,17 +97,17 @@ const functions = module.exports = {
 		connection.subscribe(player)
 		player.play(resource)
 
-		await queue.songs[queue.head].origin.reply(`Playing ${queue.songs[queue.head].url}`)
+		await queue.songs[queue.head].origin.followUp(`Playing ${queue.songs[queue.head].url}`)
 
 		player.once(AudioPlayerStatus.Idle, () => {
 			console.log('The audio player has entered IDLE state!')
 
 			if (queue.loopMode === 'single') {
-				functions.play(queue, interaction)
+				functions.play(queue)
 				return;
 			}
 
-			// If not at the end of the queue
+			// If not at the end of the queue, keep playing normally
 			if (queue.head + 1 < queue.songs.length) {
 				queue.head += 1
 		
@@ -115,6 +115,7 @@ const functions = module.exports = {
 				return;
 			}
 
+			// If loopMode is 'queue', start the queue over
 			if (queue.loopMode === 'queue') {
 				queue.head = 0
 
@@ -176,7 +177,7 @@ async function getUrlFromInput(input) {
 		if (spotifyData.type === 'playlist') {
 			spotifyData = spotifyData.tracks.items[0].track
 
-			console.log(spotifyData)
+			//console.log(spotifyData)
 		}
 
 		if (spotifyData.type === 'album') {
@@ -185,11 +186,8 @@ async function getUrlFromInput(input) {
 				const tempTrack = await getTracks(spotifyData.tracks.items[i].uri)
 				allTracks.push(tempTrack)
 			}
-			/*spotifyData = track[0]
 
-			console.log(track)*/
-
-			console.log(allTracks)
+			//console.log(allTracks)
 			spotifyData = allTracks[0]
 		}
 
