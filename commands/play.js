@@ -1,10 +1,10 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
 const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
-const ytdl = require('discord-ytdl-core')
+const ytdl = require('ytdl-core-discord')
 const YouTube = require('youtube-sr').default
 const fetch = require('node-fetch')
-const { getData } = require('spotify-url-info')(fetch)
+const { getData, getTracks } = require('spotify-url-info')(fetch)
 
 const functions = module.exports = {
 	data: new SlashCommandBuilder()
@@ -30,16 +30,16 @@ const functions = module.exports = {
 			const input = interaction.options.get('input').value
 		
 			const url = await getUrlFromInput(input)
-			queue.songs.push(url)
+			queue.songs.push({ url, origin: interaction })
 
 			// If the state changed to 'idle' AND the queue's at the end by the time the youtubeSearch() function finishes, immediately start playing the requested song
 			if (queue?.player?.state.status === 'idle' && queue.head + 2 === queue.songs.length) {
 				queue.head += 1
-				functions.play(queue, interaction)
+				functions.play(queue)
 				return;
 			}
 
-			await interaction.editReply('Added to queue!')
+			await interaction.editReply(`Added ${url} to queue!`)
 			return;
 		}
 
@@ -63,16 +63,19 @@ const functions = module.exports = {
 				const connection = values[0]
 				queue.connection = connection
 				const url = values[1]
-				queue.songs.push(url)
-				functions.play(queue, interaction)
+
+				queue.songs.push({ url, origin: interaction })
+				//interaction.reply('Playing')
+
+				functions.play(queue)
 			})
 	},
 
-	async play(queue, interaction) {
+	async play(queue) {
 		const { connection } = queue
 
-		const stream = ytdl(queue.songs[queue.head], {
-			filter: 'audioonly',
+		const stream = await ytdl(queue.songs[queue.head].url, {
+			//filter: 'audioonly',
 			quality: 'highestaudio',
 			opusEncoded: true,
 			highWaterMark: 1 << 28,
@@ -94,7 +97,7 @@ const functions = module.exports = {
 		connection.subscribe(player)
 		player.play(resource)
 
-		await interaction.editReply('Playing')
+		await queue.songs[queue.head].origin.reply(`Playing ${queue.songs[queue.head].url}`)
 
 		player.once(AudioPlayerStatus.Idle, () => {
 			console.log('The audio player has entered IDLE state!')
@@ -108,14 +111,14 @@ const functions = module.exports = {
 			if (queue.head + 1 < queue.songs.length) {
 				queue.head += 1
 		
-				functions.play(queue, interaction)
+				functions.play(queue)
 				return;
 			}
 
 			if (queue.loopMode === 'queue') {
 				queue.head = 0
 
-				functions.play(queue, interaction)
+				functions.play(queue)
 				return;
 			}
 		})
@@ -167,7 +170,28 @@ async function getUrlFromInput(input) {
 	}
 	
 	if (isSpotifyURL(input)) {
-		const spotifyData = await getData(input)
+		let spotifyData = await getData(input)
+
+		//! Temporary fix for Playlists
+		if (spotifyData.type === 'playlist') {
+			spotifyData = spotifyData.tracks.items[0].track
+
+			console.log(spotifyData)
+		}
+
+		if (spotifyData.type === 'album') {
+			const allTracks = []
+			for (let i = 0; i < spotifyData.tracks.items.length; i++) {
+				const tempTrack = await getTracks(spotifyData.tracks.items[i].uri)
+				allTracks.push(tempTrack)
+			}
+			/*spotifyData = track[0]
+
+			console.log(track)*/
+
+			console.log(allTracks)
+			spotifyData = allTracks[0]
+		}
 
 		// Search YouTube for the ISRC of the Spotify track
 		// If there's no ISRC value, search YouTube for the track title instead
