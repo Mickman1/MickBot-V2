@@ -60,12 +60,10 @@ const functions = module.exports = {
 		// Make both Connection and Search promises, once both are fulfilled (bot is in VC & video result came back), then play
 		Promise.all([makeConnectionPromise(interaction), makeSearchPromise(interaction)])
 			.then(async values => {
-				const connection = values[0]
-				queue.connection = connection
+				queue.connection = values[0]
 				const url = values[1]
 
 				queue.songs.push({ url, origin: interaction })
-				//interaction.reply('Playing')
 
 				functions.play(queue)
 			})
@@ -97,7 +95,9 @@ const functions = module.exports = {
 		connection.subscribe(player)
 		player.play(resource)
 
-		await queue.songs[queue.head].origin.followUp(`Playing ${queue.songs[queue.head].url}`)
+		const details = await ytdl.getBasicInfo(queue.songs[queue.head].url)
+		
+		await queue.songs[queue.head].origin.followUp(`Playing ${details.videoDetails.title}`)
 
 		player.once(AudioPlayerStatus.Idle, () => {
 			console.log('The audio player has entered IDLE state!')
@@ -203,6 +203,7 @@ async function getUrlFromInput(input) {
 		return youtubeUrl;
 	}
 
+	// If the input isn't a valid URL, use it as search terms
 	const url = await youtubeSearch(input)
 	return url;
 }
