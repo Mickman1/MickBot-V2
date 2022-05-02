@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 //const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
+const { play } = require('./play.js')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -14,8 +15,7 @@ module.exports = {
 		// If queue is at the end, /back should replay song at current queue head
 		if (queue.player.state.status === 'idle') {
 			await interaction.deferReply()
-			const play = require('./play.js')
-			play.play(queue, interaction)
+			play(queue, interaction)
 			return;
 		}
 
