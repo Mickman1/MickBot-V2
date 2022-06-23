@@ -92,7 +92,7 @@ const functions = module.exports = {
 		queue.resource = resource
 		resource.volume.setVolume(queue.volume)
 
-		connection.subscribe(player)
+		queue.connection.subscribe(player)
 		player.play(resource)
 
 		const details = await ytdl.getBasicInfo(queue.songs[queue.head].url)
