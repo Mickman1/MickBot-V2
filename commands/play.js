@@ -70,14 +70,11 @@ const functions = module.exports = {
 	},
 
 	async play(queue) {
-		const { connection } = queue
-
 		const stream = await ytdl(queue.songs[queue.head].url, {
 			//filter: 'audioonly',
 			quality: 'highestaudio',
 			opusEncoded: true,
 			highWaterMark: 1 << 28,
-			//encoderArgs: ['-af', 'dynaudnorm=f=200'],
 		})
 
 		const player = createAudioPlayer()
