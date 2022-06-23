@@ -205,7 +205,12 @@ async function getUrlFromInput(input) {
 			youtubeSearchTerms = spotifyData.external_ids.isrc
 		}
 
-		const youtubeUrl = await youtubeSearch(youtubeSearchTerms)
+		let youtubeUrl = await youtubeSearch(youtubeSearchTerms)
+		
+		if (youtubeUrl === undefined) {
+			youtubeUrl = await youtubeSearch(`${spotifyData.name} ${spotifyData.artists[0].name}`)
+		}
+
 		return youtubeUrl;
 	}
 
