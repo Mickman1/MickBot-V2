@@ -97,7 +97,13 @@ const functions = module.exports = {
 
 		const details = await ytdl.getBasicInfo(queue.songs[queue.head].url)
 		
-		await queue.songs[queue.head].origin.followUp(`Playing ${details.videoDetails.title}`)
+		try {
+			await queue.songs[queue.head].origin.followUp(`Playing ${details.videoDetails.title}`)
+		}
+		
+		catch {
+			await queue.songs[queue.head].origin.channel.send(`Playing ${details.videoDetails.title}`)
+		}
 
 		player.once(AudioPlayerStatus.Idle, () => {
 			console.log('The audio player has entered IDLE state!')
