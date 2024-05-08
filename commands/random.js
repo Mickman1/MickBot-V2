@@ -35,7 +35,7 @@ module.exports = {
 
 		await interaction.reply({
 			embeds: [makeEmbed(randomNum.toString(), MICKBOT_BLUE)],
-			components: [row],
+			//components: [row],
 		})
 	},
 }
