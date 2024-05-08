@@ -24,7 +24,7 @@
     "ffmpeg-static": "^4.4.1",
     "libsodium-wrappers": "^0.7.9",
     "opusscript": "^0.0.8",
-    "spotify-url-info": "^3.1.0",
+    "spotify-url-info": "^3.1.9",
     "tweetnacl": "^1.0.3",
     "youtube-sr": "^4.1.15",
     "ytdl-core": "^4.11.0",
