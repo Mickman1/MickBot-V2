@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -15,15 +15,17 @@ module.exports = {
 			option.setName('avatar-type')
 				.setDescription('Avatar style for skin image (Default: 3D Full Body)')
 				.setRequired(false)
-				.addChoice('3D Full Body', 'body')
-				.addChoice('3D Head', 'head')
-				.addChoice('2D Full Body', 'player')
-				.addChoice('2D Head', 'avatar')
-				.addChoice('Skin File', 'skin')
+				.addChoices(
+					{ name: '3D Full Body', value: 'body'},
+					{ name: '3D Head', value: 'head'},
+					{ name: '2D Full Body', value: 'player'},
+					{ name: '2D Head', value: 'avatar'},
+					{ name: 'Skin File', value: 'skin'}
+				)
 		),
 		
 	async execute(interaction) {
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 
 		const username = interaction.options.getString('username')
 		let avatarType = 'body'

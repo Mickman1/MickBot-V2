@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
 const ytdl = require('ytdl-core-discord')
 const YouTube = require('youtube-sr').default
@@ -42,10 +42,10 @@ const functions = module.exports = {
 
 			const details = await ytdl.getBasicInfo(url)
 
-			const embed = new MessageEmbed()
-				.addField(details.videoDetails.author.name, (details.videoDetails.description.length < 500 ? details.videoDetails.description : details.videoDetails.description.substring(0, 500) + '...'))
+			const embed = new EmbedBuilder()
+				.addFields({ name: details.videoDetails.author.name, value: (details.videoDetails.description.length < 500 ? details.videoDetails.description : details.videoDetails.description.substring(0, 500) + '...') })
 				.setColor('#FF0000')
-				.setAuthor('📃 Added to queue:')
+				.setAuthor({ name: '📃 Added to queue:' })
 				.setTitle(details.videoDetails.title)
 				.setURL(url)
 				.setImage(details.videoDetails.thumbnails[0].url)

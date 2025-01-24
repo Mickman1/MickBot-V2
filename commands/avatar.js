@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 const ColorThief = require('colorthief')
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
 		),
 		
 	async execute(interaction) {
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 
 		// "mentionedUser" is whoever's avatar to grab
 		// If no mentioned user in the options, it's who sent the command
@@ -26,7 +26,7 @@ module.exports = {
 		}
 
 		// Grab avatar URL. Prefer .png, but could return .gif
-		let embedAvatarURL = mentionedUser.avatarURL({ format: 'png', dynamic: true, size: 1024 })
+		let embedAvatarURL = mentionedUser.avatarURL({ extension: 'png', size: 1024 })
 
 		// If mentionedUser doesn't have an avatar set, use their default Discord avatar
 		if (mentionedUser.avatar === null) {

@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -8,7 +8,7 @@ module.exports = {
 		.setDescription('Get MickBot\'s Ping, Uptime, and other information'),
 		
 	async execute(interaction) {
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 		
 		const ping = interaction.client.ws.ping.toString()
 		const totalServers = interaction.client.guilds.cache.size.toString()
@@ -24,9 +24,11 @@ module.exports = {
 
 		embed.setTitle('MickBot Stats')
 		embed.setColor(MICKBOT_BLUE)
-		embed.addField('⏱ Ping', `\`${ping} ms\``, true)
-		embed.addField('🕑 Uptime', `\`${(timeOnline < 60 ? (timeOnline + timeOnlineMinutes) : ((Number.isInteger(timeOnline / 60) ? (timeOnline / 60) : (timeOnline / 60).toFixed(2)) + timeOnlineHours))}\``, true)
-		embed.addField('🖥️ Server Count', `\`${totalServers} servers\``, true)
+		embed.addFields(
+			{ name: '⏱ Ping', value: `\`${ping} ms\``, inline: true},
+			{ name: '🕑 Uptime', value: `\`${(timeOnline < 60 ? (timeOnline + timeOnlineMinutes) : ((Number.isInteger(timeOnline / 60) ? (timeOnline / 60) : (timeOnline / 60).toFixed(2)) + timeOnlineHours))}\``, inline: true },
+			{ name: '🖥️ Server Count', value: `\`${totalServers} servers\``, inline: true }
+		)
 
 		await interaction.reply({ embeds: [embed] })
 	},

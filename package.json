@@ -19,7 +19,6 @@
     "colorthief": "^2.3.2",
     "discord-api-types": "^0.25.2",
     "discord-ytdl-core": "^5.0.4",
-    "discord.js": "^13.8.1",
     "ffmpeg": "^0.0.4",
     "ffmpeg-static": "^4.4.1",
     "libsodium-wrappers": "^0.7.9",
@@ -32,5 +31,6 @@
   },
   "devDependencies": {
     "eslint": "^8.10.0"
+    "discord.js": "^14.17.3",
   }
 }

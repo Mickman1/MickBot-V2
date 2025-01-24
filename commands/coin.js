@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -10,12 +10,13 @@ module.exports = {
 			option.setName('guess')
 				.setDescription('Guess heads or tails')
 				.setRequired(false)
-				.addChoice('Heads', 'guess_heads')
-				.addChoice('Tails', 'guess_tails')
+				.addChoices(
+					{ name: 'Heads', value: 'guess_heads'},
+					{ name : 'Tails', value: 'guess_tails'})
 		),
 		
 	async execute(interaction) {
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 
 		const coinGIF = [
 			'https://cdn.discordapp.com/attachments/596928630009888781/650328670724161547/CoinFlipHeadsFinal.gif',
