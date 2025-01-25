@@ -18,19 +18,19 @@ module.exports = {
 
 		// "mentionedUser" is whoever's avatar to grab
 		// If no mentioned user in the options, it's who sent the command
-		let mentionedUser = interaction.user
+		let targetUser = interaction.user
 
 		// Check if user gave an optional mentioned user
 		if (interaction.options.data.length > 0) {
-			mentionedUser = interaction.options.getUser('user')
+			targetUser = interaction.options.getUser('user')
 		}
 
 		// Grab avatar URL. Prefer .png, but could return .gif
-		let embedAvatarURL = mentionedUser.avatarURL({ extension: 'png', size: 1024 })
+		let embedAvatarURL = targetUser.avatarURL({ extension: 'png', size: 1024 })
 
 		// If mentionedUser doesn't have an avatar set, use their default Discord avatar
-		if (mentionedUser.avatar === null) {
-			embedAvatarURL = mentionedUser.defaultAvatarURL
+		if (targetUser.avatar === null) {
+			embedAvatarURL = targetUser.defaultAvatarURL
 		}
 		
 		// Set embed Title to mentionUser's username
@@ -40,7 +40,7 @@ module.exports = {
 		const avatarColor = await ColorThief.getColor(embedAvatarURL)
 
 		embed.setImage(embedAvatarURL)
-		embed.setTitle(embedUsername)
+		embed.setTitle(targetUser.displayName)
 		embed.setColor(avatarColor)
 
 		interaction.reply({ embeds: [embed] })
