@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
 const { EmbedBuilder } = require('discord.js')
+const ColorThief = require('colorthief')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -66,7 +67,7 @@ module.exports = {
 			url: `https://mc-heads.net/change/${username}`,
 		})
 		embed.setTitle(username)
-		embed.setColor(MICKBOT_BLUE)
+		embed.setColor(await ColorThief.getColor(`https://starlightskins.lunareclipse.studio/render/pixel/${username}/full?capeEnabled=false`))
 
 		await interaction.reply({ embeds: [embed] })
 	},

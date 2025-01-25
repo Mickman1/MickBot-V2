@@ -32,5 +32,8 @@
   "devDependencies": {
     "eslint": "^8.10.0"
     "discord.js": "^14.17.3",
-  }
+	},
+	"overrides": {
+		"get-pixels": "git@github.com:gitnik/get-pixels-webp-support.git#a064e683d16fc26d4015882b2058afa359a7d4be"
+	}
 }
