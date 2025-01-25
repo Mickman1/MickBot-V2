@@ -72,9 +72,9 @@ module.exports = {
 
 		embed.setImage(`https://starlightskins.lunareclipse.studio/render/${renderType}/${username}/${crop}?borderHighlight=true&borderHighlightRadius=10&dropShadow=true&renderScale=2${extraParameters}`)
 		embed.setAuthor({
-			name: 'Set as your skin?',
-			iconURL: 'https://media.discordapp.net/attachments/596928630009888781/786054261787983913/grass.png',
-			url: `https://mc-heads.net/change/${username}`,
+			name: 'NameMC',
+			iconURL: 'https://media.discordapp.net/attachments/596928630009888781/1332654267068190792/namemc_icon.webp',
+			url: `https://namemc.com/profile/${username}`,
 		})
 		embed.setTitle(username)
 		embed.setColor(await ColorThief.getColor(`https://starlightskins.lunareclipse.studio/render/pixel/${username}/full?capeEnabled=false`))
