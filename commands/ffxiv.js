@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 const XIVAPI = require('@xivapi/js')
 // Load XVIAPI token for avoiding rate limit
 const { xivapiToken } = require('../config/xivapiToken.json')
@@ -20,36 +20,36 @@ module.exports = {
 			option.setName('server')
 				.setDescription('Character\'s home server (North America only)')
 				.setRequired(true)
-				.addChoices([
-					['Adamantoise', 'adamantoise'],
-					['Cactuar', 'cactuar'],
-					['Faerie', 'faerie'],
-					['Gilgamesh', 'gilgamesh'],
-					['Jenova', 'jenova'],
-					['Midgardsormr', 'midgardsormr'],
-					['Sargatanas', 'sargatanas'],
-					['Siren', 'siren'],
-					['Behemoth', 'behemoth'],
-					['Excalibur', 'excalibur'],
-					['Exodus', 'exodus'],
-					['Famfrit', 'famfrit'],
-					['Hyperion', 'hyperion'],
-					['Lamia', 'lamia'],
-					['Leviathan', 'leviathan'],
-					['Ultros', 'ultros'],
-					['Balmung', 'balmung'],
-					['Brynhildr', 'brynhildr'],
-					['Coeurl', 'coeurl'],
-					['Diabolos', 'diabolos'],
-					['Goblin', 'goblin'],
-					['Malboro', 'malboro'],
-					['Mateus', 'mateus'],
-					['Zalera', 'zalera'],
-				])
+				.addChoices(
+					{ name: 'Adamantoise', value: 'adamantoise' },
+					{ name: 'Cactuar', value: 'cactuar' },
+					{ name: 'Faerie', value: 'faerie' },
+					{ name: 'Gilgamesh', value: 'gilgamesh' },
+					{ name: 'Jenova', value: 'jenova' },
+					{ name: 'Midgardsormr', value: 'midgardsormr' },
+					{ name: 'Sargatanas', value: 'sargatanas' },
+					{ name: 'Siren', value: 'siren' },
+					{ name: 'Behemoth', value: 'behemoth' },
+					{ name: 'Excalibur', value: 'excalibur' },
+					{ name: 'Exodus', value: 'exodus' },
+					{ name: 'Famfrit', value: 'famfrit' },
+					{ name: 'Hyperion', value: 'hyperion' },
+					{ name: 'Lamia', value: 'lamia' },
+					{ name: 'Leviathan', value: 'leviathan' },
+					{ name: 'Ultros', value: 'ultros' },
+					{ name: 'Balmung', value: 'balmung' },
+					{ name: 'Brynhildr', value: 'brynhildr' },
+					{ name: 'Coeurl', value: 'coeurl' },
+					{ name: 'Diabolos', value: 'diabolos' },
+					{ name: 'Goblin', value: 'goblin' },
+					{ name: 'Malboro', value: 'malboro' },
+					{ name: 'Mateus', value: 'mateus' },
+					{ name: 'Zalera', value: 'zalera' },
+				)
 		),
 		
 	async execute(interaction) {
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 		const xiv = new XIVAPI({
 			private_key: xivapiToken,
 			language: 'en',
