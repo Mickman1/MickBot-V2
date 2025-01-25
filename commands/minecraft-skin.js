@@ -70,6 +70,8 @@ module.exports = {
 			extraParameters += `&capeEnabled=${interaction.options.getString('cape')}`
 		}
 
+		let embedColor = await ColorThief.getColor(`https://starlightskins.lunareclipse.studio/render/pixel/${username}/full?capeEnabled=false`)
+
 		embed.setImage(`https://starlightskins.lunareclipse.studio/render/${renderType}/${username}/${crop}?borderHighlight=true&borderHighlightRadius=10&dropShadow=true&renderScale=2${extraParameters}`)
 		embed.setAuthor({
 			name: 'NameMC',
@@ -77,7 +79,7 @@ module.exports = {
 			url: `https://namemc.com/profile/${username}`,
 		})
 		embed.setTitle(username)
-		embed.setColor(await ColorThief.getColor(`https://starlightskins.lunareclipse.studio/render/pixel/${username}/full?capeEnabled=false`))
+		embed.setColor(embedColor)
 
 		await interaction.reply({ embeds: [embed] })
 	},
