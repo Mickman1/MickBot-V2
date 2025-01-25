@@ -25,6 +25,13 @@ module.exports = {
 					{ name: 'Skin File', value: 'skin' },
 				)
 		)
+		.addStringOption(option =>
+			option.setName('cape')
+				.setDescription('Show cape?')
+				.setRequired(false)
+				.addChoices(
+					{ name: 'Yes', value: 'true' },
+					{ name: 'No', value: 'false' },
 				)
 		),
 		
@@ -58,6 +65,9 @@ module.exports = {
 					break
 			}
 		}
+
+		if (interaction.options.getString('cape')) {
+			extraParameters += `&capeEnabled=${interaction.options.getString('cape')}`
 		}
 
 		embed.setImage(`https://starlightskins.lunareclipse.studio/render/${renderType}/${username}/${crop}?borderHighlight=true&borderHighlightRadius=10&dropShadow=true&renderScale=2${extraParameters}`)
