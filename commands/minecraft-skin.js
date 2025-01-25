@@ -12,15 +12,18 @@ module.exports = {
 				.setRequired(true)
 		)
 		.addStringOption(option =>
-			option.setName('avatar-type')
-				.setDescription('Avatar style for skin image (Default: 3D Full Body)')
+			option.setName('pose')
+				.setDescription('Avatar pose for skin image')
 				.setRequired(false)
 				.addChoices(
-					{ name: '3D Full Body', value: 'body'},
-					{ name: '3D Head', value: 'head'},
-					{ name: '2D Full Body', value: 'player'},
-					{ name: '2D Head', value: 'avatar'},
-					{ name: 'Skin File', value: 'skin'}
+					{ name: 'Default', value: 'default' },
+					{ name: 'Walking', value: 'walking' },
+					{ name: 'Back', value: 'back' },
+					{ name: 'Dead', value: 'dead' },
+					{ name: 'Flat', value: 'pixel' },
+					{ name: 'Skin File', value: 'skin' },
+				)
+		)
 				)
 		),
 		
@@ -28,13 +31,35 @@ module.exports = {
 		const embed = new EmbedBuilder()
 
 		const username = interaction.options.getString('username')
-		let avatarType = 'body'
-		// Check if user gave an optional avatar-type
-		if (interaction.options.data.length > 1) {
-			avatarType = interaction.options.getString('avatar-type')
+		let usernameCheckRequest = await fetch(`https://starlightskins.lunareclipse.studio/render/skin/${username}/default`)
+		if (!usernameCheckRequest.ok) {
+			embed.setDescription('Player not found!')
+			embed.setColor(MICKBOT_RED)
+			await interaction.reply({ embeds: [embed] })
+			return;
 		}
 
-		embed.setImage(`https://mc-heads.net/${avatarType}/${username}/400.png`)
+		let renderType = 'default'
+		let crop = 'full'
+		let extraParameters = ''
+
+		// Check if user gave an optional pose
+		if (interaction.options.getString('pose')) {
+			renderType = interaction.options.getString('pose')
+
+			switch (interaction.options.getString('pose')) {
+				case 'skin':
+					crop = 'default'
+					break
+				case 'back':
+					renderType = 'default'
+					extraParameters += '&cameraPosition={"x":"30","y":"36","z":"45"}'
+					break
+			}
+		}
+		}
+
+		embed.setImage(`https://starlightskins.lunareclipse.studio/render/${renderType}/${username}/${crop}?borderHighlight=true&borderHighlightRadius=10&dropShadow=true&renderScale=2${extraParameters}`)
 		embed.setAuthor({
 			name: 'Set as your skin?',
 			iconURL: 'https://media.discordapp.net/attachments/596928630009888781/786054261787983913/grass.png',
