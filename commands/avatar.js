@@ -35,6 +35,10 @@ module.exports = {
 
 		const avatarColor = await ColorThief.getColor(embedAvatarURL)
 
+		embed.setAuthor({
+			name: targetUser.username,
+			url: `https://discord.com/users/${targetUser.id}`,
+		})
 		embed.setImage(embedAvatarURL)
 		embed.setTitle(targetUser.displayName)
 		embed.setColor(avatarColor)
