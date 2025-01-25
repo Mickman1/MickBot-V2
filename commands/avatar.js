@@ -32,11 +32,7 @@ module.exports = {
 		if (targetUser.avatar === null) {
 			embedAvatarURL = targetUser.defaultAvatarURL
 		}
-		
-		// Set embed Title to mentionUser's username
-		const embedUsername = mentionedUser.username
 
-		// Use colorthief to get dominant color of avatar for embed color
 		const avatarColor = await ColorThief.getColor(embedAvatarURL)
 
 		embed.setImage(embedAvatarURL)
