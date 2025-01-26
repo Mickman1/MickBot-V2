@@ -16,7 +16,7 @@ module.exports = {
 	async execute(interaction) {
 		const embed = new EmbedBuilder()
 
-		// "mentionedUser" is whoever's avatar to grab
+		// "targetUser" is whoever's avatar to grab
 		// If no mentioned user in the options, it's who sent the command
 		let targetUser = interaction.user
 
@@ -28,7 +28,7 @@ module.exports = {
 		// Grab avatar URL. Prefer .png, but could return .gif
 		let embedAvatarURL = targetUser.avatarURL({ extension: 'png', size: 1024 })
 
-		// If mentionedUser doesn't have an avatar set, use their default Discord avatar
+		// If targetUser doesn't have an avatar set, use their default Discord avatar
 		if (targetUser.avatar === null) {
 			embedAvatarURL = targetUser.defaultAvatarURL
 		}
