@@ -9,12 +9,12 @@ module.exports = {
 		.setDescription('Grab a specific Minecraft skin')
 		.addStringOption(option =>
 			option.setName('username')
-				.setDescription('Minecraft Java Edition skin username')
+				.setDescription('Minecraft Java Edition username')
 				.setRequired(true)
 		)
 		.addStringOption(option =>
 			option.setName('pose')
-				.setDescription('Avatar pose for skin image')
+				.setDescription('Set a pose for the player')
 				.setRequired(false)
 				.addChoices(
 					{ name: 'Default', value: 'default' },
