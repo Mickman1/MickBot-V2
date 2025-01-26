@@ -1,7 +1,7 @@
 const fs = require('fs')
 const { Client, Collection, GatewayIntentBits } = require('discord.js')
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates] })
-const { token } = require('./config/config.json')
+const { tokens } = require('./config/config.json')
 
 client.queues = new Map()
 
@@ -53,4 +53,4 @@ client.on('interactionCreate', async interaction => {
 	}
 })
 
-client.login(token)
+client.login(tokens.discord.mickbot)
