@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders')
+const { SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js')
 
 const { EmbedBuilder } = require('discord.js')
 const ColorThief = require('colorthief')
@@ -74,13 +74,24 @@ module.exports = {
 
 		embed.setImage(`https://starlightskins.lunareclipse.studio/render/${renderType}/${username}/${crop}?borderHighlight=true&borderHighlightRadius=10&dropShadow=true&renderScale=2${extraParameters}`)
 		embed.setAuthor({
-			name: 'NameMC',
-			iconURL: 'https://media.discordapp.net/attachments/596928630009888781/1332654267068190792/namemc_icon.webp',
-			url: `https://namemc.com/profile/${username}`,
+			name: 'Minecraft Skin',
+			iconURL: 'https://cdn.discordapp.com/attachments/596928630009888781/1332930792351076476/mc_grass_icon.webp'
 		})
 		embed.setTitle(username)
 		embed.setColor(embedColor)
+		
+		const nameMcButton = new ButtonBuilder()
+			.setLabel('NameMC Profile')
+			.setEmoji('1332934063530446889')
+			.setURL(`https://namemc.com/profile/${username}`)
+			.setStyle(ButtonStyle.Link)
+			
+		const row = new ActionRowBuilder()
+			.addComponents(nameMcButton)
 
-		await interaction.reply({ embeds: [embed] })
+		await interaction.reply({
+			embeds: [embed],
+			components: [row]
+		})
 	},
 }
