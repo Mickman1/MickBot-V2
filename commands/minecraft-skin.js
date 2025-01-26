@@ -49,7 +49,7 @@ module.exports = {
 
 		let renderType = 'default'
 		let crop = 'full'
-		let extraParameters = ''
+		let extraParameters = 'borderHighlight=true&borderHighlightRadius=10&dropShadow=true&renderScale=2'
 
 		// Check if user gave an optional pose
 		if (interaction.options.getString('pose')) {
@@ -72,7 +72,7 @@ module.exports = {
 
 		let embedColor = await ColorThief.getColor(`https://starlightskins.lunareclipse.studio/render/pixel/${username}/full?capeEnabled=false`)
 
-		embed.setImage(`https://starlightskins.lunareclipse.studio/render/${renderType}/${username}/${crop}?borderHighlight=true&borderHighlightRadius=10&dropShadow=true&renderScale=2${extraParameters}`)
+		embed.setImage(`https://starlightskins.lunareclipse.studio/render/${renderType}/${username}/${crop}?${extraParameters}`)
 		embed.setAuthor({
 			name: 'Minecraft Skin',
 			iconURL: 'https://cdn.discordapp.com/attachments/596928630009888781/1332930792351076476/mc_grass_icon.webp'
