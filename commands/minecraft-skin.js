@@ -39,7 +39,7 @@ module.exports = {
 		const embed = new EmbedBuilder()
 
 		const username = interaction.options.getString('username')
-		let usernameCheckRequest = await fetch(`https://starlightskins.lunareclipse.studio/render/skin/${username}/default`)
+		const usernameCheckRequest = await fetch(`https://starlightskins.lunareclipse.studio/info/user/${username}`)
 		if (!usernameCheckRequest.ok) {
 			embed.setDescription('Player not found!')
 			embed.setColor(MICKBOT_RED)
