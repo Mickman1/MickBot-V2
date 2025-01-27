@@ -13,7 +13,7 @@ const options = program.opts()
 const fs = require('fs')
 const { REST } = require('@discordjs/rest')
 const { Routes } = require('discord-api-types/v9')
-const { clientId, guildId, token } = require('./config/config.json')
+const { clientId, guildId, tokens } = require('./config/config.json')
 
 const deploymentType = options.global ? 'global' : 'guild'
 const deploymentGuildId = options.guild || guildId
@@ -28,7 +28,7 @@ if (!options.clear) {
 	}
 }
 
-const rest = new REST({ version: '9' }).setToken(token)
+const rest = new REST({ version: '9' }).setToken(tokens.discord.canary)
 
 if (deploymentType === 'guild') {
 	rest.put(Routes.applicationGuildCommands(clientId, deploymentGuildId), { body: commands })
