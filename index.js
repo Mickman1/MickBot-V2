@@ -53,4 +53,4 @@ client.on('interactionCreate', async interaction => {
 	}
 })
 
-client.login(tokens.discord.mickbot)
+client.login(tokens.discord.canary)
