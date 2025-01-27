@@ -79,7 +79,7 @@ module.exports = {
 		})
 		embed.setTitle(username)
 		embed.setColor(embedColor)
-		
+
 		const nameMcButton = new ButtonBuilder()
 			.setLabel('NameMC Profile')
 			.setEmoji('1332934063530446889')
