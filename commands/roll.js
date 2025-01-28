@@ -39,7 +39,14 @@ module.exports = {
 		embed.setTitle(`Rolling ${interaction.options.getInteger('dice')}d${interaction.options.getInteger('sides')}...`)
 		embed.setColor(MICKBOT_BLUE)
 
-		await interaction.reply({ embeds: [embed] })
-		await interaction.followUp(`Total: ${total}\nRolls: ${rolls.join(', ')}`)
+		const response = await interaction.reply({ embeds: [embed] })
+
+		embed.setTitle(`Rolling ${interaction.options.getInteger('dice')}d${interaction.options.getInteger('sides')}...`)
+		embed.addFields(
+			{ name: 'Total', value: `**${total.toString()}**` },
+			{ name: 'Rolls', value: `\`${rolls.join(', ')}\`` }
+		)
+		embed.setColor(MICKBOT_GREEN)
+		await response.edit({ embeds: [embed] })
 	},
 }
