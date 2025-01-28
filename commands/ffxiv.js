@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
 const { EmbedBuilder } = require('discord.js')
-const XIVAPI = require('@xivapi/js')
+//const XIVAPI = require('@xivapi/js')
 // Load XVIAPI token for avoiding rate limit
 const { tokens } = require('../config/config.json')
 
