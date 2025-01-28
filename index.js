@@ -29,7 +29,7 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command)
 }
 
-client.on('ready', () => {
+client.once('ready', () => {
 	console.log('Ready!')
 })
 
