@@ -8,11 +8,15 @@ module.exports = {
 			option.setName('min')
 				.setDescription('The minimum number')
 				.setRequired(true)
+				.setMinValue(-100_000_000)
+				.setMaxValue(100_000_000)
 		)
 		.addIntegerOption(option =>
 			option.setName('max')
 				.setDescription('The maximum number')
 				.setRequired(true)
+				.setMinValue(-100_000_000)
+				.setMaxValue(100_000_000)
 		),
 		
 	async execute(interaction) {
