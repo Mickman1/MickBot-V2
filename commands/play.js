@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
-//const ytdl = require('ytdl-core-discord')
-//const YouTube = require('youtube-sr').default
+const ytdl = require('@distube/ytdl-core')
+const YouTube = require('youtube-sr').default
 //const fetch = require('node-fetch')
 //const { getData, getTracks } = require('spotify-url-info')(fetch)
 
