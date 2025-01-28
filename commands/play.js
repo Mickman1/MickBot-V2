@@ -90,7 +90,6 @@ const functions = module.exports = {
 		queue.player = player
 
 		const resource = createAudioResource(stream, {
-			inputType: 'opus',
 			bitrate: 128,
 			highWaterMark: 128,
 			inlineVolume: true,
@@ -182,7 +181,7 @@ async function getUrlFromInput(input) {
 		return input;
 	}
 	
-	if (isSpotifyURL(input)) {
+	/*if (isSpotifyURL(input)) {
 		let spotifyData = await getData(input)
 
 		//! Temporary fix for Playlists
@@ -218,7 +217,7 @@ async function getUrlFromInput(input) {
 		}
 
 		return youtubeUrl;
-	}
+	}*/
 
 	// If the input isn't a valid URL, use it as search terms
 	const url = await youtubeSearch(input)
