@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { Client, Collection, GatewayIntentBits } = require('discord.js')
+const { Client, Collection, GatewayIntentBits, EmbedBuilder } = require('discord.js')
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates] })
 const { tokens } = require('./config/config.json')
 
@@ -13,7 +13,6 @@ MICKBOT_GREEN = '#34DB6E'
 MICKBOT_YELLOW = '#DBDB34'
 
 makeEmbed = function(description, color) {
-	const { EmbedBuilder } = require('discord.js')
 	const embed = new EmbedBuilder()
 	embed.setColor(color)
 	embed.setDescription(description)

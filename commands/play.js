@@ -1,6 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders')
-
-const { EmbedBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
 const ytdl = require('ytdl-core-discord')
 const YouTube = require('youtube-sr').default
