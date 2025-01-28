@@ -101,13 +101,21 @@ const functions = module.exports = {
 		player.play(resource)
 
 		const details = await ytdl.getBasicInfo(queue.songs[queue.head].url)
+
+		const embed = new EmbedBuilder()
+			.addFields({ name: details.videoDetails.author.name, value: (details.videoDetails.description.length < 500 ? details.videoDetails.description : details.videoDetails.description.substring(0, 500) + '...') })
+			.setColor('#FF0000')
+			.setAuthor({ name: '📃 Added to queue:' })
+			.setTitle(details.videoDetails.title)
+			.setURL(queue.songs[queue.head].url)
+			.setImage(details.videoDetails.thumbnails[0].url)
 		
 		try {
-			await queue.songs[queue.head].origin.followUp(`Playing ${details.videoDetails.title}`)
+			await queue.songs[queue.head].origin.followUp({ embeds: [embed] })
 		}
 		
 		catch {
-			await queue.songs[queue.head].origin.channel.send(`Playing ${details.videoDetails.title}`)
+			await queue.songs[queue.head].origin.channel.send({ embeds: [embed] })
 		}
 
 		player.once(AudioPlayerStatus.Idle, () => {
