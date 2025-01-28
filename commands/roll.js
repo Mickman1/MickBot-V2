@@ -24,7 +24,7 @@ module.exports = {
 	async execute(interaction) {
 		const embed = new EmbedBuilder()
 
-		let dice = interaction.options.getInteger('dice')
+		const dice = interaction.options.getInteger('dice')
 		const sides = interaction.options.getInteger('sides')
 
 		let total = 0
@@ -41,7 +41,7 @@ module.exports = {
 		embed.setTitle(`Rolling ${interaction.options.getInteger('dice')}d${interaction.options.getInteger('sides')}...`)
 		embed.setColor(MICKBOT_BLUE)
 
-
 		await interaction.reply({ embeds: [embed] })
+		await interaction.followUp(`Total: ${total}\nRolls: ${rolls.join(', ')}`)
 	},
 }
