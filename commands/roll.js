@@ -10,11 +10,15 @@ module.exports = {
 			option.setName('dice')
 				.setDescription('Number of dice to roll')
 				.setRequired(true)
+				.setMinValue(1)
+				.setMaxValue(1000)
 		)
 		.addIntegerOption(option =>
 			option.setName('sides')
 				.setDescription('Number of dice sides')
 				.setRequired(true)
+				.setMinValue(1)
+				.setMaxValue(1000)
 		),
 		
 	async execute(interaction) {
@@ -23,10 +27,6 @@ module.exports = {
 		let dice = interaction.options.getInteger('dice')
 		const sides = interaction.options.getInteger('sides')
 
-		if (dice > 1000) {
-			dice = 1000
-		}
-		// Roll the dice
 		let total = 0
 		const rolls = []
 		for (let i = 0; i < dice; i++) {
