@@ -14,12 +14,14 @@ const options = program.opts()
 const fs = require('fs')
 const { REST } = require('@discordjs/rest')
 const { Routes } = require('discord-api-types/v9')
-const { clientId, guildId, tokens } = require('./config/config.json')
+const { application, guildIds } = require('./config/config.json')
 
 const deploymentType = options.global ? 'global' : 'guild'
-const deploymentGuildId = options.guild || guildId
-let commands = []
+const deploymentGuildIds = options.guild ? [options.guild] : guildIds
+const deploymentClientId = options.application ? application[options.application].clientId : application.canary.clientId
+const deploymentToken = options.application ? application[options.application].token : application.canary.token
 
+let commands = []
 if (!options.clear) {
 	const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 	
@@ -29,16 +31,18 @@ if (!options.clear) {
 	}
 }
 
-const rest = new REST({ version: '9' }).setToken(tokens.discord.canary)
+const rest = new REST({ version: '9' }).setToken(deploymentToken)
 
 if (deploymentType === 'guild') {
-	rest.put(Routes.applicationGuildCommands(clientId, deploymentGuildId), { body: commands })
-		.then(() => console.log('Successfully registered guild application commands.'))
-		.catch(console.error)
+	for (let i = 0; i < deploymentGuildIds.length; i++ ) {
+		rest.put(Routes.applicationGuildCommands(deploymentClientId, deploymentGuildIds[i]), { body: commands })
+			.then(() => console.log(`Successfully registered guild application commands for ${deploymentGuildIds[i]}.`))
+			.catch(console.error)
+	}
 }
 
 if (deploymentType === 'global') {
-	rest.put(Routes.applicationCommands(clientId), { body: commands })
+	rest.put(Routes.applicationCommands(deploymentClientId), { body: commands })
 		.then(() => console.log('Successfully registered global application commands.'))
 		.catch(console.error)
 }
