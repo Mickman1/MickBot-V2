@@ -58,13 +58,23 @@ const functions = module.exports = {
 
 			const details = await ytdl.getBasicInfo(url)
 
+			let embedDescription = details.videoDetails.description ? details.videoDetails.description : 'No description available'
+			if (embedDescription.length > 500) {
+				embedDescription = `${embedDescription.substring(0, 500)}...`
+			}
+			const embedViewCountFormatted = details.videoDetails.viewCount.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+			const embedChannelName = details.videoDetails.author.name.endsWith(' - Topic') ? details.videoDetails.author.name.slice(0, -7) : details.videoDetails.author.name
+
 			const embed = new EmbedBuilder()
-				.addFields({ name: details.videoDetails.author.name, value: (details.videoDetails.description.length < 500 ? details.videoDetails.description : details.videoDetails.description.substring(0, 500) + '...') })
 				.setColor('#FF0000')
-				.setAuthor({ name: '📃 Added to queue:' })
+				.setAuthor({
+					name: '📃 Added to Queue:',
+					iconURL: details.videoDetails.author.thumbnails[details.videoDetails.author.thumbnails.length - 1].url,
+				})
 				.setTitle(details.videoDetails.title)
-				.setURL(url)
-				.setImage(details.videoDetails.thumbnails[0].url)
+				.setDescription(`${embedChannelName} • ${embedViewCountFormatted} views`)
+				.setURL(queue.songs[queue.head].url)
+				.setThumbnail(details.videoDetails.thumbnails[details.videoDetails.thumbnails.length - 1].url)
 
 			await interaction.editReply({ embeds: [embed] })
 			return;
@@ -120,13 +130,19 @@ const functions = module.exports = {
 
 		const details = await ytdl.getBasicInfo(queue.songs[queue.head].url)
 
+		const embedViewCountFormatted = details.videoDetails.viewCount.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+		const embedChannelName = details.videoDetails.author.name.endsWith(' - Topic') ? details.videoDetails.author.name.slice(0, -7) : details.videoDetails.author.name
+
 		const embed = new EmbedBuilder()
-			.addFields({ name: details.videoDetails.author.name, value: (details.videoDetails.description.length < 500 ? details.videoDetails.description : details.videoDetails.description.substring(0, 500) + '...') })
 			.setColor('#FF0000')
-			.setAuthor({ name: '📃 Added to queue:' })
+			.setAuthor({
+				name: 'Now Playing:',
+				iconURL: details.videoDetails.author.thumbnails[details.videoDetails.author.thumbnails.length - 1].url,
+			})
 			.setTitle(details.videoDetails.title)
+			.setDescription(`${embedChannelName} • ${embedViewCountFormatted} views`)
 			.setURL(queue.songs[queue.head].url)
-			.setImage(details.videoDetails.thumbnails[0].url)
+			.setThumbnail(details.videoDetails.thumbnails[details.videoDetails.thumbnails.length - 1].url)
 
 		try {
 			await queue.songs[queue.head].origin.followUp({ embeds: [embed] })
