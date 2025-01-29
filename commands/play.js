@@ -14,7 +14,7 @@ const functions = module.exports = {
 				.setDescription('Search terms / Link')
 				.setRequired(true)
 		),
-		
+
 	async execute(interaction) {
 		// Defer reply to let MickBot join voice channel, search video, etc.
 		await interaction.deferReply()
@@ -27,7 +27,7 @@ const functions = module.exports = {
 		// No matter the state, the searchTerms need to be converted to a url and put in queue.songs[]
 		if (queue !== undefined) {
 			const input = interaction.options.get('input').value
-		
+
 			const url = await getUrlFromInput(input)
 			queue.songs.push({ url, origin: interaction })
 
@@ -109,11 +109,11 @@ const functions = module.exports = {
 			.setTitle(details.videoDetails.title)
 			.setURL(queue.songs[queue.head].url)
 			.setImage(details.videoDetails.thumbnails[0].url)
-		
+
 		try {
 			await queue.songs[queue.head].origin.followUp({ embeds: [embed] })
 		}
-		
+
 		catch {
 			await queue.songs[queue.head].origin.channel.send({ embeds: [embed] })
 		}
@@ -129,7 +129,7 @@ const functions = module.exports = {
 			// If not at the end of the queue, keep playing normally
 			if (queue.head + 1 < queue.songs.length) {
 				queue.head += 1
-		
+
 				functions.play(queue)
 				return;
 			}
@@ -219,7 +219,7 @@ async function getUrlFromInput(input) {
 		}
 
 		let youtubeUrl = await youtubeSearch(youtubeSearchTerms)
-		
+
 		if (youtubeUrl === undefined) {
 			youtubeUrl = await youtubeSearch(`${spotifyData.name} ${spotifyData.artists[0].name}`)
 		}
