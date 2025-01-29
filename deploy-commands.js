@@ -6,6 +6,7 @@ program
 	.option('-g, --guild <Guild ID>', 'Set guild for guild command registration')
 	.option('-G, --global', 'Register commands globally')
 	.option('-c, --clear', 'Clear all commands from the application')
+	.option('-a, --application <Application Name>', 'Application to register commands to')
 	.helpOption('-h, --help', 'Show help information')
 	.parse()
 const options = program.opts()
