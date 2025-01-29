@@ -276,7 +276,7 @@ function isYoutubeURL(input) {
 }
 
 function isSpotifyURL(input) {
-	const urlRegex = /(https?:\/\/(.+?\.)?spotify\.com(\/[A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=]*)?)/
+	const urlRegex = /^(spotify:|https:\/\/[a-z]+\.spotify\.com\/)/
 
 	return !!String(input).match(urlRegex);
 }
