@@ -21,6 +21,7 @@ const deploymentGuildIds = options.guild ? [options.guild] : guildIds
 const deploymentClientId = options.application ? application[options.application].clientId : application.canary.clientId
 const deploymentToken = options.application ? application[options.application].token : application.canary.token
 
+// Register an empty array of commands with --clear, skip command loading
 let commands = []
 if (!options.clear) {
 	const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
