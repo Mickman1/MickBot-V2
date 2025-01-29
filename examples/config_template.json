@@ -1,0 +1,10 @@
+{
+	"application": {
+		"botName": {
+			"token": "",
+			"clientId": ""
+		}
+	},
+	"guildIds": [""],
+	"xivApi": ""
+}
