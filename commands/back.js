@@ -6,7 +6,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('back')
 		.setDescription('Go back one track'),
-		
+
 	async execute(interaction) {
 		const { guildId } = interaction
 		const { queues } = interaction.client

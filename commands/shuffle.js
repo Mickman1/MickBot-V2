@@ -5,7 +5,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('shuffle')
 		.setDescription('Shuffle the queue'),
-		
+
 	async execute(interaction) {
 		const { guildId } = interaction
 		const { queues } = interaction.client
@@ -24,7 +24,7 @@ module.exports = {
 			// Pick a remaining element...
 			randomIndex = Math.floor(Math.random() * currentIndex)
 			currentIndex -= 1
-	
+
 			// And swap it with the current element.
 			temporaryValue = array[currentIndex]
 			array[currentIndex] = array[randomIndex]

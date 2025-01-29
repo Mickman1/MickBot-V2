@@ -9,7 +9,7 @@ module.exports = {
 				.setDescription('TTS input text')
 				.setRequired(true)
 		),
-		
+
 	async execute(interaction) {
 		//var AWS = require('aws-sdk')
 

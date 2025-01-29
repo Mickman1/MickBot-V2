@@ -4,10 +4,10 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Get MickBot\'s Ping, Uptime, and other information'),
-		
+
 	async execute(interaction) {
 		const embed = new EmbedBuilder()
-		
+
 		const ping = interaction.client.ws.ping.toString()
 		const totalServers = interaction.client.guilds.cache.size.toString()
 

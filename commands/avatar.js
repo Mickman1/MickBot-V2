@@ -10,7 +10,7 @@ module.exports = {
 				.setDescription('Who\'s avatar to send')
 				.setRequired(false)
 		),
-		
+
 	async execute(interaction) {
 		const embed = new EmbedBuilder()
 

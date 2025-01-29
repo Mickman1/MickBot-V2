@@ -5,7 +5,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('skip')
 		.setDescription('Skip current track'),
-		
+
 	async execute(interaction) {
 		const { guildId } = interaction
 		const { queues } = interaction.client

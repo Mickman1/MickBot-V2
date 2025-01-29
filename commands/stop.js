@@ -5,7 +5,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('stop')
 		.setDescription('Stop playing music and leave Voice Channel'),
-		
+
 	async execute(interaction) {
 		const { guildId } = interaction
 		const { queues } = interaction.client

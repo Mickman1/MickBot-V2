@@ -12,7 +12,7 @@ module.exports = {
 					{ name: 'Heads', value: 'guess_heads'},
 					{ name : 'Tails', value: 'guess_tails'})
 		),
-		
+
 	async execute(interaction) {
 		const embed = new EmbedBuilder()
 

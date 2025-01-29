@@ -5,7 +5,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('unpause')
 		.setDescription('Unpause current track'),
-		
+
 	async execute(interaction) {
 		const { guildId } = interaction
 		const { queues } = interaction.client

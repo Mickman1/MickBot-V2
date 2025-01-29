@@ -32,7 +32,7 @@ module.exports = {
 					{ name: 'No', value: 'false' },
 				)
 		),
-		
+
 	async execute(interaction) {
 		const embed = new EmbedBuilder()
 
@@ -83,7 +83,7 @@ module.exports = {
 			.setEmoji('1332934063530446889')
 			.setURL(`https://namemc.com/profile/${username}`)
 			.setStyle(ButtonStyle.Link)
-			
+
 		const row = new ActionRowBuilder()
 			.addComponents(nameMcButton)
 

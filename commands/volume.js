@@ -10,7 +10,7 @@ module.exports = {
 				.setDescription('Volume to use')
 				.setRequired(false)
 		),
-		
+
 	async execute(interaction) {
 		const { guildId } = interaction
 		const { queues } = interaction.client

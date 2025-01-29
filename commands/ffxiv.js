@@ -46,7 +46,7 @@ module.exports = {
 					{ name: 'Zalera', value: 'zalera' },
 				)
 		),
-		
+
 	async execute(interaction) {
 		const embed = new EmbedBuilder()
 		const xiv = new XIVAPI({
@@ -54,7 +54,7 @@ module.exports = {
 			language: 'en',
 			snake_case: true,
 		})
-		
+
 		const name = interaction.options.getString('name')
 		const server = interaction.options.getString('server')
 

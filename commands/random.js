@@ -18,7 +18,7 @@ module.exports = {
 				.setMinValue(-100_000_000)
 				.setMaxValue(100_000_000)
 		),
-		
+
 	async execute(interaction) {
 		// Get min and max values from interaction options
 		const min = interaction.options.getInteger('min')
@@ -31,7 +31,7 @@ module.exports = {
 			.setLabel('Re-Roll?')
 			.setEmoji('🎲')
 			.setStyle(ButtonStyle.Primary)
-			
+
 		const row = new ActionRowBuilder()
 			.addComponents(rerollButton)
 

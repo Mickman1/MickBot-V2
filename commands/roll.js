@@ -18,7 +18,7 @@ module.exports = {
 				.setMinValue(1)
 				.setMaxValue(1000)
 		),
-		
+
 	async execute(interaction) {
 		const embed = new EmbedBuilder()
 
