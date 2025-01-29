@@ -6,5 +6,9 @@
 		}
 	},
 	"guildIds": [""],
+	"spotifyCredentials": {
+		"clientId": "",
+		"clientSecret": ""
+	},
 	"xivApi": ""
 }
