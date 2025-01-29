@@ -1,9 +1,27 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
+
 const ytdl = require('@distube/ytdl-core')
 const YouTube = require('youtube-sr').default
-//const fetch = require('node-fetch')
-//const { getData, getTracks } = require('spotify-url-info')(fetch)
+const { spotifyCredentials } = require('../config/config.json')
+const SpotifyWebApi = require('spotify-web-api-node')
+
+const spotifyApi = new SpotifyWebApi({
+	clientId: spotifyCredentials.clientId,
+	clientSecret: spotifyCredentials.clientSecret,
+})
+
+async function refreshSpotifyAccessToken() {
+	const spotifyAccessToken = await spotifyApi.clientCredentialsGrant()
+	spotifyApi.setAccessToken(spotifyAccessToken.body.access_token)
+	console.log('Spotify access token refreshed!')
+}
+
+refreshSpotifyAccessToken()
+// Refresh Spotify access token every 45 minutes
+setInterval(() => {
+	refreshSpotifyAccessToken()
+}, 2_700_000)
 
 const functions = module.exports = {
 	data: new SlashCommandBuilder()
@@ -188,7 +206,20 @@ async function getUrlFromInput(input) {
 	if (isYoutubeURL(input)) {
 		return input;
 	}
-	
+
+	if (isSpotifyURL(input)) {
+		const spotifyURL = new URL(input)
+
+		let spotifyMediaType = spotifyURL.pathname.split('/')[1] // 'track', 'album', 'playlist'
+		let spotifyId = spotifyURL.pathname.split('/')[2] // '35iLpqqQg4KrfYAzbvN1vH'
+
+		let spotifyData = await spotifyApi.getTrack(spotifyId)
+		let isrc = spotifyData.body.external_ids.isrc
+
+		let youtubeUrl = await youtubeSearch(isrc)
+		return youtubeUrl;
+	}
+
 	/*if (isSpotifyURL(input)) {
 		let spotifyData = await getData(input)
 
