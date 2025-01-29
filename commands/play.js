@@ -223,7 +223,7 @@ async function getUrlFromInput(input) {
 	/*if (isSpotifyURL(input)) {
 		let spotifyData = await getData(input)
 
-		//! Temporary fix for Playlists
+		//TODO Temporary fix for Playlists
 		if (spotifyData.type === 'playlist') {
 			spotifyData = spotifyData.tracks.items[0].track
 
