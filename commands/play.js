@@ -78,7 +78,7 @@ const functions = module.exports = {
 				})
 				.setTitle(details.videoDetails.title)
 				.setDescription(`${embedChannelName} • ${embedViewCountFormatted} views`)
-				.setURL(queue.songs[queue.head].url)
+				.setURL(details.videoDetails.video_url)
 				.setThumbnail(details.videoDetails.thumbnails[details.videoDetails.thumbnails.length - 1].url)
 
 			await interaction.editReply({ embeds: [embed] })
