@@ -113,7 +113,7 @@ const functions = module.exports = {
 	},
 
 	async play(queue) {
-		const stream = await ytdl(queue.songs[queue.head].url, {
+		const stream = ytdl(queue.songs[queue.head].url, {
 			//filter: 'audioonly',
 			quality: 'highestaudio',
 			opusEncoded: true,
