@@ -100,13 +100,11 @@ const functions = module.exports = {
 		queue = queues.get(guildId)
 
 		// Make both Connection and Search promises, once both are fulfilled (bot is in VC & video result came back), then play
-		Promise.all([makeConnectionPromise(interaction), makeSearchPromise(interaction)])
-			.then(async values => {
-				queue.connection = values[0]
-				const url = values[1].url
-				const color = values[1].color
+		const values = await Promise.all([makeConnectionPromise(interaction), makeSearchPromise(interaction)])
 
-				queue.songs.push({ url, color, origin: interaction })
+		queue.connection = values[0]
+		const trackUrl = values[1].url
+		const trackColor = values[1].color
 
 		if (trackUrl === null) {
 			const embed = new EmbedBuilder()
@@ -119,8 +117,10 @@ const functions = module.exports = {
 			return;
 		}
 
-				functions.play(queue)
-			})
+		queue.songs.push({ url: trackUrl, color: trackColor, origin: interaction })
+
+		functions.play(queue)
+
 	},
 
 	async play(queue) {
