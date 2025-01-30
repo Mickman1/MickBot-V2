@@ -237,7 +237,14 @@ async function getUrlFromInput(input) {
 		let spotifyData = await spotifyApi.getTrack(spotifyId)
 		let isrc = spotifyData.body.external_ids.isrc
 
+		// Search YouTube for the ISRC of the Spotify track
+		// If there's no ISRC value, search YouTube for the track title & artist name instead
 		let youtubeUrl = await youtubeSearch(isrc)
+		if (youtubeUrl === undefined) {
+			youtubeUrl = await youtubeSearch(`${spotifyData.body.name} ${spotifyData.body.artists[0].name}`)
+			return { url: youtubeUrl, color: YOUTUBE_RED };
+		}
+
 		return { url: youtubeUrl, color: SPOTIFY_GREEN };
 	}
 
