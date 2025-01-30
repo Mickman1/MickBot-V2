@@ -247,7 +247,7 @@ async function getTrackFromInput(input) {
 		// If there's no ISRC value, search YouTube for the track title & artist name instead
 		let youtubeUrl = await youtubeSearch(isrc)
 		if (youtubeUrl === undefined) {
-			youtubeUrl = await youtubeSearch(`${spotifyData.body.name} ${spotifyData.body.artists[0].name}`)
+			youtubeUrl = await youtubeSearch(`${spotifyData.body.artists[0].name} ${spotifyData.body.name}`)
 			return { url: youtubeUrl, color: mediaSources.get('youtube').color };
 		}
 
