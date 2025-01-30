@@ -23,8 +23,9 @@ setInterval(() => {
 	refreshSpotifyAccessToken()
 }, 2_700_000)
 
-const YOUTUBE_RED = '#FF0000'
-const SPOTIFY_GREEN = '#1DB954'
+const mediaSources = new Map()
+	.set('youtube', { color: '#FF0000' })
+	.set('spotify', { color: '#1DB954' })
 
 const functions = module.exports = {
 	data: new SlashCommandBuilder()
@@ -49,10 +50,8 @@ const functions = module.exports = {
 		if (queue !== undefined) {
 			const input = interaction.options.get('input').value
 
-			const urlData = await getUrlFromInput(input)
-			const url = urlData.url
-			const embedColor = urlData.color
-			queue.songs.push({ url, color: embedColor, origin: interaction })
+			const track = await getTrackFromInput(input)
+			queue.songs.push({ url: track.url, color: track.color, origin: interaction })
 
 			// If the state changed to 'idle' AND the queue's at the end by the time the youtubeSearch() function finishes, immediately start playing the requested song
 			if (queue?.player?.state.status === 'idle' && queue.head + 2 === queue.songs.length) {
@@ -61,7 +60,7 @@ const functions = module.exports = {
 				return;
 			}
 
-			const details = await ytdl.getBasicInfo(url)
+			const details = await ytdl.getBasicInfo(track.url)
 
 			let embedDescription = details.videoDetails.description ? details.videoDetails.description : 'No description available'
 			if (embedDescription.length > 500) {
@@ -71,7 +70,7 @@ const functions = module.exports = {
 			const embedChannelName = details.videoDetails.author.name.endsWith(' - Topic') ? details.videoDetails.author.name.slice(0, -7) : details.videoDetails.author.name
 
 			const embed = new EmbedBuilder()
-				.setColor(embedColor)
+				.setColor(track.color)
 				.setAuthor({
 					name: '📃 Added to Queue:',
 					iconURL: details.videoDetails.author.thumbnails[details.videoDetails.author.thumbnails.length - 1].url,
@@ -216,19 +215,26 @@ function makeSearchPromise(interaction) {
 	return new Promise(resolve => {
 		const input = interaction.options.get('input').value
 
-		const data = getUrlFromInput(input)
-
-		resolve(data)
+		const track = getTrackFromInput(input)
+		resolve(track)
 	});
 }
 
-async function getUrlFromInput(input) {
-	// Check if the input is already a valid YouTube URL, and just return that to skip the search
-	if (isYoutubeUrl(input)) {
-		return { url: input, color: YOUTUBE_RED };
+async function getTrackFromInput(input) {
+	const inputSource = getInputSource(input)
+
+	// Check for search terms (null) first as it's most likely
+	if (inputSource === null) {
+		const youtubeUrl = await youtubeSearch(input)
+		return { url: youtubeUrl, color: mediaSources.get('youtube').color };
 	}
 
-	if (isSpotifyUrl(input)) {
+	// Valid YouTube links can be returned directly with no search required
+	if (inputSource === mediaSources.get('youtube')) {
+		return { url: input, color: mediaSources.get('youtube').color };
+	}
+
+	if (inputSource === mediaSources.get('spotify')) {
 		const spotifyURL = new URL(input)
 
 		let spotifyMediaType = spotifyURL.pathname.split('/')[1] // 'track', 'album', 'playlist'
@@ -242,59 +248,29 @@ async function getUrlFromInput(input) {
 		let youtubeUrl = await youtubeSearch(isrc)
 		if (youtubeUrl === undefined) {
 			youtubeUrl = await youtubeSearch(`${spotifyData.body.name} ${spotifyData.body.artists[0].name}`)
-			return { url: youtubeUrl, color: YOUTUBE_RED };
+			return { url: youtubeUrl, color: mediaSources.get('youtube').color };
 		}
 
-		return { url: youtubeUrl, color: SPOTIFY_GREEN };
+		return { url: youtubeUrl, color: mediaSources.get('spotify').color };
 	}
-
-	/*if (isSpotifyURL(input)) {
-		let spotifyData = await getData(input)
-
-		//TODO Temporary fix for Playlists
-		if (spotifyData.type === 'playlist') {
-			spotifyData = spotifyData.tracks.items[0].track
-
-			//console.log(spotifyData)
-		}
-
-		if (spotifyData.type === 'album') {
-			const allTracks = []
-			for (let i = 0; i < spotifyData.tracks.items.length; i++) {
-				const tempTrack = await getTracks(spotifyData.tracks.items[i].uri)
-				allTracks.push(tempTrack)
-			}
-
-			//console.log(allTracks)
-			spotifyData = allTracks[0]
-		}
-
-		// Search YouTube for the ISRC of the Spotify track
-		// If there's no ISRC value, search YouTube for the track title instead
-		let youtubeSearchTerms = spotifyData.name
-
-		if (spotifyData.external_ids.isrc !== null) {
-			youtubeSearchTerms = spotifyData.external_ids.isrc
-		}
-
-		let youtubeUrl = await youtubeSearch(youtubeSearchTerms)
-
-		if (youtubeUrl === undefined) {
-			youtubeUrl = await youtubeSearch(`${spotifyData.name} ${spotifyData.artists[0].name}`)
-		}
-
-		return youtubeUrl;
-	}*/
-
-	// If the input isn't a valid URL, use it as search terms
-	const url = await youtubeSearch(input)
-	return { url, color: YOUTUBE_RED };
 }
 
 async function youtubeSearch(searchTerms) {
 	return await YouTube.searchOne(searchTerms)
 		.then(results => results.url)
 		.catch(console.error)
+}
+
+function getInputSource(input) {
+	if (isYoutubeUrl(input)) {
+		return mediaSources.get('youtube');
+	}
+
+	if (isSpotifyUrl(input)) {
+		return mediaSources.get('spotify');
+	}
+
+	return null;
 }
 
 function isYoutubeUrl(input) {
