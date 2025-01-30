@@ -11,18 +11,9 @@ module.exports = {
 		const { queues } = interaction.client
 		const queue = queues.get(guildId)
 
-		switch (queue.loopMode) {
-			case 'disabled':
-				queue.loopMode = 'queue'
-				break
-			case 'queue':
-				queue.loopMode = 'single'
-				break
-			case 'single':
-				queue.loopMode = 'disabled'
-				break
-		}
+		// Cycle loopMode
+		queue.loopMode = (queue.loopMode + 1) % 3
 
-		await interaction.reply(`Changed loop mode to \`${queue.loopMode}\``)
+		await interaction.reply(`Changed loop mode to \`${queue.loopModes[queue.loopMode]}\``)
 	},
 }
