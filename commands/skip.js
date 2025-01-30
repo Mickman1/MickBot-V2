@@ -1,10 +1,10 @@
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 //const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('skip')
-		.setDescription('Skip current track'),
+		.setDescription('Skip the current track'),
 
 	async execute(interaction) {
 		const { guildId } = interaction
@@ -14,6 +14,10 @@ module.exports = {
 		queue.player.stop()
 		//queue.player.emit(AudioPlayerStatus.Idle)
 
-		await interaction.reply('Skipping!')
+		const embed = new EmbedBuilder()
+			.setColor(MICKBOT_BLUE)
+			.setDescription('⏩ Skipping!')
+		await interaction.editReply({ embeds: [embed] })
+		//await interaction.reply('Skipping!')
 	},
 }
