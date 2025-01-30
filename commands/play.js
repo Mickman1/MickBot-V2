@@ -224,11 +224,11 @@ function makeSearchPromise(interaction) {
 
 async function getUrlFromInput(input) {
 	// Check if the input is already a valid YouTube URL, and just return that to skip the search
-	if (isYoutubeURL(input)) {
+	if (isYoutubeUrl(input)) {
 		return { url: input, color: YOUTUBE_RED };
 	}
 
-	if (isSpotifyURL(input)) {
+	if (isSpotifyUrl(input)) {
 		const spotifyURL = new URL(input)
 
 		let spotifyMediaType = spotifyURL.pathname.split('/')[1] // 'track', 'album', 'playlist'
@@ -297,13 +297,13 @@ async function youtubeSearch(searchTerms) {
 		.catch(console.error)
 }
 
-function isYoutubeURL(input) {
+function isYoutubeUrl(input) {
 	const urlRegex = /^(?:(?:https?:)?\/\/)?(?:www\.)?(?:m\.)?(?:youtu(?:be)?\.com\/(?:v\/|embed\/|watch(?:\/|\?v=))|youtu\.be\/)((?:\w|-){11})(?:\S+)?$/
 
 	return !!String(input).match(urlRegex);
 }
 
-function isSpotifyURL(input) {
+function isSpotifyUrl(input) {
 	const urlRegex = /^(spotify:|https:\/\/[a-z]+\.spotify\.com\/)/
 
 	return !!String(input).match(urlRegex);
