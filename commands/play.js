@@ -23,6 +23,9 @@ setInterval(() => {
 	refreshSpotifyAccessToken()
 }, 2_700_000)
 
+const YOUTUBE_RED = '#FF0000'
+const SPOTIFY_GREEN = '#1DB954'
+
 const functions = module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('play')
@@ -46,8 +49,10 @@ const functions = module.exports = {
 		if (queue !== undefined) {
 			const input = interaction.options.get('input').value
 
-			const url = await getUrlFromInput(input)
-			queue.songs.push({ url, origin: interaction })
+			const urlData = await getUrlFromInput(input)
+			const url = urlData.url
+			const embedColor = urlData.color
+			queue.songs.push({ url, color: embedColor, origin: interaction })
 
 			// If the state changed to 'idle' AND the queue's at the end by the time the youtubeSearch() function finishes, immediately start playing the requested song
 			if (queue?.player?.state.status === 'idle' && queue.head + 2 === queue.songs.length) {
@@ -66,7 +71,7 @@ const functions = module.exports = {
 			const embedChannelName = details.videoDetails.author.name.endsWith(' - Topic') ? details.videoDetails.author.name.slice(0, -7) : details.videoDetails.author.name
 
 			const embed = new EmbedBuilder()
-				.setColor('#FF0000')
+				.setColor(embedColor)
 				.setAuthor({
 					name: '📃 Added to Queue:',
 					iconURL: details.videoDetails.author.thumbnails[details.videoDetails.author.thumbnails.length - 1].url,
@@ -99,9 +104,10 @@ const functions = module.exports = {
 		Promise.all([makeConnectionPromise(interaction), makeSearchPromise(interaction)])
 			.then(async values => {
 				queue.connection = values[0]
-				const url = values[1]
+				const url = values[1].url
+				const color = values[1].color
 
-				queue.songs.push({ url, origin: interaction })
+				queue.songs.push({ url, color, origin: interaction })
 
 				functions.play(queue)
 			})
@@ -135,7 +141,7 @@ const functions = module.exports = {
 		const embedChannelName = details.videoDetails.author.name.endsWith(' - Topic') ? details.videoDetails.author.name.slice(0, -7) : details.videoDetails.author.name
 
 		const embed = new EmbedBuilder()
-			.setColor('#FF0000')
+			.setColor(queue.songs[queue.head].color)
 			.setAuthor({
 				name: 'Now Playing:',
 				iconURL: details.videoDetails.author.thumbnails[details.videoDetails.author.thumbnails.length - 1].url,
@@ -210,16 +216,16 @@ function makeSearchPromise(interaction) {
 	return new Promise(resolve => {
 		const input = interaction.options.get('input').value
 
-		const url = getUrlFromInput(input)
+		const data = getUrlFromInput(input)
 
-		resolve(url)
+		resolve(data)
 	});
 }
 
 async function getUrlFromInput(input) {
 	// Check if the input is already a valid YouTube URL, and just return that to skip the search
 	if (isYoutubeURL(input)) {
-		return input;
+		return { url: input, color: YOUTUBE_RED };
 	}
 
 	if (isSpotifyURL(input)) {
@@ -232,7 +238,7 @@ async function getUrlFromInput(input) {
 		let isrc = spotifyData.body.external_ids.isrc
 
 		let youtubeUrl = await youtubeSearch(isrc)
-		return youtubeUrl;
+		return { url: youtubeUrl, color: SPOTIFY_GREEN };
 	}
 
 	/*if (isSpotifyURL(input)) {
@@ -275,7 +281,7 @@ async function getUrlFromInput(input) {
 
 	// If the input isn't a valid URL, use it as search terms
 	const url = await youtubeSearch(input)
-	return url;
+	return { url, color: YOUTUBE_RED };
 }
 
 async function youtubeSearch(searchTerms) {
