@@ -33,7 +33,7 @@ const functions = module.exports = {
 		.setDescription('Play audio using search terms or a URL')
 		.addStringOption(option =>
 			option.setName('input')
-				.setDescription('Search terms / Link')
+				.setDescription('Make a YouTube search or enter a YouTube/Spotify URL')
 				.setRequired(true)
 		),
 
