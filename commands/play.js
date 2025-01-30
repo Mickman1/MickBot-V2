@@ -108,6 +108,17 @@ const functions = module.exports = {
 
 				queue.songs.push({ url, color, origin: interaction })
 
+		if (trackUrl === null) {
+			const embed = new EmbedBuilder()
+				.setColor(MICKBOT_RED)
+				.setDescription('No search results found. Please try a different search term or link.')
+			await interaction.editReply({ embeds: [embed] })
+
+			queue.connection.destroy()
+			queues.delete(guildId)
+			return;
+		}
+
 				functions.play(queue)
 			})
 	},
@@ -216,6 +227,9 @@ function makeSearchPromise(interaction) {
 		const input = interaction.options.get('input').value
 
 		const track = getTrackFromInput(input)
+		if (track === null) {
+			resolve({ url: null, color: null })
+		}
 		resolve(track)
 	});
 }
@@ -239,6 +253,13 @@ async function getTrackFromInput(input) {
 
 		let spotifyMediaType = spotifyURL.pathname.split('/')[1] // 'track', 'album', 'playlist'
 		let spotifyId = spotifyURL.pathname.split('/')[2] // '35iLpqqQg4KrfYAzbvN1vH'
+
+		if (spotifyMediaType !== 'track') {
+			return { url: null, color: null };
+		}
+		if (spotifyId === undefined) {
+			return { url: null, color: null };
+		}
 
 		let spotifyData = await spotifyApi.getTrack(spotifyId)
 		let isrc = spotifyData.body.external_ids.isrc
