@@ -86,7 +86,8 @@ const functions = module.exports = {
 			head: 0,
 			songs: [],
 			volume: 0.5,
-			loopMode: 'disabled',
+			loopModes: ['disabled', 'queue', 'single'],
+			loopMode: 0,
 			player: null,
 			resource: null,
 			connection: null,
@@ -155,7 +156,8 @@ const functions = module.exports = {
 		player.once(AudioPlayerStatus.Idle, () => {
 			console.log('The audio player has entered IDLE state!')
 
-			if (queue.loopMode === 'single') {
+			// If loopMode is 'single', start the same song over
+			if (queue.loopMode === queue.loopModes[2]) {
 				functions.play(queue)
 				return;
 			}
@@ -168,8 +170,8 @@ const functions = module.exports = {
 				return;
 			}
 
-			// If loopMode is 'queue', start the queue over
-			if (queue.loopMode === 'queue') {
+			// If loopMode is 'queue', and at the end, start the queue over
+			if (queue.loopMode === queue.loopModes[1]) {
 				queue.head = 0
 
 				functions.play(queue)
