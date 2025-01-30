@@ -195,14 +195,11 @@ function makeConnectionPromise(interaction) {
 		})
 
 		connection.once(VoiceConnectionStatus.Disconnected, () => {
-			console.log('Disconnected')
-
 			const { guildId } = interaction
 			const { queues } = interaction.client
 			const queue = queues.get(guildId)
 
 			queue.player?.stop()
-			//queue.connection.destroy()
 			queues.delete(guildId)
 		})
 	});
