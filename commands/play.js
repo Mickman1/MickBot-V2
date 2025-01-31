@@ -11,17 +11,6 @@ const spotifyApi = new SpotifyWebApi({
 	clientSecret: spotifyCredentials.clientSecret,
 })
 
-async function refreshSpotifyAccessToken() {
-	const spotifyAccessToken = await spotifyApi.clientCredentialsGrant()
-	spotifyApi.setAccessToken(spotifyAccessToken.body.access_token)
-	console.log('Spotify access token refreshed!')
-}
-
-refreshSpotifyAccessToken()
-// Refresh Spotify access token every 45 minutes
-setInterval(() => {
-	refreshSpotifyAccessToken()
-}, 2_700_000)
 
 const mediaSources = new Map()
 	.set('youtube', { color: '#FF0000' })
@@ -195,6 +184,11 @@ const functions = module.exports = {
 			}
 		})
 	},
+	refreshSpotifyAccessToken: async function () {
+		const spotifyAccessToken = await spotifyApi.clientCredentialsGrant()
+		spotifyApi.setAccessToken(spotifyAccessToken.body.access_token)
+		print('Spotify access token refreshed', 'green', '🔑')
+	}
 }
 
 // Promise to join voice channel, and resolve as soon as the 'Ready' state fires
