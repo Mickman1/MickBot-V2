@@ -57,17 +57,19 @@ const functions = module.exports = {
 			}
 			const embedViewCountFormatted = details.videoDetails.viewCount.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 			const embedChannelName = details.videoDetails.author.name.endsWith(' - Topic') ? details.videoDetails.author.name.slice(0, -7) : details.videoDetails.author.name
+			const embedChannelIcon = details.videoDetails.author.thumbnails[details.videoDetails.author.thumbnails.length - 1].url
+			const embedVideoThumbnail = details.videoDetails.thumbnails[details.videoDetails.thumbnails.length - 1].url
 
 			const embed = new EmbedBuilder()
 				.setColor(track.color)
 				.setAuthor({
 					name: '📃 Added to Queue:',
-					iconURL: details.videoDetails.author.thumbnails[details.videoDetails.author.thumbnails.length - 1].url,
+					iconURL: embedChannelIcon,
 				})
 				.setTitle(details.videoDetails.title)
 				.setDescription(`${embedChannelName} • ${embedViewCountFormatted} views`)
 				.setURL(details.videoDetails.video_url)
-				.setThumbnail(details.videoDetails.thumbnails[details.videoDetails.thumbnails.length - 1].url)
+				.setThumbnail(embedVideoThumbnail)
 
 			await interaction.editReply({ embeds: [embed] })
 			return;
@@ -109,7 +111,6 @@ const functions = module.exports = {
 		queue.songs.push({ url: trackUrl, color: trackColor, origin: interaction })
 
 		functions.play(queue)
-
 	},
 
 	async play(queue) {
@@ -138,17 +139,19 @@ const functions = module.exports = {
 
 		const embedViewCountFormatted = details.videoDetails.viewCount.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 		const embedChannelName = details.videoDetails.author.name.endsWith(' - Topic') ? details.videoDetails.author.name.slice(0, -7) : details.videoDetails.author.name
+		const embedChannelIcon = details.videoDetails.author.thumbnails[details.videoDetails.author.thumbnails.length - 1].url
+		const embedVideoThumbnail = details.videoDetails.thumbnails[details.videoDetails.thumbnails.length - 1].url
 
 		const embed = new EmbedBuilder()
 			.setColor(queue.songs[queue.head].color)
 			.setAuthor({
 				name: 'Now Playing:',
-				iconURL: details.videoDetails.author.thumbnails[details.videoDetails.author.thumbnails.length - 1].url,
+				iconURL: embedChannelIcon,
 			})
 			.setTitle(details.videoDetails.title)
 			.setDescription(`${embedChannelName} • ${embedViewCountFormatted} views`)
 			.setURL(queue.songs[queue.head].url)
-			.setThumbnail(details.videoDetails.thumbnails[details.videoDetails.thumbnails.length - 1].url)
+			.setThumbnail(embedVideoThumbnail)
 
 		try {
 			await queue.songs[queue.head].origin.followUp({ embeds: [embed] })
