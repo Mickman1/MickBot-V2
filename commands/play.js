@@ -170,7 +170,7 @@ const functions = module.exports = {
 		}
 
 		player.once(AudioPlayerStatus.Idle, () => {
-			console.log('The audio player has entered IDLE state!')
+			print('The audio player has entered IDLE state!', 'white', '🔊')
 
 			// If loopMode is 'single', start the same song over
 			if (queue.loopMode === queue.loopModes[2]) {

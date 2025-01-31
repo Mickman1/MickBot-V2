@@ -2,6 +2,7 @@ const fs = require('fs')
 const { Client, Collection, GatewayIntentBits, EmbedBuilder } = require('discord.js')
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates] })
 const { application } = require('./config/config.json')
+const chalk = require('chalk')
 
 client.queues = new Map()
 
@@ -19,6 +20,10 @@ makeEmbed = function(description, color) {
 	return embed;
 }
 
+print = function(message, color = 'white', emoji = '🗒️') {
+	console.log(chalk`{cyan [${new Date().toLocaleTimeString()}]} {${color} ${emoji}: ${message}}`)
+}
+
 client.commands = new Collection()
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
@@ -30,7 +35,7 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
-	console.log('Ready!')
+	print(`Logged in as ${client.user.tag}`, 'yellow', '🤖')
 })
 
 client.on('interactionCreate', async interaction => {
