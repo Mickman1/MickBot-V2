@@ -187,10 +187,17 @@ const functions = module.exports = {
 			}
 		})
 	},
-	refreshSpotifyAccessToken: async function () {
+	refreshSpotifyAccessToken: async function() {
 		const spotifyAccessToken = await spotifyApi.clientCredentialsGrant()
 		spotifyApi.setAccessToken(spotifyAccessToken.body.access_token)
 		print('Spotify access token refreshed', 'green', '🔑')
+	},
+	onLoad: function() {
+		// Refresh Spotify access token every 45 minutes
+		functions.refreshSpotifyAccessToken()
+		setInterval(() => {
+			functions.refreshSpotifyAccessToken()
+		}, 2_700_000)
 	}
 }
 

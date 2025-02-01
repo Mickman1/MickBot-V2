@@ -24,17 +24,15 @@ module.exports = {
 			const newCommand = require(`../commands/${command.data.name}.js`)
 			interaction.client.commands.set(newCommand.data.name, newCommand)
 
+			if (newCommand.onLoad) {
+				newCommand.onLoad()
+			}
+
 			const embed = new EmbedBuilder()
 				.setColor(MICKBOT_BLUE)
 				.setDescription(`Command \`${newCommand.data.name}\` was reloaded!`)
 
 			await interaction.reply({ embeds: [embed] })
-
-			// Refresh Spotify access token every 45 minutes
-			interaction.client.commands.get('play').refreshSpotifyAccessToken()
-			setInterval(() => {
-				interaction.client.commands.get('play').refreshSpotifyAccessToken()
-			}, 2_700_000)
 		}
 		catch (error) {
 			console.error(error)

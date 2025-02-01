@@ -37,16 +37,14 @@ for (const file of commandFiles) {
 	const command = require(`./commands/${file}`)
 	// Set a new item in the Collection with the key as the command name and the value as the exported module
 	client.commands.set(command.data.name, command)
+
+	if (command.onLoad) {
+		command.onLoad()
+	}
 }
 
 client.once('ready', () => {
 	print(`Logged in as ${client.user.tag}`, 'yellow', '🤖')
-
-	// Refresh Spotify access token every 45 minutes
-	client.commands.get('play').refreshSpotifyAccessToken()
-	setInterval(() => {
-		client.commands.get('play').refreshSpotifyAccessToken()
-	}, 2_700_000)
 })
 
 client.on('interactionCreate', async interaction => {
