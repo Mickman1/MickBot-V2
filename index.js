@@ -21,7 +21,12 @@ makeEmbed = function(description, color) {
 }
 
 print = function(message, color = 'white', emoji = '🗒️') {
-	console.log(chalk`{cyan [${new Date().toLocaleTimeString()}]} {${color} ${emoji}: ${message}}`)
+	let formattedTime = `[${new Date().toLocaleTimeString()}]`
+	// Make all log messages start with the same spacing
+	if (formattedTime.length === 12) {
+		formattedTime += ' '
+	}
+	console.log(chalk`{cyan ${formattedTime}} {${color} ${emoji}: ${message}}`)
 }
 
 client.commands = new Collection()
