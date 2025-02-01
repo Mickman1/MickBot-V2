@@ -16,6 +16,10 @@ module.exports = {
 
 		if (!command) {
 			return interaction.reply(`There is no command with name \`${commandName}\`!`);
+			const embed = new EmbedBuilder()
+				.setColor(MICKBOT_RED)
+				.setDescription(`There is no command named \`${commandName}\`!`)
+			return interaction.reply({ embeds: [embed] });
 		}
 
 		delete require.cache[require.resolve(`../commands/${command.data.name}.js`)]
@@ -33,10 +37,17 @@ module.exports = {
 				.setDescription(`Command \`${newCommand.data.name}\` was reloaded!`)
 
 			await interaction.reply({ embeds: [embed] })
+
+			// Style command name white, bold, and italic
+			print(`Command \x1B[37m\x1B[1m\x1B[3m${newCommand.data.name}\x1B[23m\x1B[22m\x1B[39m reloaded!`, 'magenta', '🔄')
 		}
 		catch (error) {
 			console.error(error)
-			await interaction.reply(`There was an error while reloading a command \`${command.data.name}\`:\n\`${error.message}\``)
+
+			const embed = new EmbedBuilder()
+				.setColor(MICKBOT_RED)
+				.setDescription(`There was an error while reloading a command \`${command.data.name}\`:\n\`${error.message}\``)
+			await interaction.reply({ embeds: [embed] })
 		}
 	},
 }
