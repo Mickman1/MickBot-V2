@@ -29,6 +29,12 @@ module.exports = {
 				.setDescription(`Command \`${newCommand.data.name}\` was reloaded!`)
 
 			await interaction.reply({ embeds: [embed] })
+
+			// Refresh Spotify access token every 45 minutes
+			interaction.client.commands.get('play').refreshSpotifyAccessToken()
+			setInterval(() => {
+				interaction.client.commands.get('play').refreshSpotifyAccessToken()
+			}, 2_700_000)
 		}
 		catch (error) {
 			console.error(error)
