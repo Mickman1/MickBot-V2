@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 //const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
 
 module.exports = {
@@ -20,22 +20,33 @@ module.exports = {
 
 		const currentVolume = queue.resource.volume.volume
 
-		// If user supplied a new volume value
-		if (interaction.options.data.length > 0) {
-			// Format volume between 0 and 1 (ex: 100 -> 1, 47 -> 0.47)
-			let newVolume = interaction.options.getInteger('volume') / 100
+		// If no volume is provided, reply with the current volume
+		if (interaction.options.data.length === 0) {
+			const formattedVolume = `${currentVolume * 100}%`
 
+		const volumeEmoji = currentVolume > 0.5 ? '🔊' :  currentVolume === 0 ? '🔇' : '🔉'
 
-
-			// Set resource / prism-media volume, and update the queue object's volume to set the temporary default
-			queue.resource.volume.setVolume(newVolume)
-			queue.volume = newVolume
-
-			const formattedVolume = `${newVolume * 100}%`
-			return await interaction.reply(`Volume changed to \`${formattedVolume}\``);
+			const embed = new EmbedBuilder()
+				.setColor(MICKBOT_BLUE)
+				.setDescription(`${volumeEmoji} Volume is \`${formattedVolume}\`!`)
+			await interaction.reply({ embeds: [embed] })
+			return;
 		}
 
-		const formattedVolume = `${currentVolume * 100}%`
-		await interaction.reply(`Volume is \`${formattedVolume}\``)
+		// Format volume between 0 and 1 (ex: 100 -> 1, 47 -> 0.47)
+		let newVolume = interaction.options.getInteger('volume') / 100
+
+		// Set resource & queue volume
+		queue.resource.volume.setVolume(newVolume)
+		queue.volume = newVolume
+
+		const volumeEmoji = newVolume > 0.5 ? '🔊' :  newVolume === 0 ? '🔇' : '🔉'
+
+		const formattedVolume = `${newVolume * 100}%`
+
+		const embed = new EmbedBuilder()
+			.setColor(MICKBOT_BLUE)
+			.setDescription(`${volumeEmoji} Volume is now \`${formattedVolume}\`!`)
+		await interaction.reply({ embeds: [embed] })
 	},
 }
