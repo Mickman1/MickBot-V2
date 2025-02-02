@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 //const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
 const { play } = require('./play.js')
 
@@ -36,6 +36,9 @@ module.exports = {
 		queue.head -= headMovement
 		queue.player.stop()
 
-		await interaction.reply('Going back!')
+		const embed = new EmbedBuilder()
+			.setColor(MICKBOT_BLUE)
+			.setDescription('⏮️ Moving Back!')
+		await interaction.reply({ embeds: [embed] })
 	},
 }

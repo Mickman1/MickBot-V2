@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 //const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
 
 module.exports = {
@@ -15,6 +15,9 @@ module.exports = {
 		queue.connection.destroy()
 		queues.delete(guildId)
 
-		await interaction.reply('Stopped!')
+		const embed = new EmbedBuilder()
+			.setColor(MICKBOT_BLUE)
+			.setDescription('⏹️ Stopped!')
+		await interaction.reply({ embeds: [embed] })
 	},
 }

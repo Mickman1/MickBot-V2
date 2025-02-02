@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 //const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
 
 module.exports = {
@@ -33,6 +33,9 @@ module.exports = {
 
 		queue.songs.splice(queue.head, 0, currentSong)
 
-		await interaction.reply('Shuffled queue!')
+		const embed = new EmbedBuilder()
+			.setColor(MICKBOT_BLUE)
+			.setDescription(`🔀 Shuffled queue!`)
+		await interaction.reply({ embeds: [embed] })
 	},
 }

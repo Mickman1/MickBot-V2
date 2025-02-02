@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 //const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
 
 module.exports = {
@@ -14,6 +14,9 @@ module.exports = {
 		// Cycle loopMode
 		queue.loopMode = (queue.loopMode + 1) % 3
 
-		await interaction.reply(`Changed loop mode to \`${queue.loopModes[queue.loopMode]}\``)
+		const embed = new EmbedBuilder()
+			.setColor(MICKBOT_BLUE)
+			.setDescription(`🔁 Changed loop mode to \`${queue.loopModes[queue.loopMode]}\`!`)
+		await interaction.reply({ embeds: [embed] })
 	},
 }

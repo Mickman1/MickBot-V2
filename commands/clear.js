@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 //const { createAudioPlayer, createAudioResource, joinVoiceChannel, VoiceConnectionStatus, AudioPlayerStatus } = require('@discordjs/voice')
 
 module.exports = {
@@ -16,6 +16,9 @@ module.exports = {
 		queue.songs = []
 		queue.songs.push(currentSong)
 
-		await interaction.reply('Queue cleared!')
+		const embed = new EmbedBuilder()
+			.setColor(MICKBOT_BLUE)
+			.setDescription('🧹 Queue Cleared!')
+		await interaction.reply({ embeds: [embed] })
 	},
 }

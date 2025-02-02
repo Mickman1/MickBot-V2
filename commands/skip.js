@@ -17,7 +17,6 @@ module.exports = {
 		const embed = new EmbedBuilder()
 			.setColor(MICKBOT_BLUE)
 			.setDescription('⏩ Skipping!')
-		await interaction.editReply({ embeds: [embed] })
-		//await interaction.reply('Skipping!')
+		await interaction.reply({ embeds: [embed] })
 	},
 }
