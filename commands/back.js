@@ -29,7 +29,7 @@ module.exports = {
 
 		// If somehow a user does /back too much, just return and don't change queue head
 		else if (queue.head < 0) {
-			console.log('Moving back too much!')
+			print('Moving back too much!')
 			return;
 		}
 
