@@ -15,7 +15,6 @@ module.exports = {
 		const command = interaction.client.commands.get(commandName)
 
 		if (!command) {
-			return interaction.reply(`There is no command with name \`${commandName}\`!`);
 			const embed = new EmbedBuilder()
 				.setColor(MICKBOT_RED)
 				.setDescription(`There is no command named \`${commandName}\`!`)
