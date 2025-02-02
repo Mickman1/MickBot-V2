@@ -79,7 +79,7 @@ const functions = module.exports = {
 		queues.set(guildId, {
 			head: 0,
 			songs: [],
-			volume: 0.5,
+			volume: 0.2,
 			loopModes: ['disabled', 'queue', 'single'],
 			loopMode: 0,
 			player: null,
