@@ -11,7 +11,6 @@ const spotifyApi = new SpotifyWebApi({
 	clientSecret: spotifyCredentials.clientSecret,
 })
 
-
 const mediaSources = new Map()
 	.set('youtube', { color: '#FF0000' })
 	.set('spotify', { color: '#1DB954' })
