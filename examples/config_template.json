@@ -6,6 +6,7 @@
 		}
 	},
 	"guildIds": [""],
+	"adminUserId": "",
 	"spotifyCredentials": {
 		"clientId": "",
 		"clientSecret": ""
