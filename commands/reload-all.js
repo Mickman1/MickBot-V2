@@ -8,7 +8,7 @@ module.exports = {
 	async execute(interaction) {
 		let reloadedCommands = ''
 
-		interaction.client.commands.forEach(async (command, index, array) => {
+		interaction.client.commands.forEach(async command => {
 			delete require.cache[require.resolve(`../commands/${command.data.name}.js`)]
 
 			try {
