@@ -66,7 +66,7 @@ client.on('interactionCreate', async interaction => {
 		const embed = new EmbedBuilder()
 			.setColor(MICKBOT_RED)
 			.setDescription('There was an error while executing this command!')
-		await interaction.reply({ embeds: [embed], ephemeral: true })
+		await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral })
 	}
 })
 
