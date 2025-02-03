@@ -7,7 +7,7 @@ module.exports = {
 		.setDescription('Evaluate JavaScript')
 		.addStringOption(option =>
 			option.setName('expression')
-				.setDescription('The expression to evaluate')
+				.setDescription('The expression to evaluate'),
 		),
 
 	async execute(interaction) {
@@ -53,8 +53,8 @@ module.exports = {
 		modal.addComponents(actionRow)
 		await interaction.showModal(modal)
 
-		const filter = (interaction) => interaction.customId === 'evalModal'
-		let modalInteraction = await interaction.awaitModalSubmit({ filter, time: 120_000 })
+		const filter = interaction => interaction.customId === 'evalModal'
+		const modalInteraction = await interaction.awaitModalSubmit({ filter, time: 120_000 })
 
 		const expression = modalInteraction.fields.getTextInputValue('evalInput')
 

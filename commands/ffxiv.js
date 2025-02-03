@@ -13,7 +13,7 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('name')
 				.setDescription('Character name to search for (Spaces allowed)')
-				.setRequired(true)
+				.setRequired(true),
 		)
 		.addStringOption(option =>
 			option.setName('server')
@@ -44,7 +44,7 @@ module.exports = {
 					{ name: 'Malboro', value: 'malboro' },
 					{ name: 'Mateus', value: 'mateus' },
 					{ name: 'Zalera', value: 'zalera' },
-				)
+				),
 		),
 
 	async execute(interaction) {

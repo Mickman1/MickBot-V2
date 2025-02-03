@@ -35,7 +35,7 @@ module.exports = {
 
 		embed.setAuthor({
 			name: targetUser.username,
-			url: `https://discord.com/users/${targetUser.id}`
+			url: `https://discord.com/users/${targetUser.id}`,
 		})
 		embed.setImage(embedAvatarURL)
 		embed.setTitle(targetUser.displayName)

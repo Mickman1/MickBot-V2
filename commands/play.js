@@ -186,18 +186,20 @@ const functions = module.exports = {
 			}
 		})
 	},
-	refreshSpotifyAccessToken: async function() {
+
+	async refreshSpotifyAccessToken() {
 		const spotifyAccessToken = await spotifyApi.clientCredentialsGrant()
 		spotifyApi.setAccessToken(spotifyAccessToken.body.access_token)
 		print('Spotify access token refreshed', 'green', '🔑')
 	},
-	onLoad: function() {
+
+	onLoad() {
 		// Refresh Spotify access token every 45 minutes
 		functions.refreshSpotifyAccessToken()
 		setInterval(() => {
 			functions.refreshSpotifyAccessToken()
 		}, 2_700_000)
-	}
+	},
 }
 
 // Promise to join voice channel, and resolve as soon as the 'Ready' state fires
@@ -254,8 +256,8 @@ async function getTrackFromInput(input) {
 	if (inputSource === mediaSources.get('spotify')) {
 		const spotifyURL = new URL(input)
 
-		let spotifyMediaType = spotifyURL.pathname.split('/')[1] // 'track', 'album', 'playlist'
-		let spotifyId = spotifyURL.pathname.split('/')[2] // '35iLpqqQg4KrfYAzbvN1vH'
+		const spotifyMediaType = spotifyURL.pathname.split('/')[1] // 'track', 'album', 'playlist'
+		const spotifyId = spotifyURL.pathname.split('/')[2] // '35iLpqqQg4KrfYAzbvN1vH'
 
 		if (spotifyMediaType !== 'track') {
 			return { url: null, color: null };
@@ -264,8 +266,8 @@ async function getTrackFromInput(input) {
 			return { url: null, color: null };
 		}
 
-		let spotifyData = await spotifyApi.getTrack(spotifyId)
-		let isrc = spotifyData.body.external_ids.isrc
+		const spotifyData = await spotifyApi.getTrack(spotifyId)
+		const isrc = spotifyData.body.external_ids.isrc
 
 		// Search YouTube for the ISRC of the Spotify track
 		// If there's no ISRC value, search YouTube for the track title & artist name instead

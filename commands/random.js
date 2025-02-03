@@ -42,7 +42,9 @@ module.exports = {
 		})
 
 		const collectorFilter = i => i.user.id === interaction.user.id
-		const collector = response.resource.message.createMessageComponentCollector({ filter: collectorFilter, componentType: ComponentType.Button, time: 300_000 })
+		const collector = response.resource.message.createMessageComponentCollector({
+			filter: collectorFilter, componentType: ComponentType.Button, time: 300_000,
+		})
 		collector.on('collect', async collectedInteraction => {
 			const roll = await this.generateRoll(min, max)
 			collectedInteraction.reply({
@@ -57,5 +59,5 @@ module.exports = {
 		randomNum = randomNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
 		return randomNum;
-	}
+	},
 }

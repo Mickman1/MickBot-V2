@@ -68,12 +68,12 @@ module.exports = {
 			extraParameters += `&capeEnabled=${interaction.options.getString('cape')}`
 		}
 
-		let embedColor = await ColorThief.getColor(`https://starlightskins.lunareclipse.studio/render/pixel/${username}/full?capeEnabled=false`)
+		const embedColor = await ColorThief.getColor(`https://starlightskins.lunareclipse.studio/render/pixel/${username}/full?capeEnabled=false`)
 
 		embed.setImage(`https://starlightskins.lunareclipse.studio/render/${renderType}/${username}/${crop}?${extraParameters}`)
 		embed.setAuthor({
 			name: 'Minecraft Skin',
-			iconURL: 'https://cdn.discordapp.com/attachments/596928630009888781/1332930792351076476/mc_grass_icon.webp'
+			iconURL: 'https://cdn.discordapp.com/attachments/596928630009888781/1332930792351076476/mc_grass_icon.webp',
 		})
 		embed.setTitle(username)
 		embed.setColor(embedColor)
@@ -89,7 +89,7 @@ module.exports = {
 
 		await interaction.reply({
 			embeds: [embed],
-			components: [row]
+			components: [row],
 		})
 	},
 }

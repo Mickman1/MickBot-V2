@@ -24,7 +24,7 @@ module.exports = {
 		if (interaction.options.data.length === 0) {
 			const formattedVolume = `${currentVolume * 100}%`
 
-		const volumeEmoji = currentVolume > 0.5 ? '🔊' :  currentVolume === 0 ? '🔇' : '🔉'
+			const volumeEmoji = currentVolume > 0.5 ? '🔊' :  currentVolume === 0 ? '🔇' : '🔉'
 
 			const embed = new EmbedBuilder()
 				.setColor(MICKBOT_BLUE)
@@ -34,7 +34,7 @@ module.exports = {
 		}
 
 		// Format volume between 0 and 1 (ex: 100 -> 1, 47 -> 0.47)
-		let newVolume = interaction.options.getInteger('volume') / 100
+		const newVolume = interaction.options.getInteger('volume') / 100
 
 		// Set resource & queue volume
 		queue.resource.volume.setVolume(newVolume)

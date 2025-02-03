@@ -22,7 +22,7 @@ const deploymentClientId = options.application ? application[options.application
 const deploymentToken = options.application ? application[options.application].token : application.canary.token
 
 // Register an empty array of commands with --clear, skip command loading
-let commands = []
+const commands = []
 if (!options.clear) {
 	const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 
@@ -35,7 +35,7 @@ if (!options.clear) {
 const rest = new REST({ version: '9' }).setToken(deploymentToken)
 
 if (deploymentType === 'guild') {
-	for (let i = 0; i < deploymentGuildIds.length; i++ ) {
+	for (let i = 0; i < deploymentGuildIds.length; i++) {
 		rest.put(Routes.applicationGuildCommands(deploymentClientId, deploymentGuildIds[i]), { body: commands })
 			.then(() => console.log(`Successfully registered guild application commands for ${deploymentGuildIds[i]}.`))
 			.catch(console.error)

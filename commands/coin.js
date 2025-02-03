@@ -9,8 +9,8 @@ module.exports = {
 				.setDescription('Guess heads or tails')
 				.setRequired(false)
 				.addChoices(
-					{ name: 'Heads', value: 'guess_heads'},
-					{ name : 'Tails', value: 'guess_tails'})
+					{ name: 'Heads', value: 'guess_heads' },
+					{ name : 'Tails', value: 'guess_tails' }),
 		),
 
 	async execute(interaction) {
