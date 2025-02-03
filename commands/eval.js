@@ -26,11 +26,13 @@ module.exports = {
 
 			const inputEmbed = new EmbedBuilder()
 				.setColor(MICKBOT_BLUE)
+				.setTitle('Input:')
 				.setDescription(`\`\`\`js\n${expression}\n\`\`\``)
 			await interaction.reply({ embeds: [inputEmbed] })
 
 			const outputEmbed = new EmbedBuilder()
 				.setColor(MICKBOT_BLUE)
+				.setTitle('Output:')
 				.setDescription(`\`\`\`js\n${evaluatedExpression}\n\`\`\``)
 			await interaction.followUp({ embeds: [outputEmbed] })
 			return;
@@ -61,11 +63,13 @@ module.exports = {
 
 			const inputEmbed = new EmbedBuilder()
 				.setColor(MICKBOT_BLUE)
+				.setTitle('Input:')
 				.setDescription(`\`\`\`js\n${expression}\n\`\`\``)
 			await modalInteraction.reply({ embeds: [inputEmbed] })
 
 			const outputEmbed = new EmbedBuilder()
 				.setColor(MICKBOT_BLUE)
+				.setTitle('Output:')
 				.setDescription(`\`\`\`js\n${evaluatedExpression}\n\`\`\``)
 			await modalInteraction.followUp({ embeds: [outputEmbed] })
 		}
