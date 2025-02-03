@@ -23,7 +23,7 @@ module.exports = {
 		embed.setTitle('MickBot Stats')
 		embed.setColor(MICKBOT_BLUE)
 		embed.addFields(
-			{ name: '⏱ Ping', value: `\`${ping} ms\``, inline: true },
+			{ name: '⏱️ Ping', value: `\`${ping} ms\``, inline: true },
 			{ name: '🕑 Uptime', value: `\`${(timeOnline < 60 ? (timeOnline + timeOnlineMinutes) : ((Number.isInteger(timeOnline / 60) ? (timeOnline / 60) : (timeOnline / 60).toFixed(2)) + timeOnlineHours))}\``, inline: true },
 			{ name: '🖥️ Server Count', value: `\`${totalServers} servers\``, inline: true }
 		)
