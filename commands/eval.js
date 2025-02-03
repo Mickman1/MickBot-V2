@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
-const { adminUserId } = require('../config/config.json')
+const { adminUserIds } = require('../config/config.json')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -12,7 +12,7 @@ module.exports = {
 		),
 
 	async execute(interaction) {
-		if (interaction.user.id !== adminUserId) {
+		if (!adminUserIds.includes(interaction.user.id)) {
 			const embed = new EmbedBuilder()
 				.setColor(MICKBOT_RED)
 				.setDescription(`You don't have permissions to use this command!`)
