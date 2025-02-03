@@ -62,7 +62,11 @@ client.on('interactionCreate', async interaction => {
 	}
 	catch (error) {
 		console.error(error)
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true })
+
+		const embed = new EmbedBuilder()
+			.setColor(MICKBOT_RED)
+			.setDescription('There was an error while executing this command!')
+		await interaction.reply({ embeds: [embed], ephemeral: true })
 	}
 })
 
