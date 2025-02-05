@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { Client, Collection, GatewayIntentBits, EmbedBuilder } = require('discord.js')
+const { Client, Collection, GatewayIntentBits, EmbedBuilder, MessageFlags } = require('discord.js')
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates] })
 const { application } = require('./config/config.json')
 const chalk = require('chalk')
@@ -66,7 +66,7 @@ client.on('interactionCreate', async interaction => {
 		const embed = new EmbedBuilder()
 			.setColor(MICKBOT_RED)
 			.setDescription('There was an error while executing this command!')
-		await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral })
+		await interaction.followUp({ embeds: [embed], flags: MessageFlags.Ephemeral })
 	}
 })
 

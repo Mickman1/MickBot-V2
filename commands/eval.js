@@ -80,7 +80,7 @@ module.exports = {
 			const embed = new EmbedBuilder()
 				.setColor(MICKBOT_RED)
 				.setDescription('Eval error!')
-			await modalInteraction.reply({ embeds: [embed] })
+			await modalInteraction.followUp({ embeds: [embed] })
 		}
 	},
 }
