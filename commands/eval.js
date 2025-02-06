@@ -19,7 +19,7 @@ module.exports = {
 			return;
 		}
 
-		if (interaction.options.data.length !== 0) {
+		if (interaction.options.data.length === 1) {
 			const expression = interaction.options.getString('expression')
 
 			const evaluatedExpression = eval(expression)
