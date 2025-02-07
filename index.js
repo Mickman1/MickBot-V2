@@ -1,7 +1,7 @@
 const fs = require('fs')
 const { Client, Collection, GatewayIntentBits, EmbedBuilder, MessageFlags } = require('discord.js')
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates] })
-const { application } = require('./config/config.json')
+const { applications } = require('./config/config.json')
 const chalk = require('chalk')
 
 client.queues = new Map()
@@ -70,4 +70,4 @@ client.on('interactionCreate', async interaction => {
 	}
 })
 
-client.login(application.canary.token)
+client.login(applications.canary.token)

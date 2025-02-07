@@ -14,12 +14,12 @@ const options = program.opts()
 const fs = require('fs')
 const { REST } = require('@discordjs/rest')
 const { Routes } = require('discord-api-types/v9')
-const { application, guildIds } = require('./config/config.json')
+const { applications, guildCommandGuildIds } = require('./config/config.json')
 
 const deploymentType = options.global ? 'global' : 'guild'
-const deploymentGuildIds = options.guild ? [options.guild] : guildIds
-const deploymentClientId = options.application ? application[options.application].clientId : application.canary.clientId
-const deploymentToken = options.application ? application[options.application].token : application.canary.token
+const deploymentGuildIds = options.guild ? [options.guild] : guildCommandGuildIds
+const deploymentClientId = options.application ? applications[options.application].clientId : applications.canary.clientId
+const deploymentToken = options.application ? applications[options.application].token : applications.canary.token
 
 // Register an empty array of commands with --clear, skip command loading
 const commands = []

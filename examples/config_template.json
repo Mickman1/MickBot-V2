@@ -1,15 +1,15 @@
 {
-	"application": {
 		"botName": {
+	"applications": {
 			"token": "",
 			"clientId": ""
 		}
 	},
-	"guildIds": [""],
+	"guildCommandsGuildIds": [""],
 	"adminUserIds": [""],
 	"spotifyCredentials": {
 		"clientId": "",
 		"clientSecret": ""
 	},
-	"xivApi": ""
+	"xivApiKey": ""
 }
