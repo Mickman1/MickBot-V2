@@ -1,6 +1,10 @@
 {
-		"botName": {
 	"applications": {
+		"<Bot 1>": {
+			"token": "",
+			"clientId": ""
+		},
+		"<Bot 2>": {
 			"token": "",
 			"clientId": ""
 		}
