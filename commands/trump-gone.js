@@ -10,11 +10,11 @@ module.exports = {
 		const endDate = new Date('January 20, 2029 12:00:00')
 		const nowDate = new Date()
 
-		const totalSeconds = endDate - startDate
-		const progressSeconds = nowDate - startDate
-		const remainingSeconds = (totalSeconds - progressSeconds) / 1000
+		const totalMilliseconds = endDate - startDate
+		const completedMilliseconds = nowDate - startDate
+		const remainingSeconds = (totalMilliseconds - completedMilliseconds) / 1000
 
-		const percentComplete = (progressSeconds / totalSeconds * 100).toFixed(4)
+		const percentComplete = (completedMilliseconds / totalMilliseconds * 100).toFixed(4)
 
 		const seconds = Math.floor(remainingSeconds % 60)
 		const minutes = Math.floor((remainingSeconds / 60) % 60)
