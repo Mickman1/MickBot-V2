@@ -58,20 +58,9 @@ module.exports = {
 
 		const expression = modalInteraction.fields.getTextInputValue('evalInput')
 
+		let evaluatedExpression
 		try {
-			const evaluatedExpression = eval(expression)
-
-			const inputEmbed = new EmbedBuilder()
-				.setColor(MICKBOT_BLUE)
-				.setTitle('Input:')
-				.setDescription(`\`\`\`js\n${expression}\n\`\`\``)
-			await modalInteraction.reply({ embeds: [inputEmbed] })
-
-			const outputEmbed = new EmbedBuilder()
-				.setColor(MICKBOT_BLUE)
-				.setTitle('Output:')
-				.setDescription(`\`\`\`js\n${evaluatedExpression}\n\`\`\``)
-			await modalInteraction.followUp({ embeds: [outputEmbed] })
+			evaluatedExpression = eval(expression)
 		}
 		catch (error) {
 			print('Eval error', 'red', '❗')
@@ -80,7 +69,20 @@ module.exports = {
 			const embed = new EmbedBuilder()
 				.setColor(MICKBOT_RED)
 				.setDescription('Eval error!')
-			await modalInteraction.followUp({ embeds: [embed] })
+			await modalInteraction.reply({ embeds: [embed] })
+			return;
 		}
+
+		const inputEmbed = new EmbedBuilder()
+			.setColor(MICKBOT_BLUE)
+			.setTitle('Input:')
+			.setDescription(`\`\`\`js\n${expression}\n\`\`\``)
+		await modalInteraction.reply({ embeds: [inputEmbed] })
+
+		const outputEmbed = new EmbedBuilder()
+			.setColor(MICKBOT_BLUE)
+			.setTitle('Output:')
+			.setDescription(`\`\`\`js\n${evaluatedExpression}\n\`\`\``)
+		await modalInteraction.followUp({ embeds: [outputEmbed] })
 	},
 }
