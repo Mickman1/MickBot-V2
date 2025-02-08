@@ -11,7 +11,9 @@ module.exports = {
 				.addChoices(
 					{ name: 'Heads', value: 'guess_heads' },
 					{ name : 'Tails', value: 'guess_tails' }),
-		),
+		)
+		.setIntegrationTypes(0, 1)
+		.setContexts(0, 1, 2),
 
 	async execute(interaction) {
 		const embed = new EmbedBuilder()

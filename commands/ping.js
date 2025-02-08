@@ -3,7 +3,9 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
-		.setDescription('Get MickBot\'s Ping, Uptime, and other information'),
+		.setDescription('Get MickBot\'s Ping, Uptime, and other information')
+		.setIntegrationTypes(0, 1)
+		.setContexts(0, 1, 2),
 
 	async execute(interaction) {
 		const embed = new EmbedBuilder()

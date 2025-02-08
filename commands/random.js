@@ -17,7 +17,9 @@ module.exports = {
 				.setRequired(true)
 				.setMinValue(-100_000_000)
 				.setMaxValue(100_000_000)
-		),
+		)
+		.setIntegrationTypes(0, 1)
+		.setContexts(0, 1, 2),
 
 	async execute(interaction) {
 		// Get min and max values from interaction options

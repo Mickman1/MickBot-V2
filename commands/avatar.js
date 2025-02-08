@@ -9,7 +9,9 @@ module.exports = {
 			option.setName('user')
 				.setDescription('Who\'s avatar to send')
 				.setRequired(false)
-		),
+		)
+		.setIntegrationTypes(0, 1)
+		.setContexts(0, 1, 2),
 
 	async execute(interaction) {
 		const embed = new EmbedBuilder()

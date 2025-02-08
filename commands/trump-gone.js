@@ -3,7 +3,9 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('trump-gone')
-		.setDescription('How long until Trump is gone?'),
+		.setDescription('How long until Trump is gone?')
+		.setIntegrationTypes(0, 1)
+		.setContexts(0, 1, 2),
 
 	async execute(interaction) {
 		const startDate = new Date('January 20, 2025 12:00:00')

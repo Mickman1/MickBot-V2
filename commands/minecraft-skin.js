@@ -31,7 +31,9 @@ module.exports = {
 					{ name: 'Yes', value: 'true' },
 					{ name: 'No', value: 'false' },
 				)
-		),
+		)
+		.setIntegrationTypes(0, 1)
+		.setContexts(0, 1, 2),
 
 	async execute(interaction) {
 		const embed = new EmbedBuilder()

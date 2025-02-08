@@ -17,7 +17,9 @@ module.exports = {
 				.setRequired(true)
 				.setMinValue(1)
 				.setMaxValue(1000)
-		),
+		)
+		.setIntegrationTypes(0, 1)
+		.setContexts(0, 1, 2),
 
 	async execute(interaction) {
 		const embed = new EmbedBuilder()
