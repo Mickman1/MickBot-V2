@@ -13,13 +13,6 @@ MICKBOT_ORANGE = '#DB6E34'
 MICKBOT_GREEN = '#34DB6E'
 MICKBOT_YELLOW = '#DBDB34'
 
-makeEmbed = function(description, color) {
-	const embed = new EmbedBuilder()
-	embed.setColor(color)
-	embed.setDescription(description)
-	return embed;
-}
-
 print = function(message, color = 'white', emoji = '🗒️') {
 	let formattedTime = `[${new Date().toLocaleTimeString()}]`
 	// Make all log messages start with the same spacing
