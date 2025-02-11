@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { Client, Collection, GatewayIntentBits, EmbedBuilder, MessageFlags } = require('discord.js')
+const { Client, Collection, GatewayIntentBits, EmbedBuilder, MessageFlags, ActivityType } = require('discord.js')
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates] })
 const { applications } = require('./config/config.json')
 const chalk = require('chalk')
@@ -45,6 +45,8 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
 	print(`Logged in as ${client.user.tag}`, 'yellow', '🤖')
+
+	client.user.setActivity('👋', { type: ActivityType.Custom })
 })
 
 client.on('interactionCreate', async interaction => {
