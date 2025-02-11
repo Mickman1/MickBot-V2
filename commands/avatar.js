@@ -14,8 +14,6 @@ module.exports = {
 		.setContexts(0, 1, 2),
 
 	async execute(interaction) {
-		const embed = new EmbedBuilder()
-
 		// "targetUser" is whoever's avatar to grab
 		// If no mentioned user in the options, it's who sent the command
 		let targetUser = interaction.user
@@ -35,13 +33,14 @@ module.exports = {
 
 		const avatarColor = await ColorThief.getColor(embedAvatarURL)
 
-		embed.setAuthor({
-			name: targetUser.username,
-			url: `https://discord.com/users/${targetUser.id}`,
-		})
-		embed.setImage(embedAvatarURL)
-		embed.setTitle(targetUser.displayName)
-		embed.setColor(avatarColor)
+		const embed = new EmbedBuilder()
+			.setAuthor({
+				name: targetUser.username,
+				url: `https://discord.com/users/${targetUser.id}`,
+			})
+			.setImage(embedAvatarURL)
+			.setTitle(targetUser.displayName)
+			.setColor(avatarColor)
 
 		interaction.reply({ embeds: [embed] })
 	},

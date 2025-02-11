@@ -16,8 +16,6 @@ module.exports = {
 		.setContexts(0, 1, 2),
 
 	async execute(interaction) {
-		const embed = new EmbedBuilder()
-
 		const coinGIF = [
 			'https://cdn.discordapp.com/attachments/596928630009888781/650328670724161547/CoinFlipHeadsFinal.gif',
 			'https://cdn.discordapp.com/attachments/596928630009888781/779502238590566440/CoinFlipTailsFinal.gif',
@@ -25,8 +23,9 @@ module.exports = {
 
 		const randomNum = Math.floor(Math.random() * 2)
 
-		embed.setImage(coinGIF[randomNum])
-		embed.setColor(MICKBOT_BLUE)
+		const embed = new EmbedBuilder()
+			.setImage(coinGIF[randomNum])
+			.setColor(MICKBOT_BLUE)
 
 		await interaction.reply({ embeds: [embed] })
 
