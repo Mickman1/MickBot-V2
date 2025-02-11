@@ -31,8 +31,9 @@ module.exports = {
 
 		let coinOutcomeEmbedColor = MICKBOT_BLUE
 		let guessOutcome = ''
+
 		// Check if user gave an optional guess
-		if (interaction.options.data.length > 0) {
+		if (interaction.options.data.length === 1) {
 			// Check if user's guess matches outcome, set embed color accordingly
 			if ((interaction.options.getString('guess') === 'guess_heads' && randomNum === 0) || (interaction.options.getString('guess') === 'guess_tails' && randomNum === 1)) {
 				guessOutcome = '\nYou guessed correctly!'
@@ -46,7 +47,12 @@ module.exports = {
 
 		// Wait until coin animation finishes before sending embed
 		setTimeout(() => {
-			interaction.followUp({ embeds: [makeEmbed((randomNum === 0 ? '**Heads!**' : '**Tails!**') + guessOutcome, coinOutcomeEmbedColor)] })
+			const embedResult = (randomNum === 0 ? '**Heads!**' : '**Tails!**') + guessOutcome
+
+			const embed = new EmbedBuilder()
+				.setDescription(embedResult)
+				.setColor(coinOutcomeEmbedColor)
+			interaction.followUp({ embeds: [embed] })
 		}, 1900)
 	},
 }
