@@ -46,7 +46,7 @@ module.exports = {
 
 		// Wait until coin animation finishes before sending embed
 		setTimeout(() => {
-			interaction.channel.send({ embeds: [makeEmbed((randomNum === 0 ? '**Heads!**' : '**Tails!**') + guessOutcome, coinOutcomeEmbedColor)] })
+			interaction.followUp({ embeds: [makeEmbed((randomNum === 0 ? '**Heads!**' : '**Tails!**') + guessOutcome, coinOutcomeEmbedColor)] })
 		}, 1900)
 	},
 }
