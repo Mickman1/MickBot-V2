@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType } = require('discord.js')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -28,6 +28,10 @@ module.exports = {
 
 		const roll = await this.generateRoll(min, max)
 
+		const embed = new EmbedBuilder()
+			.setDescription(roll)
+			.setColor(MICKBOT_BLUE)
+
 		const rerollButton = new ButtonBuilder()
 			.setCustomId('reroll')
 			.setLabel('Re-Roll?')
@@ -38,7 +42,7 @@ module.exports = {
 			.addComponents(rerollButton)
 
 		const response = await interaction.reply({
-			embeds: [makeEmbed(roll, MICKBOT_BLUE)],
+			embeds: [embed],
 			components: [row],
 			withResponse: true,
 		})
@@ -49,8 +53,9 @@ module.exports = {
 		})
 		collector.on('collect', async collectedInteraction => {
 			const roll = await this.generateRoll(min, max)
+			embed.setDescription(roll)
 			collectedInteraction.reply({
-				embeds: [makeEmbed(roll, MICKBOT_BLUE)],
+				embeds: [embed],
 			})
 		})
 	},
