@@ -33,12 +33,7 @@ module.exports = {
 		}
 
 		// Grab banner URL. Prefer .png, but could return .gif
-		let embedBannerURL = await targetUser.bannerURL({ extension: 'webp', size: 4096 })
-
-		// If targetUser doesn't have an banner set, use their default Discord banner
-		if (targetUser.banner === null) {
-			embedBannerURL = targetUser.defaultAvatarURL
-		}
+		const embedBannerURL = await targetUser.bannerURL({ extension: 'webp', size: 4096 })
 
 		const bannerColor = await ColorThief.getColor(embedBannerURL)
 
