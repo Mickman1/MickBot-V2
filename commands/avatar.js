@@ -24,7 +24,7 @@ module.exports = {
 		}
 
 		// Grab avatar URL. Prefer .png, but could return .gif
-		let embedAvatarURL = targetUser.avatarURL({ extension: 'png', size: 1024 })
+		let embedAvatarURL = targetUser.avatarURL({ extension: 'webp', size: 4096 })
 
 		// If targetUser doesn't have an avatar set, use their default Discord avatar
 		if (targetUser.avatar === null) {
