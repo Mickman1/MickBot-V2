@@ -7,7 +7,7 @@ module.exports = {
 		.setDescription('Grab your banner, or the banner of a mentioned user')
 		.addUserOption(option =>
 			option.setName('user')
-				.setDescription('Who\'s banner to send')
+				.setDescription('Grab another user\'s banner?')
 				.setRequired(false)
 		)
 		.setIntegrationTypes(0, 1)

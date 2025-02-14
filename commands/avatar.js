@@ -7,7 +7,7 @@ module.exports = {
 		.setDescription('Grab your avatar, or the avatar of a mentioned user')
 		.addUserOption(option =>
 			option.setName('user')
-				.setDescription('Who\'s avatar to send')
+				.setDescription('Grab another user\'s avatar?')
 				.setRequired(false)
 		)
 		.setIntegrationTypes(0, 1)
