@@ -78,7 +78,7 @@ module.exports = {
 
 		const nameMcButton = new ButtonBuilder()
 			.setLabel('NameMC Profile')
-			.setEmoji('1332934063530446889')
+			.setEmoji('1340101030167445554')
 			.setURL(`https://namemc.com/profile/${username}`)
 			.setStyle(ButtonStyle.Link)
 
