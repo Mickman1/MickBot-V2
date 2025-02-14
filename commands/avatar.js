@@ -18,7 +18,7 @@ module.exports = {
 		// If no mentioned user in the options, it's who sent the command
 		let targetUser = interaction.user
 
-		// Check if user gave an optional mentioned user
+		// Check for optional mentioned user
 		if (interaction.options.data.length > 0) {
 			targetUser = interaction.options.getUser('user')
 		}
