@@ -45,7 +45,7 @@ module.exports = {
 			}
 		}
 
-		// Fallback to Server Profile if available
+		// Fallback to User Profile if available
 		if (!targetUser.banner) {
 			targetUser = targetUser.user
 
