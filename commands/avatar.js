@@ -60,9 +60,13 @@ module.exports = {
 
 		const avatarColor = await ColorThief.getColor(embedAvatarURL)
 
+		let embedUsername = targetUser.username
+		if (targetUser.bot)
+			embedUsername += `#${targetUser.discriminator}`
+
 		const embed = new EmbedBuilder()
 			.setAuthor({
-				name: targetUser.username || targetUser.user.username,
+				name: embedUsername || targetUser.user.username,
 				url: `https://discord.com/users/${targetUser.id}`,
 			})
 			.setImage(embedAvatarURL)
@@ -91,9 +95,13 @@ module.exports = {
 
 		const avatarColor = await ColorThief.getColor(embedAvatarURL)
 
+		let embedUsername = targetUser.username
+		if (targetUser.bot)
+			embedUsername += `#${targetUser.discriminator}`
+
 		const embed = new EmbedBuilder()
 			.setAuthor({
-				name: targetUser.username,
+				name: embedUsername,
 				url: `https://discord.com/users/${targetUser.id}`,
 			})
 			.setImage(embedAvatarURL)
