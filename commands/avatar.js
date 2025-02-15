@@ -10,24 +10,45 @@ module.exports = {
 				.setDescription('Grab another user\'s avatar?')
 				.setRequired(false)
 		)
+		.addStringOption(option =>
+			option.setName('profile-type')
+				.setDescription('User Profile or Server Profile? Only works in servers. (Default: User)')
+				.setRequired(false)
+				.addChoices(
+					{ name: 'User Profile', value: 'user' },
+					{ name: 'Server Profile', value: 'server' },
+				)
+		)
 		.setIntegrationTypes(0, 1)
 		.setContexts(0, 1, 2),
 
 	async execute(interaction) {
-		// "targetUser" is whoever's avatar to grab
-		// If no mentioned user in the options, it's who sent the command
-		let targetUser = interaction.user
+		// Set targetUser to the Command sender by default
+		// Then work out mentioned user and profile type
+		let targetUser = interaction.member
 
-		// Check for optional mentioned user
-		if (interaction.options.data.length > 0) {
-			targetUser = interaction.options.getUser('user')
+		if (interaction.options.getUser('user')) {
+			targetUser = interaction.options.getMember('user')
+		}
+
+		// If no selected profile type (default: user), or selected 'User Profile' option, targetUser becomes .user object
+		if (!interaction.options.getString('profile-type') || interaction.options.getString('profile-type') === 'user') {
+			const user = await targetUser.user.fetch()
+			if (user.avatar) {
+				targetUser = user
+			}
+		}
+
+		// Fallback to User Profile if available
+		if (!targetUser.avatar) {
+			targetUser = targetUser.user
 		}
 
 		// Grab avatar URL. Prefer .png, but could return .gif
-		let embedAvatarURL = targetUser.avatarURL({ extension: 'webp', size: 4096 })
+		let embedAvatarURL = await targetUser.avatarURL({ extension: 'webp', size: 4096 })
 
 		// If targetUser doesn't have an avatar set, use their default Discord avatar
-		if (targetUser.avatar === null) {
+		if (!targetUser.avatar) {
 			embedAvatarURL = targetUser.defaultAvatarURL
 		}
 
@@ -35,7 +56,7 @@ module.exports = {
 
 		const embed = new EmbedBuilder()
 			.setAuthor({
-				name: targetUser.username,
+				name: targetUser.username || targetUser.user.username,
 				url: `https://discord.com/users/${targetUser.id}`,
 			})
 			.setImage(embedAvatarURL)
