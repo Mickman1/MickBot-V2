@@ -7,11 +7,11 @@ const chalk = require('chalk')
 client.queues = new Map()
 
 // Global MickBot colors
-MICKBOT_BLUE = '#3498DB'
 MICKBOT_RED = '#DB3434'
 MICKBOT_ORANGE = '#DB6E34'
-MICKBOT_GREEN = '#34DB6E'
 MICKBOT_YELLOW = '#DBDB34'
+MICKBOT_GREEN = '#34DB6E'
+MICKBOT_BLUE = '#3498DB'
 
 print = function(message, color = 'white', emoji = '🗒️') {
 	let formattedTime = `[${new Date().toLocaleTimeString()}]`
