@@ -109,7 +109,7 @@ module.exports = {
 
 		const embed = new EmbedBuilder()
 			.setAuthor({
-				name: targetUser.username || targetUser.user.username,
+				name: targetUser.username ,
 				url: `https://discord.com/users/${targetUser.id}`,
 			})
 			.setImage(embedBannerURL)
