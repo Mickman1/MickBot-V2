@@ -23,6 +23,12 @@ module.exports = {
 		.setContexts(0, 1, 2),
 
 	async execute(interaction) {
+		// If command was sent in Direct Messages
+		if (interaction.context === 1 || interaction.context === 2) {
+			this.dmAvatar(interaction)
+			return;
+		}
+
 		// Set targetUser to the Command sender by default
 		// Then work out mentioned user and profile type
 		let targetUser = interaction.member
@@ -57,6 +63,37 @@ module.exports = {
 		const embed = new EmbedBuilder()
 			.setAuthor({
 				name: targetUser.username || targetUser.user.username,
+				url: `https://discord.com/users/${targetUser.id}`,
+			})
+			.setImage(embedAvatarURL)
+			.setTitle(targetUser.displayName)
+			.setColor(avatarColor)
+
+		interaction.reply({ embeds: [embed] })
+	},
+
+	async dmAvatar(interaction) {
+		// Set targetUser to the Command sender by default
+		// Then work out mentioned user and profile type
+		let targetUser = await interaction.user.fetch()
+
+		if (interaction.options.getUser('user')) {
+			targetUser = await interaction.options.getUser('user').fetch()
+		}
+
+		// Grab avatar URL. Prefer .png, but could return .gif
+		let embedAvatarURL = await targetUser.avatarURL({ extension: 'webp', size: 4096 })
+
+		// If targetUser doesn't have an avatar set, use their default Discord avatar
+		if (!targetUser.avatar) {
+			embedAvatarURL = targetUser.defaultAvatarURL
+		}
+
+		const avatarColor = await ColorThief.getColor(embedAvatarURL)
+
+		const embed = new EmbedBuilder()
+			.setAuthor({
+				name: targetUser.username,
 				url: `https://discord.com/users/${targetUser.id}`,
 			})
 			.setImage(embedAvatarURL)
