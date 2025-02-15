@@ -62,7 +62,6 @@ module.exports = {
 
 		// Grab banner URL. Prefer .png, but could return .gif
 		const embedBannerURL = await targetUser.bannerURL({ extension: 'webp', size: 4096 })
-
 		const bannerColor = await ColorThief.getColor(embedBannerURL)
 
 		let embedUsername = targetUser.username
@@ -108,7 +107,6 @@ module.exports = {
 
 		// Grab banner URL. Prefer .png, but could return .gif
 		const embedBannerURL = await targetUser.bannerURL({ extension: 'webp', size: 4096 })
-
 		const bannerColor = await ColorThief.getColor(embedBannerURL)
 
 		let embedUsername = targetUser.username
