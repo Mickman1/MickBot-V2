@@ -14,12 +14,12 @@ MICKBOT_GREEN = '#34DB6E'
 MICKBOT_BLUE = '#3498DB'
 
 print = function(message, color = 'white', emoji = '🗒️') {
-	let formattedTime = `[${new Date().toLocaleTimeString()}]`
+	let formattedTime = `${new Date().toLocaleTimeString()}:`
 	// Make all log messages start with the same spacing
 	if (formattedTime.length === 12) {
 		formattedTime += ' '
 	}
-	console.log(chalk`{cyan ${formattedTime}} {${color} ${emoji}: ${message}}`)
+	console.log(chalk`{cyan ${formattedTime}} {${color} ${emoji} ${message}}`)
 }
 
 client.commands = new Collection()
