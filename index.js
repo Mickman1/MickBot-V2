@@ -16,7 +16,7 @@ MICKBOT_BLUE = '#3498DB'
 print = function(message, color = 'white', emoji = '🗒️') {
 	let formattedTime = `${new Date().toLocaleTimeString()}:`
 	// Make all log messages start with the same spacing
-	if (formattedTime.length === 12) {
+	if (formattedTime.length === 11) {
 		formattedTime += ' '
 	}
 	console.log(chalk`{cyan ${formattedTime}} {${color} ${emoji} ${message}}`)
