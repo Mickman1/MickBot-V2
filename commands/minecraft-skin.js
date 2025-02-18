@@ -4,7 +4,7 @@ const ColorThief = require('colorthief')
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('minecraft-skin')
-		.setDescription('Grab a specific Minecraft skin')
+		.setDescription('Grab a Minecraft player\'s skin')
 		.addStringOption(option =>
 			option.setName('username')
 				.setDescription('Minecraft Java Edition username')
