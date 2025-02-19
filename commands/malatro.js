@@ -81,7 +81,7 @@ module.exports = {
 		}
 		const embed = new EmbedBuilder()
 			.setDescription(`# ${embedHand}`)
-			.setColor(MICKBOT_BLUE)
+			.setColor('#A61A1F')
 		interaction.reply({ embeds: [embed] })
 
 		function drawCards(amount) {
