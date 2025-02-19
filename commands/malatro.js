@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 
 class Card {
 	constructor({ rank, rankTitle, suit, emoji, color, chips, edition = null, enhancement = null, seal = null, disabled = false }) {
@@ -79,10 +79,37 @@ module.exports = {
 		for (let i = 0; i < hand.length; i++) {
 			embedHand += `${hand[i].rankTitle}${hand[i].emoji} `
 		}
+
+		const play = new ButtonBuilder()
+			.setCustomId('play')
+			.setLabel('Play')
+			.setStyle(ButtonStyle.Primary)
+
+		const discard = new ButtonBuilder()
+			.setCustomId('discard')
+			.setLabel('Discard')
+			.setStyle(ButtonStyle.Danger)
+
+		const rank = new ButtonBuilder()
+			.setCustomId('rank')
+			.setLabel('Rank')
+			.setStyle(ButtonStyle.Secondary)
+
+		const suit = new ButtonBuilder()
+			.setCustomId('suit')
+			.setLabel('Suit')
+			.setStyle(ButtonStyle.Secondary)
+
+		const row = new ActionRowBuilder()
+			.addComponents(play, rank, suit, discard)
+
 		const embed = new EmbedBuilder()
 			.setDescription(`# ${embedHand}`)
 			.setColor('#A61A1F')
-		interaction.reply({ embeds: [embed] })
+		interaction.reply({
+			embeds: [embed],
+			components: [row],
+		})
 
 		function drawCards(amount) {
 			const dealtCards = []
