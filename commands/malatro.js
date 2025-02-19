@@ -42,7 +42,12 @@ module.exports = {
 		const RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 		const CHIP_VALUES = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11]
 		const SUIT_NAMES = ['Spades', 'Hearts', 'Clubs', 'Diamonds']
-		const SUIT_EMOJIS = ['♠️', '♥️', '♣️', '♦️']
+		const SUIT_EMOJIS = [
+			'<:malatro_spade:1341718891486904372>',
+			'<:malatro_heart:1341718883077455903>',
+			'<:malatro_club:1341718903029760030>',
+			'<:malatro_diamond:1341717371647168522>',
+		]
 		const SUIT_COLORS = ['blue', 'red', 'green', 'yellow']
 
 		// Initialize deck and fill with default cards
@@ -75,7 +80,7 @@ module.exports = {
 			embedHand += `${hand[i].rankTitle}${hand[i].emoji} `
 		}
 		const embed = new EmbedBuilder()
-			.setDescription(embedHand)
+			.setDescription(`# ${embedHand}`)
 			.setColor(MICKBOT_BLUE)
 		interaction.reply({ embeds: [embed] })
 
