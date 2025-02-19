@@ -101,5 +101,65 @@ module.exports = {
 				[cards[i], cards[j]] = [cards[j], cards[i]]
 			}
 		}
+
+		function isStraight(hand) {
+			if (hand.length !== 5)
+				return false;
+
+			const sortedHand = hand.toSorted((a, b) => a.rank - b.rank)
+
+			for (let i = 0; i < 4; i ++) {
+				if (sortedHand[i].rank !== sortedHand[i + 1].rank - 1)
+					return false;
+			}
+
+			return true;
+		}
+
+		function isFiveOfAKind(hand) {
+			if (hand.length !== 5)
+				return false;
+
+			const firstRank = hand[0].rank
+
+			for (let i = 0; i < hand.length; i++) {
+				if (firstRank !== hand[i].rank) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		function isFlush(hand) {
+			if (hand.length !== 5)
+				return false;
+
+			const firstSuit = hand[0].suit
+
+			for (let i = 0; i < hand.length; i++) {
+				if (firstSuit !== hand[i].suit) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		function isFlushFive(hand) {
+			if (hand.length !== 5)
+				return false;
+
+			const firstSuit = hand[0].suit
+			const firstRank = hand[0].rank
+
+			for (let i = 0; i < hand.length; i++) {
+				if (firstSuit !== hand[i].suit) {
+					return false;
+				}
+				if (firstRank !== hand[i].rank) {
+					return false;
+				}
+			}
+			return true;
+		}
 	},
 }
