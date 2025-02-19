@@ -1,9 +1,11 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 
 class Card {
-	constructor({ rank, suit, edition = null, enhancement = null, seal = null, disabled = false }) {
+	constructor({ rank, suit, emoji, color, edition = null, enhancement = null, seal = null, disabled = false }) {
 		this.rank = rank
 		this.suit = suit
+		this.emoji = emoji
+		this.color = color
 		this.edition = edition
 		this.enhancement = enhancement
 		this.seal = seal
@@ -20,6 +22,8 @@ module.exports = {
 
 	async execute(interaction) {
 		const SUIT_NAMES = ['Spades', 'Hearts', 'Clubs', 'Diamonds']
+		const SUIT_EMOJIS = ['♠️', '♥️', '♣️', '♦️']
+		const SUIT_COLORS = ['blue', 'red', 'green', 'yellow']
 
 		// Initialize deck and fill with default cards
 		const deck = []
@@ -28,6 +32,8 @@ module.exports = {
 				const card = new Card({
 					rank: j,
 					suit: SUIT_NAMES[i],
+					emoji: SUIT_EMOJIS[i],
+					color: SUIT_COLORS[i],
 					edition: null,
 					enhancement: null,
 					seal: null,
