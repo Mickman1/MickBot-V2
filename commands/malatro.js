@@ -17,6 +17,22 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('malatro')
 		.setDescription('Play Malatro!')
+		.addSubcommand(subcommand =>
+			subcommand
+				.setName('start')
+				.setDescription('Start a new Malatro game'))
+		.addSubcommand(subcommand =>
+			subcommand
+				.setName('end')
+				.setDescription('End your current Malatro game'))
+		.addSubcommand(subcommand =>
+			subcommand
+				.setName('play')
+				.setDescription('Play a hand'))
+		.addSubcommand(subcommand =>
+			subcommand
+				.setName('discard')
+				.setDescription('Discard a hand'))
 		.setIntegrationTypes(0, 1)
 		.setContexts(0, 1, 2),
 
