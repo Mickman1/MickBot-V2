@@ -39,184 +39,194 @@ module.exports = {
 	async execute(interaction) {
 		switch (interaction.options.getSubcommand()) {
 			case 'start':
+				startGame(interaction)
 				break
 			case 'play':
 				break
 		}
-
-		const { malatroGames } = interaction.client
-
-		if (malatroGames.get(interaction.user.id)) {
-			const embed = new EmbedBuilder()
-				.setDescription('There is already a Malatro game in session!')
-				.setColor(MICKBOT_RED)
-			interaction.reply({ embeds: [embed] })
-			return;
-		}
-
-		malatroGames.set(interaction.user.id, {
-			jokers: [JOKERS.vagabond, JOKERS.blueprint, JOKERS.hangingChad, JOKERS.photograph, JOKERS.hologram],
-			deck: [],
-			hands: 4,
-			discards: 3,
-			handSize: 8,
-			jokerSlots: 5,
-		})
-		const game = malatroGames.get(interaction.user.id)
-
-
-		// Initialize deck and fill with default cards
-		for (let i = 0; i < 4; i++) {
-			for (let j = 0; j < 13; j++) {
-				const card = new Card({
-					rank: j + 2,
-					rankTitle: RANKS[j],
-					suit: SUIT_NAMES[i],
-					emoji: SUIT_EMOJIS[i],
-					color: SUIT_COLORS[i],
-					chips: CHIP_VALUES[j],
-					edition: null,
-					enhancement: null,
-					seal: null,
-					debuffed: false,
-				})
-				game.deck.push(card)
-			}
-		}
-
-		let remainingCards = [...game.deck]
-		shuffleCards(remainingCards)
-
-		const hand = drawCards(8)
-
-		let embedHand = ''
-		for (let i = 0; i < hand.length; i++) {
-			embedHand += `${hand[i].rankTitle}${hand[i].emoji} `
-		}
-
-		const play = new ButtonBuilder()
-			.setCustomId('play')
-			.setLabel('Play')
-			.setStyle(ButtonStyle.Primary)
-
-		const discard = new ButtonBuilder()
-			.setCustomId('discard')
-			.setLabel('Discard')
-			.setStyle(ButtonStyle.Danger)
-
-		const rank = new ButtonBuilder()
-			.setCustomId('rank')
-			.setLabel('Rank')
-			.setStyle(ButtonStyle.Secondary)
-
-		const suit = new ButtonBuilder()
-			.setCustomId('suit')
-			.setLabel('Suit')
-			.setStyle(ButtonStyle.Secondary)
-
-		const row = new ActionRowBuilder()
-			.addComponents(play, rank, suit, discard)
-
-		const jokerSlotDisplay = `\`${game.jokers.length}/${game.jokerSlots}\``
-
-		let embedDescription = `# ${jokerSlotDisplay} `
-
-		for (let i = 0; i < game.jokers.length; i++) {
-			embedDescription += `${game.jokers[i].emote} `
-		}
-
-		embedDescription += `\n# ${embedHand}`
-
-		const embed = new EmbedBuilder()
-			.setDescription(embedDescription)
-			.setColor('#A61A1F')
-
-		await interaction.reply({
-			embeds: [embed],
-			components: [row],
-		})
-
-		function drawCards(amount) {
-			const dealtCards = []
-
-			for (let i = 0; i < amount; i++) {
-				if (remainingCards.length === 0) {
-					console.log('No more cards!')
-					break
-				}
-
-				dealtCards.push(remainingCards[0])
-				remainingCards = remainingCards.slice(1)
-			}
-
-			return dealtCards
-		}
-
-		function shuffleCards(cards) {
-			for (let i = cards.length - 1; i >= 0; i--) {
-				const j = Math.floor(Math.random() * (i + 1));
-				[cards[i], cards[j]] = [cards[j], cards[i]]
-			}
-		}
-
-		function isStraight(hand) {
-			if (hand.length !== 5)
-				return false;
-
-			const sortedHand = hand.toSorted((a, b) => a.rank - b.rank)
-
-			for (let i = 0; i < 4; i ++) {
-				if (sortedHand[i].rank !== sortedHand[i + 1].rank - 1)
-					return false;
-			}
-
-			return true;
-		}
-
-		function isFiveOfAKind(hand) {
-			if (hand.length !== 5)
-				return false;
-
-			const firstRank = hand[0].rank
-
-			for (let i = 0; i < hand.length; i++) {
-				if (firstRank !== hand[i].rank) {
-					return false;
-				}
-			}
-			return true;
-		}
-
-		function isFlush(hand) {
-			if (hand.length !== 5)
-				return false;
-
-			const firstSuit = hand[0].suit
-
-			for (let i = 0; i < hand.length; i++) {
-				if (firstSuit !== hand[i].suit) {
-					return false;
-				}
-			}
-			return true;
-		}
-
-		function isFlushFive(hand) {
-			if (hand.length !== 5)
-				return false;
-
-			const firstSuit = hand[0].suit
-			const firstRank = hand[0].rank
-
-			for (let i = 0; i < hand.length; i++) {
-				if (firstSuit !== hand[i].suit) {
-					return false;
-				}
-				if (firstRank !== hand[i].rank) {
-					return false;
-				}
-			}
-			return true;
-		}
 	},
+}
+
+async function startGame(interaction) {
+	const { malatroGames } = interaction.client
+
+	if (malatroGames.get(interaction.user.id)) {
+		const embed = new EmbedBuilder()
+			.setDescription('There is already a Malatro game in session!')
+			.setColor(MICKBOT_RED)
+		interaction.reply({ embeds: [embed] })
+		return;
+	}
+
+	malatroGames.set(interaction.user.id, {
+		jokers: [JOKERS.vagabond, JOKERS.blueprint, JOKERS.hangingChad, JOKERS.photograph, JOKERS.hologram],
+		deck: [],
+		remainingCards: [],
+		hands: 4,
+		discards: 3,
+		handSize: 8,
+		jokerSlots: 5,
+		money: 4,
+		ante: 1,
+		round: 1,
+	})
+	const game = malatroGames.get(interaction.user.id)
+
+	// Initialize deck and fill with default cards
+	for (let i = 0; i < 4; i++) {
+		for (let j = 0; j < 13; j++) {
+			const card = new Card({
+				rank: j + 2,
+				rankTitle: RANKS[j],
+				suit: SUIT_NAMES[i],
+				emoji: SUIT_EMOJIS[i],
+				color: SUIT_COLORS[i],
+				chips: CHIP_VALUES[j],
+				edition: null,
+				enhancement: null,
+				seal: null,
+				debuffed: false,
+			})
+			game.deck.push(card)
+		}
+	}
+
+	beginRound(interaction, game)
+}
+
+async function beginRound(interaction, game) {
+	game.remainingCards = [...game.deck]
+	shuffleCards(game.remainingCards)
+
+	const hand = drawCards(8, game)
+
+	let embedHand = ''
+	for (let i = 0; i < hand.length; i++) {
+		embedHand += `${hand[i].rankTitle}${hand[i].emoji} `
+	}
+
+	const play = new ButtonBuilder()
+		.setCustomId('play')
+		.setLabel('Play')
+		.setStyle(ButtonStyle.Primary)
+
+	const discard = new ButtonBuilder()
+		.setCustomId('discard')
+		.setLabel('Discard')
+		.setStyle(ButtonStyle.Danger)
+
+	const rank = new ButtonBuilder()
+		.setCustomId('rank')
+		.setLabel('Rank')
+		.setStyle(ButtonStyle.Secondary)
+
+	const suit = new ButtonBuilder()
+		.setCustomId('suit')
+		.setLabel('Suit')
+		.setStyle(ButtonStyle.Secondary)
+
+	const row = new ActionRowBuilder()
+		.addComponents(play, rank, suit, discard)
+
+	const jokerSlotDisplay = `\`${game.jokers.length}/${game.jokerSlots}\``
+
+	let embedDescription = `# ${jokerSlotDisplay} `
+
+	for (let i = 0; i < game.jokers.length; i++) {
+		embedDescription += `${game.jokers[i].emote} `
+	}
+
+	embedDescription += `\n# ${embedHand}`
+
+	const embed = new EmbedBuilder()
+		.setDescription(embedDescription)
+		.setColor('#A61A1F')
+
+	await interaction.reply({
+		embeds: [embed],
+		components: [row],
+	})
+}
+
+function drawCards(amount, game) {
+	const dealtCards = []
+
+	for (let i = 0; i < amount; i++) {
+		if (game.remainingCards.length === 0) {
+			console.log('No more cards!')
+			break
+		}
+
+		dealtCards.push(game.remainingCards[0])
+		game.remainingCards = game.remainingCards.slice(1)
+	}
+
+	return dealtCards;
+}
+
+function shuffleCards(cards) {
+	for (let i = cards.length - 1; i >= 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[cards[i], cards[j]] = [cards[j], cards[i]]
+	}
+}
+
+function isStraight(hand) {
+	if (hand.length !== 5)
+		return false;
+
+	const sortedHand = hand.toSorted((a, b) => a.rank - b.rank)
+
+	for (let i = 0; i < 4; i ++) {
+		if (sortedHand[i].rank !== sortedHand[i + 1].rank - 1)
+			return false;
+	}
+
+	return true;
+}
+
+function isFiveOfAKind(hand) {
+	if (hand.length !== 5)
+		return false;
+
+	const firstRank = hand[0].rank
+
+	for (let i = 0; i < hand.length; i++) {
+		if (firstRank !== hand[i].rank) {
+			return false;
+		}
+	}
+	return true;
+}
+
+function isFlush(hand) {
+	if (hand.length !== 5)
+		return false;
+
+	const firstSuit = hand[0].suit
+
+	for (let i = 0; i < hand.length; i++) {
+		if (firstSuit !== hand[i].suit) {
+			return false;
+		}
+	}
+	return true;
+}
+
+function isFlushFive(hand) {
+	if (hand.length !== 5)
+		return false;
+
+	const firstSuit = hand[0].suit
+	const firstRank = hand[0].rank
+
+	for (let i = 0; i < hand.length; i++) {
+		if (firstSuit !== hand[i].suit) {
+			return false;
+		}
+		if (firstRank !== hand[i].rank) {
+			return false;
+		}
+	}
+	return true;
 }
