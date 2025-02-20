@@ -14,6 +14,7 @@ class Card {
 		this.debuffed = debuffed
 	}
 }
+const JOKERS = require('../malatro/jokers')
 
 module.exports = {
 	data: new SlashCommandBuilder()
