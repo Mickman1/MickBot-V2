@@ -27,6 +27,29 @@ module.exports = {
 		.setContexts(0, 1, 2),
 
 	async execute(interaction) {
+		switch (interaction.options.getSubcommand()) {
+			case 'start':
+				break
+			case 'play':
+				break
+		}
+
+		const { malatroGames } = interaction.client
+
+		if (malatroGames.get(interaction.user.id)) {
+			const embed = new EmbedBuilder()
+				.setDescription('There is already a Malatro game in session!')
+				.setColor(MICKBOT_RED)
+			interaction.reply({ embeds: [embed] })
+			return;
+		}
+
+		malatroGames.set(interaction.user.id, {
+			jokers: [JOKERS.vagabond, JOKERS.blueprint, JOKERS.hangingChad, JOKERS.photograph, JOKERS.hologram],
+			deck: [],
+		})
+		const game = malatroGames.get(interaction.user.id)
+
 		const RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 		const CHIP_VALUES = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11]
 		const SUIT_NAMES = ['Spades', 'Hearts', 'Clubs', 'Diamonds']
@@ -39,7 +62,6 @@ module.exports = {
 		const SUIT_COLORS = ['blue', 'red', 'green', 'yellow']
 
 		// Initialize deck and fill with default cards
-		const deck = []
 		for (let i = 0; i < 4; i++) {
 			for (let j = 0; j < 13; j++) {
 				const card = new Card({
@@ -54,11 +76,11 @@ module.exports = {
 					seal: null,
 					debuffed: false,
 				})
-				deck.push(card)
+				game.deck.push(card)
 			}
 		}
 
-		let remainingCards = [...deck]
+		let remainingCards = [...game.deck]
 		shuffleCards(remainingCards)
 
 		const hand = drawCards(8)

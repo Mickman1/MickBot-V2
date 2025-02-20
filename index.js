@@ -5,6 +5,7 @@ const { applications } = require('./config/config.json')
 const chalk = require('chalk')
 
 client.queues = new Map()
+client.malatroGames = new Map()
 
 // Global MickBot colors
 MICKBOT_RED = '#DB3434'
