@@ -47,8 +47,8 @@ module.exports = {
 	halfJoker: {
 		emote: '<:Half_Joker:1341987868134080575>',
 	},
-	stencilJoker: {
-		emote: '<:Stencil_Joker:1342001026294616104>',
+	jokerStencil: {
+		emote: '<:Joker_Stencil:1342001026294616104>',
 	},
 	fourFingers: {
 		emote: '<:Four_Fingers:1342001487529771028>',
