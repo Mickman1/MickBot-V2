@@ -91,9 +91,18 @@ module.exports = {
 		const row = new ActionRowBuilder()
 			.addComponents(play, rank, suit, discard)
 
+		let embedDescription = '# '
+
+		for (let i = 0; i < game.jokers.length; i++) {
+			embedDescription += `${game.jokers[i].emote} `
+		}
+
+		embedDescription += `\n# ${embedHand}`
+
 		const embed = new EmbedBuilder()
-			.setDescription(`# ${embedHand}`)
+			.setDescription(embedDescription)
 			.setColor('#A61A1F')
+
 		interaction.reply({
 			embeds: [embed],
 			components: [row],
