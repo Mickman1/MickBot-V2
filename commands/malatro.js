@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 
 class Card {
-	constructor({ rank, rankTitle, suit, emoji, color, chips, edition = null, enhancement = null, seal = null, disabled = false }) {
+	constructor({ rank, rankTitle, suit, emoji, color, chips, edition = null, enhancement = null, seal = null, debuffed = false }) {
 		this.rank = rank
 		this.rankTitle = rankTitle
 		this.suit = suit
@@ -11,7 +11,7 @@ class Card {
 		this.edition = edition
 		this.enhancement = enhancement
 		this.seal = seal
-		this.disabled = disabled
+		this.debuffed = debuffed
 	}
 }
 
@@ -64,7 +64,7 @@ module.exports = {
 					edition: null,
 					enhancement: null,
 					seal: null,
-					disabled: false,
+					debuffed: false,
 				})
 				deck.push(card)
 			}
