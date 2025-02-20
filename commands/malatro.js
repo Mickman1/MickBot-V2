@@ -47,6 +47,10 @@ module.exports = {
 		malatroGames.set(interaction.user.id, {
 			jokers: [JOKERS.vagabond, JOKERS.blueprint, JOKERS.hangingChad, JOKERS.photograph, JOKERS.hologram],
 			deck: [],
+			hands: 4,
+			discards: 3,
+			handSize: 8,
+			jokerSlots: 5,
 		})
 		const game = malatroGames.get(interaction.user.id)
 
