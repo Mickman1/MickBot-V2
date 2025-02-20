@@ -131,7 +131,7 @@ module.exports = {
 			.setDescription(embedDescription)
 			.setColor('#A61A1F')
 
-		interaction.reply({
+		await interaction.reply({
 			embeds: [embed],
 			components: [row],
 		})
