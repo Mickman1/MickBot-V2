@@ -176,7 +176,7 @@ async function displayHand(interaction, hand, game) {
 		.setCustomId('handSelection')
 		.setPlaceholder('Select cards')
 		.setMinValues(1)
-		.setMaxValues(5)
+		.setMaxValues(hand.length > 5 ? 5 : hand.length)
 		.addOptions(cardSelectionOptions)
 
 	const selectRow = new ActionRowBuilder()
