@@ -2,15 +2,10 @@ const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, Butt
 
 const Card = require('../malatro/card')
 const JOKERS = require('../malatro/jokers')
+const CARD_EMOTES = require('../malatro/cards')
 const RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 const CHIP_VALUES = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11]
 const SUIT_NAMES = ['Spades', 'Hearts', 'Clubs', 'Diamonds']
-const SUIT_EMOJIS = [
-	'<:malatro_spade:1341718891486904372>',
-	'<:malatro_heart:1341718883077455903>',
-	'<:malatro_club:1341718903029760030>',
-	'<:malatro_diamond:1341717371647168522>',
-]
 const SUIT_COLORS = ['blue', 'red', 'green', 'yellow']
 
 module.exports = {
@@ -123,8 +118,8 @@ async function startGame(interaction) {
 				rank: j + 2,
 				rankTitle: RANKS[j],
 				suit: SUIT_NAMES[i],
-				emoji: SUIT_EMOJIS[i],
 				suitNumber: i,
+				emote: CARD_EMOTES[i][j],
 				color: SUIT_COLORS[i],
 				chips: CHIP_VALUES[j],
 				edition: null,
@@ -152,7 +147,7 @@ async function beginRound(interaction, game) {
 async function displayHand(interaction, hand, game) {
 	let embedHand = ''
 	for (let i = 0; i < hand.length; i++) {
-		embedHand += `${hand[i].rankTitle}${hand[i].emoji} `
+		embedHand += `${hand[i].emote} `
 	}
 
 	const play = new ButtonBuilder()
