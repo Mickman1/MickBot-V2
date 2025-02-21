@@ -49,6 +49,12 @@ client.on('interactionCreate', async interaction => {
 			case 'discard':
 				client.commands.get('malatro').discardHand(interaction)
 				break
+			case 'rank':
+				client.commands.get('malatro').sortHandByRank(interaction)
+				break
+			case 'suit':
+				client.commands.get('malatro').sortHandBySuit(interaction)
+				break
 		}
 	}
 
