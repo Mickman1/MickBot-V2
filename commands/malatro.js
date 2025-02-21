@@ -51,16 +51,14 @@ module.exports = {
 
 	async sortHandByRank(interaction) {
 		const game = interaction.client.malatroGames.get(interaction.user.id)
-		const hand = game.currentHand
-		const sortedHand = hand.toSorted((a, b) => a.rank - b.rank)
-		displayHand(interaction, sortedHand, game)
+		game.currentHand = game.currentHand.toSorted((a, b) => a.rank - b.rank)
+		displayHand(interaction, game.currentHand, game)
 	},
 
 	async sortHandBySuit(interaction) {
 		const game = interaction.client.malatroGames.get(interaction.user.id)
-		const hand = game.currentHand
-		const sortedHand = hand.toSorted((a, b) => a.suitNumber - b.suitNumber)
-		displayHand(interaction, sortedHand, game)
+		game.currentHand = game.currentHand.toSorted((a, b) => a.suitNumber - b.suitNumber)
+		displayHand(interaction, game.currentHand, game)
 	},
 }
 
