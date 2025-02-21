@@ -77,6 +77,7 @@ async function startGame(interaction) {
 		consumables: [],
 		consumableSlots: 2,
 		tarotCardsUsed: 0,
+		hasFreeReroll: false,
 		heldTags: [],
 		ante: 1,
 		round: 1,
