@@ -45,6 +45,12 @@ module.exports = {
 				break
 		}
 	},
+
+	async discardHand(interaction) {
+		const game = interaction.client.malatroGames.get(interaction.user.id)
+		const hand = drawCards(8, game)
+		displayHand(interaction, hand, game)
+	},
 }
 
 async function startGame(interaction) {
@@ -121,6 +127,10 @@ async function beginRound(interaction, game) {
 
 	const hand = drawCards(8, game)
 
+	displayHand(interaction, hand, game)
+}
+
+async function displayHand(interaction, hand, game) {
 	let embedHand = ''
 	for (let i = 0; i < hand.length; i++) {
 		embedHand += `${hand[i].rankTitle}${hand[i].emoji} `

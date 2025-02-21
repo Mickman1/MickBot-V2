@@ -44,6 +44,14 @@ client.once('ready', () => {
 })
 
 client.on('interactionCreate', async interaction => {
+	if (interaction.isButton()) {
+		switch (interaction.customId) {
+			case 'discard':
+				client.commands.get('malatro').discardHand(interaction)
+				break
+		}
+	}
+
 	if (!interaction.isCommand())
 		return;
 
