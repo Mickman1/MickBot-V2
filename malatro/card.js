@@ -1,7 +1,8 @@
 module.exports = class Card {
-	constructor({ rank, rankTitle, suit, suitNumber, emote, color, chips, edition = null, enhancement = null, seal = null, debuffed = false }) {
+	constructor({ rank, rankTitle, rankTitleFull, suit, suitNumber, emote, color, chips, edition = null, enhancement = null, seal = null, debuffed = false }) {
 		this.rank = rank
 		this.rankTitle = rankTitle
+		this.rankTitleFull = rankTitleFull
 		this.suit = suit
 		this.suitNumber = suitNumber
 		this.emote = emote

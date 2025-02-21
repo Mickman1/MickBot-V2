@@ -1,9 +1,10 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 
 const Card = require('../malatro/card')
 const JOKERS = require('../malatro/jokers')
 const CARD_EMOTES = require('../malatro/cards')
 const RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+const RANKS_FULL = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
 const CHIP_VALUES = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11]
 const SUIT_NAMES = ['Spades', 'Hearts', 'Clubs', 'Diamonds']
 const SUIT_COLORS = ['blue', 'red', 'green', 'yellow']
@@ -117,6 +118,7 @@ async function startGame(interaction) {
 			const card = new Card({
 				rank: j + 2,
 				rankTitle: RANKS[j],
+				rankTitleFull: RANKS_FULL[j],
 				suit: SUIT_NAMES[i],
 				suitNumber: i,
 				emote: CARD_EMOTES[i][j],
@@ -150,6 +152,36 @@ async function displayHand(interaction, hand, game) {
 		embedHand += `${hand[i].emote} `
 	}
 
+	const jokerSlotDisplay = `\`${game.jokers.length}/${game.jokerSlots}\``
+
+	let embedDescription = `# ${jokerSlotDisplay} `
+
+	for (let i = 0; i < game.jokers.length; i++) {
+		embedDescription += `${game.jokers[i].emote} `
+	}
+
+	embedDescription += `\n# ${embedHand}`
+
+	const embed = new EmbedBuilder()
+		.setDescription(embedDescription)
+		.setColor('#A61A1F')
+
+	const cardSelectionOptions = []
+	for (let i = 0; i < hand.length; i++) {
+		const cardLabel = `${hand[i].rankTitleFull} of ${hand[i].suit}`
+		cardSelectionOptions.push(new StringSelectMenuOptionBuilder().setLabel(cardLabel).setEmoji(hand[i].emote).setValue(i.toString()))
+	}
+
+	const select = new StringSelectMenuBuilder()
+		.setCustomId('handSelection')
+		.setPlaceholder('Select cards')
+		.setMinValues(1)
+		.setMaxValues(5)
+		.addOptions(cardSelectionOptions)
+
+	const selectRow = new ActionRowBuilder()
+		.addComponents(select)
+
 	const play = new ButtonBuilder()
 		.setCustomId('play')
 		.setLabel('Play')
@@ -170,26 +202,12 @@ async function displayHand(interaction, hand, game) {
 		.setLabel('Suit')
 		.setStyle(ButtonStyle.Secondary)
 
-	const row = new ActionRowBuilder()
+	const buttonRow = new ActionRowBuilder()
 		.addComponents(play, rank, suit, discard)
-
-	const jokerSlotDisplay = `\`${game.jokers.length}/${game.jokerSlots}\``
-
-	let embedDescription = `# ${jokerSlotDisplay} `
-
-	for (let i = 0; i < game.jokers.length; i++) {
-		embedDescription += `${game.jokers[i].emote} `
-	}
-
-	embedDescription += `\n# ${embedHand}`
-
-	const embed = new EmbedBuilder()
-		.setDescription(embedDescription)
-		.setColor('#A61A1F')
 
 	await interaction.reply({
 		embeds: [embed],
-		components: [row],
+		components: [selectRow, buttonRow],
 	})
 }
 
