@@ -145,7 +145,7 @@ async function beginRound(interaction, game) {
 }
 
 async function displayHand(interaction, hand, game) {
-	let embedHand = ''
+	let embedHand = `\`${hand.length}/${game.handSize}\` `
 	for (let i = 0; i < hand.length; i++) {
 		embedHand += `${hand[i].emote} `
 	}
