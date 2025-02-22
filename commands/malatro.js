@@ -219,11 +219,6 @@ async function beginRound(interaction, game) {
 	const hand = drawCards(8, game)
 	game.currentHand = hand
 
-	if (game.sortingMode === 0)
-		game.currentHand = game.currentHand.toSorted((a, b) => b.rank - a.rank)
-	if (game.sortingMode === 1)
-		game.currentHand = game.currentHand.toSorted((a, b) => a.suitNumber - b.suitNumber)
-
 	displayHand(interaction, game)
 }
 
