@@ -77,28 +77,28 @@ module.exports = {
 			game.currentHand.push(draw[i])
 		}
 
-		displayHand(interaction, game)
+		displayHand(interaction, game, true)
 	},
 
 	async sortHandByRank(interaction) {
 		const game = interaction.client.malatroGames.get(interaction.user.id)
 		game.currentHand = game.currentHand.toSorted((a, b) => b.rank - a.rank)
 		game.sortingMode = 0
-		displayHand(interaction, game)
+		displayHand(interaction, game, true)
 	},
 
 	async sortHandBySuit(interaction) {
 		const game = interaction.client.malatroGames.get(interaction.user.id)
 		game.currentHand = game.currentHand.toSorted((a, b) => a.suitNumber - b.suitNumber)
 		game.sortingMode = 1
-		displayHand(interaction, game)
+		displayHand(interaction, game, true)
 	},
 
 	async selectCards(interaction) {
 		const game = interaction.client.malatroGames.get(interaction.user.id)
 		game.selectedCards = interaction.values
 
-		//await interaction.deferReply()
+		await interaction.deferUpdate()
 	},
 }
 
@@ -222,7 +222,7 @@ async function beginRound(interaction, game) {
 	displayHand(interaction, game)
 }
 
-async function displayHand(interaction, game) {
+async function displayHand(interaction, game, isEdit) {
 	if (game.sortingMode === 0)
 		game.currentHand = game.currentHand.toSorted((a, b) => b.rank - a.rank)
 	if (game.sortingMode === 1)
@@ -298,10 +298,21 @@ async function displayHand(interaction, game) {
 	const buttonRow = new ActionRowBuilder()
 		.addComponents(play, rank, suit, discard)
 
+	if (isEdit) {
+		await interaction.deferUpdate()
+		await game.replyMessage.edit({
+			embeds: [embed],
+			components: [selectRow, buttonRow],
+		})
+		return;
+	}
+
 	await interaction.reply({
 		embeds: [embed],
 		components: [selectRow, buttonRow],
 	})
+	const message = await interaction.fetchReply()
+	game.replyMessage = message
 }
 
 function drawCards(amount, game) {
