@@ -63,20 +63,19 @@ module.exports = {
 	async discardHand(interaction) {
 		const game = interaction.client.malatroGames.get(interaction.user.id)
 
+		// Sort selected cards highest to lowest to not affect currentHand indices
+		game.selectedCards = game.selectedCards.toSorted((a, b) => b - a)
+
 		for (let i = 0; i < game.selectedCards.length; i++) {
-			game.currentHand[game.selectedCards[i]] = null
+			game.currentHand.splice(game.selectedCards[i], 1)
 		}
 
-		for (let i = game.currentHand.length - 1; i >= 0; i--) {
-			if (game.currentHand[i] === null)
-				game.currentHand.splice(i, 1)
-		}
-
-		draw = drawCards(game.handSize - game.currentHand.length, game)
+		const draw = drawCards(game.handSize - game.currentHand.length, game)
 
 		for (let i = 0; i < draw.length; i++) {
 			game.currentHand.push(draw[i])
 		}
+
 		displayHand(interaction, game)
 	},
 
