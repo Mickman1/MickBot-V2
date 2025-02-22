@@ -1,6 +1,6 @@
 module.exports = {
 	red: {
-		discards: 3,
+		discards: 4,
 		emote: '<:Red_Deck:1342774766435831870>',
 	},
 	blue: {
