@@ -45,6 +45,9 @@ module.exports = {
 			case 'start':
 				startGame(interaction)
 				break
+			case 'end':
+				endGame(interaction)
+				break
 			case 'play':
 				break
 		}
@@ -143,6 +146,26 @@ async function startGame(interaction) {
 	}
 
 	beginRound(interaction, game)
+}
+
+async function endGame(interaction) {
+	const game = interaction.client.malatroGames.get(interaction.user.id)
+	if (!game) {
+		const embed = new EmbedBuilder()
+			.setDescription('No game currently in progress!')
+			.setColor('#A61A1F')
+		await interaction.reply({ embeds: [embed] })
+		return;
+	}
+
+	const embed = new EmbedBuilder()
+		.setDescription('Game over!')
+		.setColor('#A61A1F')
+	await interaction.reply({ embeds: [embed] })
+
+	interaction.client.malatroGames.delete(interaction.user.id)
+
+	return;
 }
 
 async function beginRound(interaction, game) {
