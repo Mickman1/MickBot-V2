@@ -145,17 +145,16 @@ async function beginRound(interaction, game) {
 }
 
 async function displayHand(interaction, hand, game) {
-	let embedHand = `\`${hand.length}/${game.handSize}\` `
-	for (let i = 0; i < hand.length; i++) {
-		embedHand += `${hand[i].emote} `
-	}
-
 	const jokerSlotDisplay = `\`${game.jokers.length}/${game.jokerSlots}\``
-
-	let embedDescription = `# ${jokerSlotDisplay} `
+	let embedDescription = `# ${jokerSlotDisplay}`
 
 	for (let i = 0; i < game.jokers.length; i++) {
-		embedDescription += `${game.jokers[i].emote} `
+		embedDescription += `${game.jokers[i].emote}`
+	}
+
+	let embedHand = `\`${hand.length}/${game.handSize}\` `
+	for (let i = 0; i < hand.length; i++) {
+		embedHand += `${hand[i].emote}`
 	}
 
 	embedDescription += `\n# ${embedHand}`
