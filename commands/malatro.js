@@ -261,8 +261,9 @@ async function displayHand(interaction, game) {
 		const cardLabel = `${hand[i].rankTitleFull} of ${hand[i].suit}`
 		cardSelectionOptions.push(new StringSelectMenuOptionBuilder()
 			.setLabel(cardLabel)
+			.setValue(i.toString())
 			.setEmoji(hand[i].emote)
-			.setValue(i.toString()))
+		)
 	}
 
 	const select = new StringSelectMenuBuilder()
