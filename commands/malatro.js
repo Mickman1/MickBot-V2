@@ -31,6 +31,10 @@ module.exports = {
 				.setDescription('End your current Malatro game'))
 		.addSubcommand(subcommand =>
 			subcommand
+				.setName('restart')
+				.setDescription('Restart your current Malatro game'))
+		.addSubcommand(subcommand =>
+			subcommand
 				.setName('play')
 				.setDescription('Play a hand'))
 		.addSubcommand(subcommand =>
@@ -47,6 +51,9 @@ module.exports = {
 				break
 			case 'end':
 				endGame(interaction)
+				break
+			case 'restart':
+				restartGame(interaction)
 				break
 			case 'play':
 				break
@@ -185,6 +192,22 @@ async function endGame(interaction) {
 
 	interaction.client.malatroGames.delete(interaction.user.id)
 
+	return;
+}
+
+async function restartGame(interaction) {
+	const game = interaction.client.malatroGames.get(interaction.user.id)
+	if (!game) {
+		const embed = new EmbedBuilder()
+			.setDescription('No game currently in progress!')
+			.setColor('#A61A1F')
+		await interaction.reply({ embeds: [embed] })
+		return;
+	}
+
+	interaction.client.malatroGames.delete(interaction.user.id)
+
+	startGame(interaction)
 	return;
 }
 
