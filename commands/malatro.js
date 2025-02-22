@@ -82,7 +82,7 @@ async function startGame(interaction) {
 		const embed = new EmbedBuilder()
 			.setDescription('There is already a Malatro game in session!')
 			.setColor(MICKBOT_RED)
-		interaction.reply({ embeds: [embed] })
+		await interaction.reply({ embeds: [embed] })
 		return;
 	}
 
