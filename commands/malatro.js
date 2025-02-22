@@ -55,8 +55,21 @@ module.exports = {
 
 	async discardHand(interaction) {
 		const game = interaction.client.malatroGames.get(interaction.user.id)
-		const hand = drawCards(8, game)
-		game.currentHand = hand
+
+		for (let i = 0; i < game.selectedCards.length; i++) {
+			game.currentHand[game.selectedCards[i]] = null
+		}
+
+		for (let i = game.currentHand.length - 1; i >= 0; i--) {
+			if (game.currentHand[i] === null)
+				game.currentHand.splice(i, 1)
+		}
+
+		draw = drawCards(game.handSize - game.currentHand.length, game)
+
+		for (let i = 0; i < draw.length; i++) {
+			game.currentHand.push(draw[i])
+		}
 		displayHand(interaction, game)
 	},
 
@@ -72,6 +85,13 @@ module.exports = {
 		game.currentHand = game.currentHand.toSorted((a, b) => a.suitNumber - b.suitNumber)
 		game.sortingMode = 1
 		displayHand(interaction, game)
+	},
+
+	async selectCards(interaction) {
+		const game = interaction.client.malatroGames.get(interaction.user.id)
+		game.selectedCards = interaction.values
+
+		//await interaction.deferReply()
 	},
 }
 
@@ -174,6 +194,11 @@ async function beginRound(interaction, game) {
 
 	const hand = drawCards(8, game)
 	game.currentHand = hand
+
+	if (game.sortingMode === 0)
+		game.currentHand = game.currentHand.toSorted((a, b) => b.rank - a.rank)
+	if (game.sortingMode === 1)
+		game.currentHand = game.currentHand.toSorted((a, b) => a.suitNumber - b.suitNumber)
 
 	displayHand(interaction, game)
 }

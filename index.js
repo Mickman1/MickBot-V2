@@ -58,6 +58,12 @@ client.on('interactionCreate', async interaction => {
 		}
 	}
 
+	if (interaction.isStringSelectMenu()) {
+		if (interaction.customId === 'handSelection') {
+			client.commands.get('malatro').selectCards(interaction)
+		}
+	}
+
 	if (!interaction.isCommand())
 		return;
 
