@@ -1,4 +1,12 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
+const {
+	SlashCommandBuilder,
+	EmbedBuilder,
+	ActionRowBuilder,
+	StringSelectMenuBuilder,
+	StringSelectMenuOptionBuilder,
+	ButtonBuilder,
+	ButtonStyle,
+} = require('discord.js')
 
 const Card = require('../malatro/card')
 const JOKERS = require('../malatro/jokers')
@@ -176,7 +184,10 @@ async function displayHand(interaction, game) {
 	const cardSelectionOptions = []
 	for (let i = 0; i < hand.length; i++) {
 		const cardLabel = `${hand[i].rankTitleFull} of ${hand[i].suit}`
-		cardSelectionOptions.push(new StringSelectMenuOptionBuilder().setLabel(cardLabel).setEmoji(hand[i].emote).setValue(i.toString()))
+		cardSelectionOptions.push(new StringSelectMenuOptionBuilder()
+			.setLabel(cardLabel)
+			.setEmoji(hand[i].emote)
+			.setValue(i.toString()))
 	}
 
 	const select = new StringSelectMenuBuilder()
