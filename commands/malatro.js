@@ -187,13 +187,7 @@ async function displayHand(interaction, game) {
 	const hand = game.currentHand
 
 	if (hand.length === 0) {
-		const embed = new EmbedBuilder()
-			.setDescription('You Lose!')
-			.setColor('#A61A1F')
-		await interaction.reply({ embeds: [embed] })
-
-		interaction.client.malatroGames.delete(interaction.user.id)
-
+		endGame(interaction)
 		return;
 	}
 
