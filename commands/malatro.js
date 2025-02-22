@@ -9,8 +9,9 @@ const {
 } = require('discord.js')
 
 const Card = require('../malatro/card')
-const JOKERS = require('../malatro/jokers')
 const CARD_EMOTES = require('../malatro/cards')
+const DECKS = require('../malatro/decks')
+const JOKERS = require('../malatro/jokers')
 const RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 const RANKS_FULL = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
 const CHIP_VALUES = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11]
@@ -115,6 +116,7 @@ async function startGame(interaction) {
 	malatroGames.set(interaction.user.id, {
 		jokers: [JOKERS.vagabond, JOKERS.blueprint, JOKERS.hangingChad, JOKERS.photograph, JOKERS.hologram],
 		deck: [],
+		deckType: DECKS.magic,
 		remainingCards: [],
 		currentHand: [],
 		sortingMode: 0, // 0: Rank, 1: Suit
@@ -250,7 +252,9 @@ async function displayHand(interaction, game) {
 		embedHand += `${hand[i].emote}`
 	}
 
-	embedDescription += `\n# ${embedHand}`
+	const remainingCardsDisplay = `\`${game.remainingCards.length}/${game.deck.length}\``
+
+	embedDescription += `\n# ${embedHand}  ${remainingCardsDisplay}${game.deckType.emote}`
 
 	const embed = new EmbedBuilder()
 		.setDescription(embedDescription)
