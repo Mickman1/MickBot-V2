@@ -51,13 +51,15 @@ module.exports = {
 
 	async sortHandByRank(interaction) {
 		const game = interaction.client.malatroGames.get(interaction.user.id)
-		game.currentHand = game.currentHand.toSorted((a, b) => a.rank - b.rank)
+		game.currentHand = game.currentHand.toSorted((a, b) => b.rank - a.rank)
+		game.sortingMode = 0
 		displayHand(interaction, game)
 	},
 
 	async sortHandBySuit(interaction) {
 		const game = interaction.client.malatroGames.get(interaction.user.id)
 		game.currentHand = game.currentHand.toSorted((a, b) => a.suitNumber - b.suitNumber)
+		game.sortingMode = 1
 		displayHand(interaction, game)
 	},
 }
@@ -78,6 +80,7 @@ async function startGame(interaction) {
 		deck: [],
 		remainingCards: [],
 		currentHand: [],
+		sortingMode: 0, // 0: Rank, 1: Suit
 		hands: 4,
 		discards: 3,
 		handSize: 8,
@@ -145,6 +148,11 @@ async function beginRound(interaction, game) {
 }
 
 async function displayHand(interaction, game) {
+	if (game.sortingMode === 0)
+		game.currentHand = game.currentHand.toSorted((a, b) => b.rank - a.rank)
+	if (game.sortingMode === 1)
+		game.currentHand = game.currentHand.toSorted((a, b) => a.suitNumber - b.suitNumber)
+
 	const hand = game.currentHand
 
 	const jokerSlotDisplay = `\`${game.jokers.length}/${game.jokerSlots}\``
