@@ -119,6 +119,7 @@ async function startGame(interaction) {
 		deckType: DECKS.magic,
 		remainingCards: [],
 		currentHand: [],
+		selectedCards: [], // Indicies of currentHand elements
 		sortingMode: 0, // 0: Rank, 1: Suit
 		hands: 4,
 		discards: 3,
@@ -133,7 +134,7 @@ async function startGame(interaction) {
 		heldTags: [],
 		ante: 1,
 		round: 1,
-		stake: 0,
+		stake: 0, // 0: White, 1: Red, 2: Green, 4: Black, 5: Blue, 6: Purple, 7: Orange, 8: Gold
 		bossesEncountered: [],
 		handTypes: {
 			highCard: { level: 1, timesPlayed: 0, baseChips: 5, baseMult: 1 },
