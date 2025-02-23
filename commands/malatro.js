@@ -34,14 +34,6 @@ module.exports = {
 			subcommand
 				.setName('restart')
 				.setDescription('Restart your current Malatro game'))
-		.addSubcommand(subcommand =>
-			subcommand
-				.setName('play')
-				.setDescription('Play a hand'))
-		.addSubcommand(subcommand =>
-			subcommand
-				.setName('discard')
-				.setDescription('Discard a hand'))
 		.setIntegrationTypes(0, 1)
 		.setContexts(0, 1, 2),
 
@@ -55,8 +47,6 @@ module.exports = {
 				break
 			case 'restart':
 				restartGame(interaction)
-				break
-			case 'play':
 				break
 		}
 	},
