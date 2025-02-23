@@ -35,7 +35,7 @@ module.exports = {
 				.setName('restart')
 				.setDescription('Restart your current Malatro game'))
 		.setIntegrationTypes(0, 1)
-		.setContexts(0, 1, 2),
+		.setContexts(0),
 
 	async execute(interaction) {
 		switch (interaction.options.getSubcommand()) {
