@@ -388,3 +388,14 @@ function isFlushFive(hand) {
 	}
 	return true;
 }
+
+function checkHand(hand) {
+	if (isStraight(hand))
+		return 'Straight'
+	if (isFlush(hand))
+		return 'Flush'
+	if (isFiveOfAKind(hand))
+		return 'Five of a Kind'
+	if (isFlushFive(hand))
+		return 'Flush Five'
+}
