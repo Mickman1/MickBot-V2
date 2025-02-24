@@ -311,7 +311,6 @@ function drawCards(amount, game) {
 
 	for (let i = 0; i < amount; i++) {
 		if (game.remainingCards.length === 0) {
-			console.log('No more cards!')
 			break
 		}
 
