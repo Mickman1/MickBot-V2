@@ -51,6 +51,15 @@ module.exports = {
 		}
 	},
 
+	async playHand(interaction) {
+		const game = interaction.client.malatroGames.get(interaction.user.id)
+
+		game.playedHand = []
+		for (let i = 0; i < game.selectedCards.length; i ++) {
+			game.playedHand.push(game.currentHand[game.selectedCards[i]])
+		}
+	},
+
 	async discardHand(interaction) {
 		const game = interaction.client.malatroGames.get(interaction.user.id)
 

@@ -46,6 +46,9 @@ client.once('ready', () => {
 client.on('interactionCreate', async interaction => {
 	if (interaction.isButton()) {
 		switch (interaction.customId) {
+			case 'play':
+				client.commands.get('malatro').playHand(interaction)
+				break
 			case 'discard':
 				client.commands.get('malatro').discardHand(interaction)
 				break
