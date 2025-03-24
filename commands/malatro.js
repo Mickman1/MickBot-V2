@@ -120,6 +120,7 @@ async function startGame(interaction) {
 		currentHand: [],
 		selectedCards: [], // Indicies of currentHand elements
 		sortingMode: 0, // 0: Rank, 1: Suit
+		handsPlayedThisRound: [],
 		hands: 4,
 		discards: 3,
 		handSize: 8,
