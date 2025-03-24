@@ -12,6 +12,9 @@ module.exports = {
 		emote: '<:Yellow_Deck:1342774785955987558>',
 	},
 	green: {
+		moneyPerHand: 2,
+		moneyPerDiscard: 1,
+		interestCap: 0,
 		emote: '<:Green_Deck:1342774793702998057>',
 	},
 	black: {
