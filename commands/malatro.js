@@ -347,7 +347,7 @@ function isStraight(hand) {
 
 	const sortedHand = hand.toSorted((a, b) => a.rank - b.rank)
 
-	for (let i = 0; i < 4; i ++) {
+	for (let i = 0; i < 4; i++) {
 		if (sortedHand[i].rank !== sortedHand[i + 1].rank - 1)
 			return false;
 	}
