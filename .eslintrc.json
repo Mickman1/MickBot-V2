@@ -1,176 +1,184 @@
 {
-    "env": {
-        "commonjs": true,
-        "es2021": true,
-        "node": true
-    },
-    "extends": "eslint:recommended",
-    "parserOptions": {
-        "ecmaVersion": "latest"
-    },
-    "rules": {
-        "indent": [
-            "error",
-            "tab",
-						{ "SwitchCase": 1 }
-        ],
-        "linebreak-style": [
-            "error",
-            "windows"
-        ],
-        "quotes": [
-            "error",
-            "single",
-						{ "allowTemplateLiterals": true }
-        ],
-				"space-before-blocks": [
-					"error",
-					"always"
-				],
-				"keyword-spacing": [
-					"error",
-					{ "before": true }
-				],
-				"no-undef": 0,
-				"prefer-const": 1,
-				"object-shorthand": 1,
-				"quote-props": [
-					"error",
-					"as-needed"
-				],
-				"no-array-constructor": 1,
-				"prefer-destructuring": [
-					"error",
-					{
-						"array": false,
-						"object": false
-					}
-				],
-				"prefer-template": 1,
-				"template-curly-spacing": [
-					"error",
-					"never"
-				],
-				"no-useless-escape": 1,
-				"no-loop-func": 1,
-				"no-new-func": 1,
-				"space-before-function-paren": [
-					"error", {
-						"anonymous": "never",
-						"named": "never",
-						"asyncArrow": "always"
-				}],
-				"no-param-reassign": 1,
-				"prefer-arrow-callback": 1,
-				"arrow-spacing": [
-					"error",
-					{
-						"before": true,
-						"after": true
-					}
-				],
-				"arrow-parens": [
-					"error",
-					"as-needed"
-				],
-				"arrow-body-style": [
-					"error",
-					"as-needed"
-				],
-				"no-confusing-arrow": [
-					"error",
-					{
-						"allowParens": true
-					}
-				],
-				"no-useless-constructor": 1,
-				"no-dupe-class-members": 1,
-				"no-duplicate-imports": 1,
-				"dot-notation": 1,
-				"prefer-exponentiation-operator": 1,
-				"one-var": [
-					"error",
-					"never"
-				],
-				/*"no-multi-assign": 1,*/
-				"no-plusplus": [
-					"error",
-					{
-					"allowForLoopAfterthoughts": true
-					}
-				],
-				"operator-linebreak": [
-					"error",
-					"none"
-				],
-				"eqeqeq": [
-					"error",
-					"always"
-				],
-				"no-case-declarations": 1,
-				"no-nested-ternary": 0,
-				"no-unneeded-ternary": 1,
-				"no-mixed-operators": 1,
-				"brace-style": [
-					"error",
-					"stroustrup"
-				],
-				"no-else-return": 1,
-				"space-infix-ops": 1,
-				"eol-last": 1,
-				"padded-blocks": [
-					"error",
-					"never"
-				],
-				"space-in-parens": [
-					"error",
-					"never"
-				],
-				"array-bracket-spacing": [
-					"error",
-					"never"
-				],
-				"object-curly-spacing": [
-					"error",
-					"always"
-				],
-				"max-len": [
-					"error",
-					{
-						"code": 160,
-						"ignoreComments": true,
-						"ignoreStrings": true,
-						"ignoreTemplateLiterals": true,
-						"ignoreRegExpLiterals": true
-					}
-				],
-				"comma-style": [
-					"error",
-					"last"
-				],
-				"comma-dangle": [
-					"error",
-					{
-						"objects": "always-multiline",
-						"arrays": "always-multiline",
-						"functions": "only-multiline"
-					}
-				],
-				"id-length": [
-					"error",
-					{
-						"min": 2,
-						"properties": "always",
-						"exceptions": [
-							"i",
-							"j",
-							"k",
-							"l",
-							"a",
-							"b",
-							"c"
-						]
-					}
+	"env": {
+		"commonjs": true,
+		"es2021": true,
+		"node": true
+	},
+	"extends": "eslint:recommended",
+	"parserOptions": {
+		"ecmaVersion": "latest"
+	},
+	"rules": {
+		"indent": [
+			"error",
+			"tab",
+			{
+				"SwitchCase": 1
+			}
+		],
+		"linebreak-style": [
+			"error",
+			"windows"
+		],
+		"quotes": [
+			"error",
+			"single",
+			{
+				"allowTemplateLiterals": true
+			}
+		],
+		"space-before-blocks": [
+			"error",
+			"always"
+		],
+		"keyword-spacing": [
+			"error",
+			{
+				"before": true
+			}
+		],
+		"no-undef": 0,
+		"prefer-const": 1,
+		"object-shorthand": 1,
+		"quote-props": [
+			"error",
+			"as-needed"
+		],
+		"no-array-constructor": 1,
+		"prefer-destructuring": [
+			"error",
+			{
+				"array": false,
+				"object": false
+			}
+		],
+		"prefer-template": 1,
+		"template-curly-spacing": [
+			"error",
+			"never"
+		],
+		"no-useless-escape": 1,
+		"no-loop-func": 1,
+		"no-new-func": 1,
+		"space-before-function-paren": [
+			"error",
+			{
+				"anonymous": "never",
+				"named": "never",
+				"asyncArrow": "always"
+			}
+		],
+		"no-param-reassign": 1,
+		"prefer-arrow-callback": 1,
+		"arrow-spacing": [
+			"error",
+			{
+				"before": true,
+				"after": true
+			}
+		],
+		"arrow-parens": [
+			"error",
+			"as-needed"
+		],
+		"arrow-body-style": [
+			"error",
+			"as-needed"
+		],
+		"no-confusing-arrow": [
+			"error",
+			{
+				"allowParens": true
+			}
+		],
+		"no-useless-constructor": 1,
+		"no-dupe-class-members": 1,
+		"no-duplicate-imports": 1,
+		"dot-notation": 1,
+		"prefer-exponentiation-operator": 1,
+		"one-var": [
+			"error",
+			"never"
+		],
+		/*"no-multi-assign": 1,*/
+		"no-plusplus": [
+			"error",
+			{
+				"allowForLoopAfterthoughts": true
+			}
+		],
+		"operator-linebreak": [
+			"error",
+			"none"
+		],
+		"eqeqeq": [
+			"error",
+			"always"
+		],
+		"no-case-declarations": 1,
+		"no-nested-ternary": 0,
+		"no-unneeded-ternary": 1,
+		"no-mixed-operators": 1,
+		"brace-style": [
+			"error",
+			"stroustrup"
+		],
+		"no-else-return": 1,
+		"space-infix-ops": 1,
+		"eol-last": 1,
+		"padded-blocks": [
+			"error",
+			"never"
+		],
+		"space-in-parens": [
+			"error",
+			"never"
+		],
+		"array-bracket-spacing": [
+			"error",
+			"never"
+		],
+		"object-curly-spacing": [
+			"error",
+			"always"
+		],
+		"max-len": [
+			"error",
+			{
+				"code": 160,
+				"ignoreComments": true,
+				"ignoreStrings": true,
+				"ignoreTemplateLiterals": true,
+				"ignoreRegExpLiterals": true
+			}
+		],
+		"comma-style": [
+			"error",
+			"last"
+		],
+		"comma-dangle": [
+			"error",
+			{
+				"objects": "always-multiline",
+				"arrays": "always-multiline",
+				"functions": "only-multiline"
+			}
+		],
+		"id-length": [
+			"error",
+			{
+				"min": 2,
+				"properties": "always",
+				"exceptions": [
+					"i",
+					"j",
+					"k",
+					"l",
+					"a",
+					"b",
+					"c"
 				]
-    }
+			}
+		]
+	}
 }
